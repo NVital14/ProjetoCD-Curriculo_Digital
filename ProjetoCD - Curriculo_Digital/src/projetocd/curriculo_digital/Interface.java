@@ -154,9 +154,9 @@ public class Interface extends javax.swing.JFrame {
                             .addComponent(btnPeople)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCV)
-                    .addComponent(btnAboutUs))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAboutUs)
+                    .addComponent(btnCV))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
@@ -178,39 +178,7 @@ public class Interface extends javax.swing.JFrame {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        
-        
-        
-        
-//        txtCV.setText("");
-//        //caminho do ficheiro
-//        File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribuida\\ProjetoCD - Curriculo_Digital\\texto_guardado.txt");
-//        //nome da pessoa
-//        String name = txtName.getText();   
-//        name = name.toLowerCase();
-//        //texto do evento
-//        String eventText = txtEvent.getText();
-//        
-//        if(name.contains("-") || eventText.contains("-")){
-//            txtCV.setText("Não pode utilizar \"-\" no seu texto");
-//            return;
-//        }
-//        
-//        try {
-//            //o true garante que o texto é adicionado no final do ficheiro
-//            FileWriter escritor = new FileWriter(ficheiro, true);
-//            BufferedWriter bufferedWriter = new BufferedWriter(escritor);
-//
-//            // escreve o texto no ficheiro 
-//            bufferedWriter.write(name + " - " + eventText);
-//             bufferedWriter.newLine();  
-//            bufferedWriter.newLine();
-//            // fecha o writer 
-//            bufferedWriter.close();
-//        } catch (IOException ex) {
-//            System.out.print(ex);
-//        }
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPeopleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeopleActionPerformed
@@ -240,30 +208,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPeopleActionPerformed
 
     private void btnCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVActionPerformed
-File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribuida\\ProjetoCD - Curriculo_Digital\\texto_guardado.txt");
-        txtCV.setText("");
-        try {
-            // cria um BufferedReader para ler o ficheiro
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(ficheiro));
-            String linha;
 
-            // loop para ler cada linha do ficheiro
-            while ((linha = bufferedReader.readLine()) != null) {
-                // Divide a linha no caractere " - "
-                String[] partes = linha.split(" - ");
-                if (partes.length > 0) {
-                    String name = partes[0]; // O nome é a primeira parte
-                    String eventText = partes[1];
-                    txtCV.append(name + "\n" + eventText);
-                }
-            }
-
-            // fecha o BufferedReader
-            bufferedReader.close();
-
-        } catch (IOException ex) {
-            System.out.print("Erro ao ler o ficheiro: " + ex.getMessage());
-        }
     }//GEN-LAST:event_btnCVActionPerformed
 
     private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed

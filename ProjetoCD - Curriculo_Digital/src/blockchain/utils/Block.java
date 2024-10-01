@@ -51,7 +51,7 @@ public class Block implements Serializable {
         return // (isValid() ? "OK\t" : "ERROR\t")+
                  String.format("[ %8s", previousHash) + " <- " + 
                    String.format("%-10s", data) +  String.format(" %7d ] = ", nonce) + 
-                String.format("%8s",currentHash);
+                String.format("%8s",currentHash + "\n");
 
     }
 
