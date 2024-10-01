@@ -4,11 +4,6 @@
  */
 package projetocd.curriculo_digital;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,6 +88,8 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
+        txtEvent.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
         btnAboutUs.setText("Acerca de Nós");
         btnAboutUs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,10 +115,10 @@ public class Interface extends javax.swing.JFrame {
                                 .addGap(36, 36, 36))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -177,34 +174,10 @@ public class Interface extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPeopleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeopleActionPerformed
-        File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribuida\\ProjetoCD - Curriculo_Digital\\texto_guardado.txt");
-        txtCV.setText("");
-        try {
-            // cria um BufferedReader para ler o ficheiro
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(ficheiro));
-            String linha;
-
-            // loop para ler cada linha do ficheiro
-            while ((linha = bufferedReader.readLine()) != null) {
-                // Divide a linha no caractere " - "
-                String[] partes = linha.split(" - ");
-                if (partes.length > 0) {
-                    String name = partes[0]; // O nome é a primeira parte
-                    txtCV.append(name + "\n");
-                }
-            }
-
-            // fecha o BufferedReader
-            bufferedReader.close();
-
-        } catch (IOException ex) {
-            System.out.print("Erro ao ler o ficheiro: " + ex.getMessage());
-        }
+  
     }//GEN-LAST:event_btnPeopleActionPerformed
 
     private void btnCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVActionPerformed
