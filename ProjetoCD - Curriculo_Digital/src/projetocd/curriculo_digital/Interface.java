@@ -10,19 +10,31 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author noemi
  */
 public class Interface extends javax.swing.JFrame {
-
+    public static String fileCurriculo = "curriculo.obj";
+    Curriculo curriculo;
+    
     /**
      * Creates new form Interface
      */
     public Interface() {
         initComponents();
         setTitle("Curriculum Digital");
+        curriculo = new Curriculo();
+        try {
+            curriculo = Curriculo.load(fileCurriculo);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.print(e);
+        }
+        txtCV.setText(curriculo.toString());
     }
 
     /**
@@ -44,6 +56,7 @@ public class Interface extends javax.swing.JFrame {
         btnPeople = new javax.swing.JButton();
         btnCV = new javax.swing.JButton();
         txtEvent = new javax.swing.JTextField();
+        btnAboutUs = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +93,13 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
+        btnAboutUs.setText("Acerca de Nós");
+        btnAboutUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAboutUsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,7 +123,11 @@ public class Interface extends javax.swing.JFrame {
                                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnAboutUs)
+                                .addGap(51, 51, 51))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(174, 174, 174)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -130,7 +154,9 @@ public class Interface extends javax.swing.JFrame {
                             .addComponent(btnPeople)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCV)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCV)
+                    .addComponent(btnAboutUs))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
@@ -138,34 +164,53 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        txtCV.setText("");
-        //caminho do ficheiro
-        File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribuida\\ProjetoCD - Curriculo_Digital\\texto_guardado.txt");
-        //nome da pessoa
-        String name = txtName.getText();   
-        name = name.toLowerCase();
-        //texto do evento
-        String eventText = txtEvent.getText();
-        
-        if(name.contains("-") || eventText.contains("-")){
-            txtCV.setText("Não pode utilizar \"-\" no seu texto");
-            return;
-        }
-        
         try {
-            //o true garante que o texto é adicionado no final do ficheiro
-            FileWriter escritor = new FileWriter(ficheiro, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(escritor);
-
-            // escreve o texto no ficheiro 
-            bufferedWriter.write(name + " - " + eventText);
-             bufferedWriter.newLine();  
-            bufferedWriter.newLine();
-            // fecha o writer 
-            bufferedWriter.close();
-        } catch (IOException ex) {
-            System.out.print(ex);
+            Submission s = new Submission(
+                    txtName.getText(),
+                    txtEvent.getText()
+            );
+            
+            curriculo.add(s);
+            txtCV.setText(curriculo.toString());
+            curriculo.save(fileCurriculo);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
+        
+        
+        
+//        txtCV.setText("");
+//        //caminho do ficheiro
+//        File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribuida\\ProjetoCD - Curriculo_Digital\\texto_guardado.txt");
+//        //nome da pessoa
+//        String name = txtName.getText();   
+//        name = name.toLowerCase();
+//        //texto do evento
+//        String eventText = txtEvent.getText();
+//        
+//        if(name.contains("-") || eventText.contains("-")){
+//            txtCV.setText("Não pode utilizar \"-\" no seu texto");
+//            return;
+//        }
+//        
+//        try {
+//            //o true garante que o texto é adicionado no final do ficheiro
+//            FileWriter escritor = new FileWriter(ficheiro, true);
+//            BufferedWriter bufferedWriter = new BufferedWriter(escritor);
+//
+//            // escreve o texto no ficheiro 
+//            bufferedWriter.write(name + " - " + eventText);
+//             bufferedWriter.newLine();  
+//            bufferedWriter.newLine();
+//            // fecha o writer 
+//            bufferedWriter.close();
+//        } catch (IOException ex) {
+//            System.out.print(ex);
+//        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnPeopleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeopleActionPerformed
@@ -221,6 +266,12 @@ File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribui
         }
     }//GEN-LAST:event_btnCVActionPerformed
 
+    private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
+        AboutUs a = new AboutUs();
+        a.show();
+        dispose();
+    }//GEN-LAST:event_btnAboutUsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -257,6 +308,7 @@ File ficheiro = new File("C:\\Users\\noemi\\Documents\\IPT\\Computacao Distribui
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAboutUs;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCV;
     private javax.swing.JButton btnPeople;

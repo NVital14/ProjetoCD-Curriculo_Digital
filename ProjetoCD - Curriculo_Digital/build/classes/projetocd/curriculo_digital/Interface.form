@@ -47,7 +47,13 @@
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnAboutUs" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
@@ -82,7 +88,10 @@
                   <Component id="jScrollPane2" min="-2" pref="267" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnCV" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCV" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAboutUs" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="9" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -150,6 +159,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtEvent">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAboutUs">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Acerca de N&#xf3;s"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAboutUsActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
