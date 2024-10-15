@@ -33,7 +33,7 @@ public class GUI extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.print(e);
         }
-        txtCV.setText(curriculo.toString());
+        txtCV.setText(curriculo.submissions.toString());
         setSize(800, 600);
         setLocationRelativeTo(null);
     }
@@ -225,7 +225,7 @@ public class GUI extends javax.swing.JFrame {
             );
             
             curriculo.add(s);
-            txtCV.setText(curriculo.toString());
+            txtCV.setText(curriculo.submissions.toString());
             curriculo.save(fileCurriculo);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
