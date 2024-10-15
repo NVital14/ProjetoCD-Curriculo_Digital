@@ -4,11 +4,13 @@
  */
 package curriculumdigital.core;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Bea⚝
  */
-public class Submission {
+public class Submission implements Serializable{
     private String name;
     private String event;
 

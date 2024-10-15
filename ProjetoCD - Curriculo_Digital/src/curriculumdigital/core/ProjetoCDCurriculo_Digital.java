@@ -4,7 +4,6 @@
  */
 package curriculumdigital.core;
 import curriculumdigital.gui.GUI;
-import javax.swing.*;
 /**
  *
  * @author noemi

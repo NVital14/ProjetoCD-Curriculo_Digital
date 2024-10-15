@@ -31,7 +31,7 @@ public class GUI extends javax.swing.JFrame {
         } catch (IOException | ClassNotFoundException e) {
             System.out.print(e);
         }
-        txtCV.setText(curriculo.toString());
+        txtCV.setText(curriculo.submissions.toString());
         setSize(800, 600);
         setLocationRelativeTo(null);
     }
@@ -120,7 +120,7 @@ public class GUI extends javax.swing.JFrame {
             CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CurriculumLayout.createSequentialGroup()
                 .addComponent(lbCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(CurriculumLayout.createSequentialGroup()
@@ -155,7 +155,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(ListaPessoasLayout.createSequentialGroup()
                 .addGap(125, 125, 125)
                 .addComponent(btnPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(298, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Pessoas", ListaPessoas);
@@ -181,7 +181,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(btnCV, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addContainerGap(401, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Curriculum", ListaCurriculum);
@@ -214,7 +214,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel4)
-                .addContainerGap(319, Short.MAX_VALUE))
+                .addContainerGap(313, Short.MAX_VALUE))
         );
 
         App.addTab("Acerca de Nós", AcercadeNos);
@@ -223,11 +223,17 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(App, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(App, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(App)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(App, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -241,7 +247,7 @@ public class GUI extends javax.swing.JFrame {
             );
             
             curriculo.add(s);
-            txtCV.setText(curriculo.toString());
+            txtCV.setText(curriculo.submissions.toString());
             curriculo.save(fileCurriculo);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());

@@ -7,6 +7,7 @@ package curriculumdigital.core;
 import blockchain.utils.Block;
 import blockchain.utils.BlockChain;
 import blockchain.utils.Hash;
+import blockchain.utils.MerkleTree;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,13 +25,16 @@ import java.util.Set;
 public class Curriculo implements Serializable {
 
     blockchain.utils.BlockChain bc;
+    private MerkleTree merkleTree;
+    public List<Submission> submissions;
     public static int DIFICULTY = 4;
 
     public Curriculo() {
+        this.submissions = new ArrayList<>();
+        this.bc = new BlockChain();
+        this.merkleTree = new MerkleTree();
         Submission s = new Submission("Default", "Default");
-        bc = new BlockChain();
-
-        bc.add(s.toString(), DIFICULTY);
+        this.bc.add(s.toString(), DIFICULTY);
     }
 
     @Override
@@ -45,14 +49,21 @@ public class Curriculo implements Serializable {
     public void save(String fileName) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(
                 new FileOutputStream(fileName))) {
-            out.writeObject(this);
+//            out.writeObject(this);
+            //guarda a blockchain
+            out.writeObject(bc);
+            //guarda a lista de submissões
+            out.writeObject(submissions);
         }
     }
 
     public static Curriculo load(String fileName) throws IOException, ClassNotFoundException {
         try (ObjectInputStream in = new ObjectInputStream(
                 new FileInputStream(fileName))) {
-            return (Curriculo) in.readObject();
+            Curriculo curriculo = new Curriculo();
+            curriculo.bc = (blockchain.utils.BlockChain) in.readObject(); // Carrega a blockchain
+            curriculo.submissions = (List<Submission>) in.readObject(); // Carrega a lista de submissões
+            return curriculo;
         }
     }
 
@@ -68,10 +79,20 @@ public class Curriculo implements Serializable {
 
     public void add(Submission s) throws Exception {
         if (isValid(s)) {
-            bc.add(s.toString(), DIFICULTY);
+            //adiciona a submissão à lista
+            submissions.add(s);
+            //atualiza a Merkle Tree
+            updateMerkleTree();
+            //adiciona a merkle rooot na blockchain
+            bc.add(merkleTree.getRoot(), DIFICULTY);
         } else {
             throw new Exception("Submission not valid");
         }
+    }
+
+    private void updateMerkleTree() {
+        // constrói uma nova Merkle Tree a partir das submissões
+        merkleTree = new MerkleTree(submissions.toArray());
     }
 
     public List<String> getUsers() {
@@ -89,8 +110,8 @@ public class Curriculo implements Serializable {
         // Iterate through each block in the blockchain
         for (Block block : bc.getChain()) {
 
-            String blockData = block.toString(); 
-            String[] submissions = blockData.split(" - "); 
+            String blockData = block.toString();
+            String[] submissions = blockData.split(" - ");
 
             for (String submissionStr : submissions) {
                 Submission submission = Submission.fromString(submissionStr); // Parse submission from string
