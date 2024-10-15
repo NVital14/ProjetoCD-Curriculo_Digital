@@ -39,6 +39,20 @@ public class Block implements Serializable {
         this.currentHash = calculateHash();
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public String getPreviousHash() {
+        return previousHash;
+    }
+
+    public int getNonce() {
+        return nonce;
+    }
+    
+    
+
     public String calculateHash() {
         return Hash.getHash(nonce + previousHash + data);
     }
@@ -51,7 +65,7 @@ public class Block implements Serializable {
         return // (isValid() ? "OK\t" : "ERROR\t")+
                  String.format("[ %8s", previousHash) + " <- " + 
                    String.format("%-10s", data) +  String.format(" %7d ] = ", nonce) + 
-                String.format("%8s",currentHash + "\n");
+                String.format("%8s",currentHash);
 
     }
 

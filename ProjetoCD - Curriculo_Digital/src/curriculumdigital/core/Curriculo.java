@@ -7,6 +7,7 @@ package curriculumdigital.core;
 import blockchain.utils.Block;
 import blockchain.utils.BlockChain;
 import blockchain.utils.Hash;
+import blockchain.utils.ObjectUtils;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,18 +27,23 @@ public class Curriculo implements Serializable {
     blockchain.utils.BlockChain bc;
     public static int DIFICULTY = 4;
 
-    public Curriculo() {
+    public Curriculo() throws Exception {
         Submission s = new Submission("Default", "Default");
         bc = new BlockChain();
-
-        bc.add(s.toString(), DIFICULTY);
+        bc.add(ObjectUtils.convertObjectToBase64(s), DIFICULTY);
     }
 
     @Override
     public String toString() {
         StringBuilder txt = new StringBuilder();
         for (Block b : bc.getChain()) {
-            txt.append(b.toString());
+            Submission s = (Submission) ObjectUtils.convertBase64ToObject(b.getData());
+            txt.append(b.getPreviousHash() + " " +
+                    s.toString() + " "
+                    + b.getNonce() +" "
+                    + b.getCurrentHash()
+                    +"\n"
+                    );
         }
         return txt.toString();
     }
@@ -68,7 +74,8 @@ public class Curriculo implements Serializable {
 
     public void add(Submission s) throws Exception {
         if (isValid(s)) {
-            bc.add(s.toString(), DIFICULTY);
+            String txtSubmission = ObjectUtils.convertObjectToBase64(s);
+            bc.add(txtSubmission, DIFICULTY);
         } else {
             throw new Exception("Submission not valid");
         }

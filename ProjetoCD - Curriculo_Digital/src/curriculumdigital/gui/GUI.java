@@ -4,12 +4,12 @@
  */
 package curriculumdigital.gui;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import curriculumdigital.core.Curriculo;
 import curriculumdigital.core.Submission;
+import curriculumdigital.core.User;
 
 /**
  *
@@ -19,21 +19,29 @@ public class GUI extends javax.swing.JFrame {
     public static String fileCurriculo = "curriculo.obj";
     Curriculo curriculo;
     
+    User myUser = null;
+    
     /**
      * Creates new form Interface
      */
     public GUI() {
         initComponents();
         setTitle("Curriculum Digital");
-        curriculo = new Curriculo();
         try {
+            curriculo = new Curriculo();
             curriculo = Curriculo.load(fileCurriculo);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (Exception e) {
             System.out.print(e);
         }
         txtCV.setText(curriculo.toString());
         setSize(800, 600);
         setLocationRelativeTo(null);
+    }
+    
+    public GUI(User u) {
+        this();
+        this.myUser = u;
+        this.txtInstitute.setText(u.getName());
     }
 
     /**
@@ -48,6 +56,8 @@ public class GUI extends javax.swing.JFrame {
         App = new javax.swing.JTabbedPane();
         Curriculum = new javax.swing.JPanel();
         lbCurriculum = new javax.swing.JLabel();
+        ScrollInstitute = new javax.swing.JScrollPane();
+        txtInstitute = new javax.swing.JTextField();
         ScrollName = new javax.swing.JScrollPane();
         txtName = new javax.swing.JTextField();
         ScrollEvent = new javax.swing.JScrollPane();
@@ -59,16 +69,19 @@ public class GUI extends javax.swing.JFrame {
         btnPeople = new javax.swing.JButton();
         ListaCurriculum = new javax.swing.JPanel();
         btnCV = new javax.swing.JButton();
-        AcercadeNos = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lbCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCurriculum.setText("Curriculum Digital");
+
+        ScrollInstitute.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        txtInstitute.setEditable(false);
+        txtInstitute.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instituto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        ScrollInstitute.setViewportView(txtInstitute);
+        txtInstitute.getAccessibleContext().setAccessibleName("Instituto");
 
         ScrollName.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -111,7 +124,8 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ScrollEvent, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-                    .addComponent(ScrollName, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(ScrollName, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ScrollInstitute, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
@@ -120,16 +134,18 @@ public class GUI extends javax.swing.JFrame {
             CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CurriculumLayout.createSequentialGroup()
                 .addComponent(lbCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(CurriculumLayout.createSequentialGroup()
+                        .addComponent(ScrollInstitute, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
                         .addComponent(ScrollName, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(27, 27, 27)
                         .addComponent(ScrollEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42))
+                .addGap(99, 99, 99))
         );
 
         App.addTab("Curriculum", Curriculum);
@@ -155,7 +171,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(ListaPessoasLayout.createSequentialGroup()
                 .addGap(125, 125, 125)
                 .addComponent(btnPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(359, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Pessoas", ListaPessoas);
@@ -181,43 +197,10 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(btnCV, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addContainerGap(462, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Curriculum", ListaCurriculum);
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Noemi Vital Nº24872");
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Acerca de Nós");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Beatriz Moreira Nº25262");
-
-        javax.swing.GroupLayout AcercadeNosLayout = new javax.swing.GroupLayout(AcercadeNos);
-        AcercadeNos.setLayout(AcercadeNosLayout);
-        AcercadeNosLayout.setHorizontalGroup(
-            AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
-            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        AcercadeNosLayout.setVerticalGroup(
-            AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AcercadeNosLayout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92)
-                .addComponent(jLabel6)
-                .addGap(49, 49, 49)
-                .addComponent(jLabel4)
-                .addContainerGap(319, Short.MAX_VALUE))
-        );
-
-        App.addTab("Acerca de Nós", AcercadeNos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -235,9 +218,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
+            
             Submission s = new Submission(
-                    txtName.getText(),
-                    txtEvent.getText()
+                txtName.getText(),
+                txtEvent.getText()
             );
             
             curriculo.add(s);
@@ -294,23 +278,21 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel AcercadeNos;
     private javax.swing.JTabbedPane App;
     private javax.swing.JPanel Curriculum;
     private javax.swing.JPanel ListaCurriculum;
     private javax.swing.JPanel ListaPessoas;
     private javax.swing.JScrollPane ScrollCV;
     private javax.swing.JScrollPane ScrollEvent;
+    private javax.swing.JScrollPane ScrollInstitute;
     private javax.swing.JScrollPane ScrollName;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCV;
     private javax.swing.JButton btnPeople;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lbCurriculum;
     private javax.swing.JTextArea txtCV;
     private javax.swing.JTextArea txtEvent;
+    private javax.swing.JTextField txtInstitute;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }
