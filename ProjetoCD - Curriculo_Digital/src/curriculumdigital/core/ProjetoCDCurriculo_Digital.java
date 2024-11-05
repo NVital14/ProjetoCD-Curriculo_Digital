@@ -17,4 +17,5 @@ public class ProjetoCDCurriculo_Digital {
        Authentication janela = new Authentication();
        janela.setVisible(true);
     }
+    
 }

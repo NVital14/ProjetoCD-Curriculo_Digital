@@ -10,12 +10,6 @@ import javax.swing.JOptionPane;
 import curriculumdigital.core.Curriculo;
 import curriculumdigital.core.Submission;
 import curriculumdigital.core.User;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -24,8 +18,7 @@ import java.util.List;
 public class GUI extends javax.swing.JFrame {
     public static String fileCurriculo = "curriculo.obj";
     Curriculo curriculo;
-    List<Submission> elements = new ArrayList();
-            
+    
     User myUser = null;
     
     /**
@@ -35,43 +28,20 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         setTitle("Curriculum Digital");
         try {
-            File file = new File(fileCurriculo);
-            if (file.exists()) {
-                curriculo = Curriculo.load(fileCurriculo);
-                elements.addAll(curriculo.submissions);
-                txtCV.setText(elements.toString());
-                curriculo.submissions.clear();
-            }
+            curriculo = new Curriculo();
+            curriculo = Curriculo.load(fileCurriculo);
         } catch (Exception e) {
             System.out.print(e);
         }
+        txtCV.setText(curriculo.submissions.toString());
         setSize(800, 600);
         setLocationRelativeTo(null);
- 
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent we) {
-                if (!curriculo.submissions.isEmpty()) {
-                    try {
-                        curriculo.save(fileCurriculo, true);
-                    } catch (IOException ex) {
-                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
     }
     
     public GUI(User u) {
         this();
         this.myUser = u;
-        
         this.txtInstitute.setText(u.getName());
-        
-        if (!u.isInstitute()) {
-            // Remover o Tab "Curriculum" para utilizadores não institucionais
-            App.remove(Curriculum); // Remove a aba do Curriculum
-        }
     }
 
     /**
@@ -111,6 +81,7 @@ public class GUI extends javax.swing.JFrame {
         txtInstitute.setEditable(false);
         txtInstitute.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instituto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         ScrollInstitute.setViewportView(txtInstitute);
+        txtInstitute.getAccessibleContext().setAccessibleName("Instituto");
 
         ScrollName.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -191,16 +162,16 @@ public class GUI extends javax.swing.JFrame {
         ListaPessoasLayout.setHorizontalGroup(
             ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addGap(292, 292, 292)
+                .addGap(65, 65, 65)
                 .addComponent(btnPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(311, Short.MAX_VALUE))
+                .addContainerGap(538, Short.MAX_VALUE))
         );
         ListaPessoasLayout.setVerticalGroup(
             ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addGap(186, 186, 186)
+                .addGap(125, 125, 125)
                 .addComponent(btnPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(359, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Pessoas", ListaPessoas);
@@ -217,16 +188,16 @@ public class GUI extends javax.swing.JFrame {
         ListaCurriculumLayout.setHorizontalGroup(
             ListaCurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
-                .addGap(279, 279, 279)
+                .addGap(72, 72, 72)
                 .addComponent(btnCV, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addContainerGap(533, Short.MAX_VALUE))
         );
         ListaCurriculumLayout.setVerticalGroup(
             ListaCurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
-                .addGap(195, 195, 195)
+                .addGap(71, 71, 71)
                 .addComponent(btnCV, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(338, Short.MAX_VALUE))
+                .addContainerGap(462, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Curriculum", ListaCurriculum);
@@ -247,24 +218,15 @@ public class GUI extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            // Verifica se o utilizador é uma instituição
-            if (myUser.isInstitute()) {
-                // Cria a submissão normalmente se o utilizador for uma instituição
-                Submission s = new Submission(
-                    myUser,
-                    txtName.getText(),
-                    txtEvent.getText()
-                );
             
-                // Adiciona a submissão ao currículo e atualiza o campo de texto
-                curriculo.add(s);
-                elements.add(s);
-                txtCV.setText(elements.toString());
-                curriculo.save(fileCurriculo, false);
-            } else {
-                // Mostra uma mensagem de erro caso o utilizador não seja uma instituição
-                JOptionPane.showMessageDialog(this, "Apenas Instituições podem adicionar submissões.", "Acesso Negado", JOptionPane.WARNING_MESSAGE);
-            }
+            Submission s = new Submission(
+                txtName.getText(),
+                txtEvent.getText()
+            );
+            
+            curriculo.add(s);
+            txtCV.setText(curriculo.submissions.toString());
+            curriculo.save(fileCurriculo);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
