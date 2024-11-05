@@ -8,6 +8,7 @@ import blockchain.utils.Block;
 import blockchain.utils.BlockChain;
 import blockchain.utils.Hash;
 import blockchain.utils.MerkleTree;
+import blockchain.utils.ObjectUtils;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,19 +30,26 @@ public class Curriculo implements Serializable {
     public List<Submission> submissions;
     public static int DIFICULTY = 4;
 
-    public Curriculo() {
+    public Curriculo() throws Exception{
         this.submissions = new ArrayList<>();
         this.bc = new BlockChain();
         this.merkleTree = new MerkleTree();
         Submission s = new Submission("Default", "Default");
         this.bc.add(s.toString(), DIFICULTY);
+        bc.add(ObjectUtils.convertObjectToBase64(s), DIFICULTY);
     }
 
     @Override
     public String toString() {
         StringBuilder txt = new StringBuilder();
         for (Block b : bc.getChain()) {
-            txt.append(b.toString());
+            Submission s = (Submission) ObjectUtils.convertBase64ToObject(b.getData());
+            txt.append(b.getPreviousHash() + " " +
+                    s.toString() + " "
+                    + b.getNonce() +" "
+                    + b.getCurrentHash()
+                    +"\n"
+                    );
         }
         return txt.toString();
     }
@@ -57,7 +65,7 @@ public class Curriculo implements Serializable {
         }
     }
 
-    public static Curriculo load(String fileName) throws IOException, ClassNotFoundException {
+    public static Curriculo load(String fileName) throws IOException, ClassNotFoundException, Exception {
         try (ObjectInputStream in = new ObjectInputStream(
                 new FileInputStream(fileName))) {
             Curriculo curriculo = new Curriculo();
@@ -79,12 +87,15 @@ public class Curriculo implements Serializable {
 
     public void add(Submission s) throws Exception {
         if (isValid(s)) {
+
             //adiciona a submissão à lista
             submissions.add(s);
             //atualiza a Merkle Tree
             updateMerkleTree();
             //adiciona a merkle rooot na blockchain
             bc.add(merkleTree.getRoot(), DIFICULTY);
+            String txtSubmission = ObjectUtils.convertObjectToBase64(s);
+            bc.add(txtSubmission, DIFICULTY);
         } else {
             throw new Exception("Submission not valid");
         }

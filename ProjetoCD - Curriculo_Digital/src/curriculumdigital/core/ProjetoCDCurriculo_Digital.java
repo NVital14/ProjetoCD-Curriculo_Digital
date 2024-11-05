@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package curriculumdigital.core;
-import curriculumdigital.gui.GUI;
+import curriculumdigital.gui.Authentication;
 /**
  *
  * @author noemi
@@ -14,7 +14,7 @@ public class ProjetoCDCurriculo_Digital {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       GUI janela = new GUI();
+       Authentication janela = new Authentication();
        janela.setVisible(true);
     }
     
