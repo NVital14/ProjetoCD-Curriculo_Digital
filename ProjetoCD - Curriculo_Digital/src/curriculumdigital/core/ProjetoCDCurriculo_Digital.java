@@ -9,7 +9,6 @@ import curriculumdigital.gui.Authentication;
  * @author noemi
  */
 public class ProjetoCDCurriculo_Digital {
-
     /**
      * @param args the command line arguments
      */
@@ -17,5 +16,4 @@ public class ProjetoCDCurriculo_Digital {
        Authentication janela = new Authentication();
        janela.setVisible(true);
     }
-    
 }
