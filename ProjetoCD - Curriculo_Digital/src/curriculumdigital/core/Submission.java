@@ -18,36 +18,33 @@ public class Submission implements Serializable {
     private String name;
     private String event;
     
-    private String user;
-    private String userPub;
+    private String namePub;
     
     private String signature;
 
-    public Submission(String user, String name, String event) {     
-        this.user = user;
+    public Submission(String name, String event) {        
         this.name = name;
         this.event = event;
     }
     
-    public Submission(User user, String name, String event) throws Exception {
-        this.name = name;
+    public Submission(User name, String event) throws Exception {
+        this.name = name.getName();
+        this.namePub = Base64.getEncoder().encodeToString(name.getPub().getEncoded());
         this.event = event;
-        this.user = user.getName();
-        this.userPub = Base64.getEncoder().encodeToString(user.getPub().getEncoded());
-        sign(user.getPriv());
+        sign(name.getPriv());
     }
 
     public void sign(PrivateKey priv) throws Exception {
         byte[] dataSign = SecurityUtils.sign(
-                (userPub + name + event).getBytes(),
+                (namePub + event).getBytes(),
                 priv);
         this.signature = Base64.getEncoder().encodeToString(dataSign);
     }
 
     public boolean isValid() {
         try {
-            PublicKey pub = SecurityUtils.getPublicKey(Base64.getDecoder().decode(userPub));
-            byte[] data = (userPub + name + event).getBytes();
+            PublicKey pub = SecurityUtils.getPublicKey(Base64.getDecoder().decode(namePub));
+            byte[] data = (namePub + event).getBytes();
             byte[] sign = Base64.getDecoder().decode(signature);
             return SecurityUtils.verifySign(data, sign, pub);
         } catch (Exception ex) {
@@ -75,21 +72,24 @@ public class Submission implements Serializable {
     public String toString() {
         return String.format(name + " - " + event, isValid());
     }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
     
-    public String getUserPub() {
-        return userPub;
+    public static Submission fromString(String str) {
+        // Assuming str is formatted as "name - event"
+        String[] parts = str.split(" - ");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Invalid string format for Submission");
+        }
+        String name = parts[0];
+        String event = parts[1];
+        return new Submission(name, event);
     }
 
-    public void setUserPub(String userPub) {
-        this.userPub = userPub;
+    public String getNamePub() {
+        return namePub;
+    }
+
+    public void setNamePub(String namePub) {
+        this.namePub = namePub;
     }
 
     public String getSignature() {

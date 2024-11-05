@@ -5,17 +5,12 @@
 package curriculumdigital.core;
 
 import blockchain.utils.SecurityUtils;
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -27,15 +22,12 @@ public class User {
     private PublicKey pub;
     private PrivateKey priv;
     private Key sim;
-    
-    private boolean isInstitute;
 
     public User(String name) {
         this.name = name;
         this.pub = null;
         this.priv = null;
         this.sim = null;
-        this.isInstitute = false;
     }
 
     public User() throws Exception {
@@ -61,10 +53,7 @@ public class User {
         Files.write(Path.of(this.name + ".sim"), simData);
         //guardar a public
         Files.write(Path.of(this.name + ".pub"), pub.getEncoded());
-       // Criptografar e guardar o estado do atributo isInstitute
-        byte[] instituteData = SecurityUtils.encrypt(String.valueOf(isInstitute).getBytes(), password);
-        Files.write(Path.of(this.name + ".institute"), instituteData);
-     }
+    }
 
     public void load(String password) throws Exception {
         //desencriptar a privada
@@ -78,32 +67,12 @@ public class User {
         this.priv = SecurityUtils.getPrivateKey(privData);
         this.pub = SecurityUtils.getPublicKey(pubData);
         this.sim = SecurityUtils.getAESKey(simData);
-        // Descriptografar e carregar o estado do atributo isInstitute
-        byte[] encryptedInstituteData = Files.readAllBytes(Path.of(this.name + ".institute"));
-        byte[] decryptedInstituteData = SecurityUtils.decrypt(encryptedInstituteData, password);
-        this.isInstitute = Boolean.parseBoolean(new String(decryptedInstituteData));
-   }
-    
-    public void loadPublic() throws Exception{
-        //ler a publica
-        byte[] pubData = Files.readAllBytes(Path.of(this.name + ".pub"));
-        this.pub = SecurityUtils.getPublicKey(pubData);
     }
     
-    // Método para obter uma lista dos utilizadores já criados
-    public static List<String> getExistingUsers() throws IOException {
-        List<String> users = new ArrayList<>();
-        // Caminho onde os ficheiros de utilizador estão guardados (podes alterar conforme necessário)
-        Path dir = Paths.get(".");
-        // Obter todos os ficheiros com a extensão .pub (indica que o utilizador foi criado)
-        DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.pub");
-        for (Path entry : stream) {
-            // Remover a extensão para obter o nome do utilizador
-            String fileName = entry.getFileName().toString();
-            String userName = fileName.substring(0, fileName.lastIndexOf('.'));
-            users.add(userName);
-        }
-        return users;
+    public void loadPublic() throws Exception{
+         //ler a publica
+        byte[] pubData = Files.readAllBytes(Path.of(this.name + ".pub"));
+        this.pub = SecurityUtils.getPublicKey(pubData);
     }
 
     public String getName() {
@@ -136,13 +105,5 @@ public class User {
 
     public void setSim(Key sim) {
         this.sim = sim;
-    }
-    
-    public boolean isInstitute() {
-        return isInstitute;
-    }
-
-    public void setInstitute(boolean isInstitute) {
-        this.isInstitute = isInstitute;
     }
 }
