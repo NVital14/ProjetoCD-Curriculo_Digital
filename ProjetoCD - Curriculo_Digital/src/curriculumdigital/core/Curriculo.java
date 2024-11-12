@@ -120,7 +120,7 @@ public class Curriculo implements Serializable {
         return null;
     }
 
-    public String loadPersonEvents( String n) throws IOException, FileNotFoundException, ClassNotFoundException {
+    public String loadPersonEvents( String n, boolean isShowAll ) throws IOException, FileNotFoundException, ClassNotFoundException {
         StringBuilder eventosCurriculo = new StringBuilder();
         List<Block> chain = bc.getChain();
         List <Submission> elements = new ArrayList();
@@ -143,8 +143,12 @@ public class Curriculo implements Serializable {
                 }
                 elements.addAll(merkleTree.getElements());
                 for (Submission el : elements) {
-                    if(el.getName().equals(n)){
+                    if(isShowAll == true){
                         eventosCurriculo.append(el.getUser() + " --> " + el.getName() + " - " + el.getEvent() + "\n");
+                    }else{
+                        if(el.getName().equals(n)){
+                        eventosCurriculo.append(el.getUser() + " --> " + el.getEvent() + "\n");
+                        }
                     }
                 }
                 elements.clear();

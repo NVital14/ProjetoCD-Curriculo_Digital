@@ -44,8 +44,8 @@ public class GUI extends javax.swing.JFrame {
                 elements.addAll(curriculo.submissions);
                 txtCV.setText(curriculo.toString());
 //                txtCV.setText(elements.toString());
-                txtPessoasCV.setText(curriculo.toString());
                 curriculo.submissions.clear();
+                textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
             } else {
                 curriculo = new Curriculo();
             }
@@ -104,13 +104,14 @@ public class GUI extends javax.swing.JFrame {
         txtCV = new javax.swing.JTextArea();
         ListaPessoas = new javax.swing.JPanel();
         btnPersonCV = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtPessoasCV = new javax.swing.JTextArea();
         txtNameCV = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         textAreaCVPerson = new javax.swing.JTextArea();
+        lbSearchCurriculum = new javax.swing.JLabel();
         ListaCurriculum = new javax.swing.JPanel();
-        btnCV = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textAreaCVAll = new javax.swing.JTextArea();
+        lbAllCurriculum = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -191,81 +192,97 @@ public class GUI extends javax.swing.JFrame {
 
         App.addTab("Curriculum", Curriculum);
 
-        btnPersonCV.setText("CV");
+        btnPersonCV.setText("Procurar");
         btnPersonCV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPersonCVActionPerformed(evt);
             }
         });
 
-        txtPessoasCV.setColumns(20);
-        txtPessoasCV.setRows(5);
-        jScrollPane1.setViewportView(txtPessoasCV);
-
+        txtNameCV.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome da Pessoa"));
         txtNameCV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameCVActionPerformed(evt);
             }
         });
 
+        textAreaCVPerson.setEditable(false);
         textAreaCVPerson.setColumns(20);
+        textAreaCVPerson.setLineWrap(true);
         textAreaCVPerson.setRows(5);
+        textAreaCVPerson.setWrapStyleWord(true);
         jScrollPane2.setViewportView(textAreaCVPerson);
+
+        lbSearchCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbSearchCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbSearchCurriculum.setText("Procurar Curriculum");
 
         javax.swing.GroupLayout ListaPessoasLayout = new javax.swing.GroupLayout(ListaPessoas);
         ListaPessoas.setLayout(ListaPessoasLayout);
         ListaPessoasLayout.setHorizontalGroup(
             ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtNameCV, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ListaPessoasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNameCV, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addComponent(btnPersonCV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(108, 108, 108)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                .addGap(54, 54, 54))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72))
+            .addGroup(ListaPessoasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addContainerGap())
         );
         ListaPessoasLayout.setVerticalGroup(
             ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ListaPessoasLayout.createSequentialGroup()
-                        .addComponent(btnPersonCV, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNameCV, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2)))
-                .addContainerGap(92, Short.MAX_VALUE))
+                        .addComponent(txtNameCV, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnPersonCV, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Pessoas", ListaPessoas);
 
-        btnCV.setText("Curriculum");
-        btnCV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCVActionPerformed(evt);
-            }
-        });
+        textAreaCVAll.setEditable(false);
+        textAreaCVAll.setColumns(20);
+        textAreaCVAll.setLineWrap(true);
+        textAreaCVAll.setRows(5);
+        textAreaCVAll.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(textAreaCVAll);
+
+        lbAllCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbAllCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbAllCurriculum.setText("Todos os Curriculums");
 
         javax.swing.GroupLayout ListaCurriculumLayout = new javax.swing.GroupLayout(ListaCurriculum);
         ListaCurriculum.setLayout(ListaCurriculumLayout);
         ListaCurriculumLayout.setHorizontalGroup(
             ListaCurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
-                .addGap(279, 279, 279)
-                .addComponent(btnCV, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addGap(91, 91, 91)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ListaCurriculumLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbAllCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addContainerGap())
         );
         ListaCurriculumLayout.setVerticalGroup(
             ListaCurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
-                .addGap(195, 195, 195)
-                .addComponent(btnCV, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(338, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lbAllCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Curriculum", ListaCurriculum);
@@ -284,6 +301,25 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtNameCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameCVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameCVActionPerformed
+
+    private void btnPersonCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonCVActionPerformed
+        try {
+            String s = curriculo.loadPersonEvents(txtNameCV.getText(), false);
+            if (s != null) {
+                textAreaCVPerson.setText(s);
+            } else {
+                // Mostra uma mensagem de erro no caso de não haver essa pessoa
+                JOptionPane.showMessageDialog(this, "Não existem currículos dessa pessoa.", "Não existe!", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnPersonCVActionPerformed
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         btnAdd.setEnabled(false);
         new Thread(() -> {
@@ -292,9 +328,9 @@ public class GUI extends javax.swing.JFrame {
                 if (myUser.isInstitute()) {
                     // Cria a submissão normalmente se o utilizador for uma instituição
                     Submission s = new Submission(
-                            myUser,
-                            txtName.getText(),
-                            txtEvent.getText()
+                        myUser,
+                        txtName.getText(),
+                        txtEvent.getText()
                     );
 
                     // Adiciona a submissão ao currículo e atualiza o campo de texto
@@ -315,31 +351,6 @@ public class GUI extends javax.swing.JFrame {
             }
         }).start();
     }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVActionPerformed
-
-    }//GEN-LAST:event_btnCVActionPerformed
-
-    private void btnPersonCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonCVActionPerformed
-        try {
-
-            String s = curriculo.loadPersonEvents(txtNameCV.getText());
-            if (s != null) {
-                textAreaCVPerson.setText(s);
-            } else {
-                // Mostra uma mensagem de erro no caso de não haver essa pessoa
-                JOptionPane.showMessageDialog(this, "Não existem currículos dessa pessoa.", "Não existe!", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnPersonCVActionPerformed
-
-    private void txtNameCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameCVActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameCVActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,17 +398,18 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane ScrollInstitute;
     private javax.swing.JScrollPane ScrollName;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnCV;
     private javax.swing.JButton btnPersonCV;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbAllCurriculum;
     private javax.swing.JLabel lbCurriculum;
+    private javax.swing.JLabel lbSearchCurriculum;
+    private javax.swing.JTextArea textAreaCVAll;
     private javax.swing.JTextArea textAreaCVPerson;
     private javax.swing.JTextArea txtCV;
     private javax.swing.JTextArea txtEvent;
     private javax.swing.JTextField txtInstitute;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNameCV;
-    private javax.swing.JTextArea txtPessoasCV;
     // End of variables declaration//GEN-END:variables
 }
