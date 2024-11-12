@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -36,17 +37,16 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         setTitle("Curriculum Digital");
         try {
-            
+
             File file = new File(fileCurriculo);
             if (file.exists()) {
                 curriculo = Curriculo.load(fileCurriculo);
                 elements.addAll(curriculo.submissions);
-               txtCV.setText(curriculo.toString());
+                txtCV.setText(curriculo.toString());
 //                txtCV.setText(elements.toString());
                 txtPessoasCV.setText(curriculo.toString());
                 curriculo.submissions.clear();
-            }
-            else{
+            } else {
                 curriculo = new Curriculo();
             }
         } catch (Exception e) {
@@ -285,29 +285,35 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            // Verifica se o utilizador é uma instituição
-            if (myUser.isInstitute()) {
-                // Cria a submissão normalmente se o utilizador for uma instituição
-                Submission s = new Submission(
-                        myUser,
-                        txtName.getText(),
-                        txtEvent.getText()
-                );
+        btnAdd.setEnabled(false);
+        new Thread(() -> {
+            try {
+                // Verifica se o utilizador é uma instituição
+                if (myUser.isInstitute()) {
+                    // Cria a submissão normalmente se o utilizador for uma instituição
+                    Submission s = new Submission(
+                            myUser,
+                            txtName.getText(),
+                            txtEvent.getText()
+                    );
 
-                // Adiciona a submissão ao currículo e atualiza o campo de texto
-                curriculo.add(s);
-                elements.add(s);
-                txtCV.setText(curriculo.submissions.toString());
-                curriculo.save(fileCurriculo, false);
-            } else {
-                // Mostra uma mensagem de erro caso o utilizador não seja uma instituição
-                JOptionPane.showMessageDialog(this, "Apenas Instituições podem adicionar submissões.", "Acesso Negado", JOptionPane.WARNING_MESSAGE);
+                    // Adiciona a submissão ao currículo e atualiza o campo de texto
+                    curriculo.add(s);
+                    elements.add(s);
+                    SwingUtilities.invokeLater(() -> {
+                        txtCV.setText(curriculo.submissions.toString());
+                        btnAdd.setEnabled(true);
+                    });
+                    curriculo.save(fileCurriculo, false);
+                } else {
+                    // Mostra uma mensagem de erro caso o utilizador não seja uma instituição
+                    JOptionPane.showMessageDialog(this, "Apenas Instituições podem adicionar submissões.", "Acesso Negado", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }).start();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCVActionPerformed
@@ -315,16 +321,15 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCVActionPerformed
 
     private void btnPersonCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonCVActionPerformed
-        try {  
-         
+        try {
+
             String s = curriculo.loadPersonEvents(txtNameCV.getText());
-            if(s != null){
+            if (s != null) {
                 textAreaCVPerson.setText(s);
-            }
-            else{
+            } else {
                 // Mostra uma mensagem de erro no caso de não haver essa pessoa
                 JOptionPane.showMessageDialog(this, "Não existem currículos dessa pessoa.", "Não existe!", JOptionPane.ERROR_MESSAGE);
-            }            
+            }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());

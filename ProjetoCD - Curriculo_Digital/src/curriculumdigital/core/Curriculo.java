@@ -57,7 +57,7 @@ public class Curriculo implements Serializable {
 
     public void save(String fileName, boolean isClosing) throws IOException {
         //só cria um bloco quando houver 8 submissões ou o programa for fechado
-        if (submissions.size() == 9 || isClosing) {
+        if (submissions.size() == 2 || isClosing) {
             try {
                 //cria a Merkle Tree com as submissões
                 MerkleTree mt = new MerkleTree(submissions.toArray());

@@ -60,8 +60,5 @@ public class MinerPar {
             Logger.getLogger(MinerPar.class.getName()).log(Level.SEVERE, null, ex);
         }
         return trueNonce.get();
-    }
-
-        
-
+    }   
 }

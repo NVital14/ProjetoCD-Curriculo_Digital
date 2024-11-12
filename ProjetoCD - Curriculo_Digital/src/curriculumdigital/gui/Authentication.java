@@ -265,7 +265,7 @@ public class Authentication extends javax.swing.JFrame {
             u.load(new String(txtLoginPass.getPassword()));
             String pub =Base64.getEncoder().encodeToString(u.getPub().getEncoded());
             txtPublicKey.setText(pub);
-           new GUI(u).setVisible(true);
+            new GUI(u).setVisible(true);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
