@@ -34,9 +34,9 @@ public class Curriculo implements Serializable {
         this.submissions = new ArrayList<>();
         this.bc = new BlockChain();
         this.merkleTree = new MerkleTree();
-        Submission s = new Submission("Default", "Default", "Default");
-        this.bc.add(s.toString(), DIFICULTY);
-        bc.add(ObjectUtils.convertObjectToBase64(s), DIFICULTY);
+//        Submission s = new Submission("Default", "Default", "Default");
+//        this.bc.add(s.toString(), DIFICULTY);
+//        bc.add(ObjectUtils.convertObjectToBase64(s), DIFICULTY);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Curriculo implements Serializable {
 
     public void save(String fileName, boolean isClosing) throws IOException {
         //só cria um bloco quando houver 8 submissões ou o programa for fechado
-        if (submissions.size() == 2 || isClosing) {
+        if (submissions.size() == 8 || isClosing) {
             try {
                 //cria a Merkle Tree com as submissões
                 MerkleTree mt = new MerkleTree(submissions.toArray());
@@ -80,10 +80,10 @@ public class Curriculo implements Serializable {
 
     public static Curriculo load(String fileName) throws IOException, ClassNotFoundException, Exception {
         List elements = new ArrayList();
+        Curriculo c = new Curriculo();
         // vai buscar a blockchain ao ficheiro
         try (ObjectInputStream in = new ObjectInputStream(
                 new FileInputStream(fileName))) {
-            Curriculo c = new Curriculo();
             c.bc = (blockchain.utils.BlockChain) in.readObject();
             List<Block> chain = c.bc.getChain();
 
@@ -117,45 +117,41 @@ public class Curriculo implements Serializable {
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Erro" + ex);
         }
-        return null;
+        return c;
     }
 
-    public String loadPersonEvents( String n, boolean isShowAll ) throws IOException, FileNotFoundException, ClassNotFoundException {
+    public String loadPersonEvents(String n, boolean isShowAll) throws IOException, FileNotFoundException, ClassNotFoundException {
         StringBuilder eventosCurriculo = new StringBuilder();
         List<Block> chain = bc.getChain();
-        List <Submission> elements = new ArrayList();
+        List<Submission> elements = new ArrayList();
 
-        // verifica se a blockchaain tem mais de um bloco
-        if (chain.size() > 2) {
-            // itera por cada bloco da blockchain, mas ignorar os dois primeiros (são os default)
-            for (int i = 2; i < chain.size(); i++) { // Começa do índice 2 (terceiro bloco)
-                Block block = chain.get(i);
+        // itera por cada bloco da blockchain
+        for (int i = 0; i < chain.size(); i++) {
+            Block block = chain.get(i);
 
-                // Cada bloco tem o hash que usamos para nomear o arquivo da Merkle Tree
-                String merkleTreeFileName = block.getCurrentHash() + ".mkt";
+            // Cada bloco tem o hash que usamos para nomear o arquivo da Merkle Tree
+            String merkleTreeFileName = block.getCurrentHash() + ".mkt";
 
-                // vai buscar a Merkle Tree do ficheiro .mkt
-                merkleTree = MerkleTree.loadFromFile(merkleTreeFileName);
+            // vai buscar a Merkle Tree do ficheiro .mkt
+            merkleTree = MerkleTree.loadFromFile(merkleTreeFileName);
 
-                // verificar se a raiz da Merkle Tree corresponde à hash do bloco
-                if (!merkleTree.getRoot().equals(block.getData())) {
-                    throw new RuntimeException("Erro: a Merkle Tree não corresponde ao bloco!");
-                }
-                elements.addAll(merkleTree.getElements());
-                for (Submission el : elements) {
-                    if(isShowAll == true){
-                        eventosCurriculo.append(el.getUser() + " --> " + el.getName() + " - " + el.getEvent() + "\n");
-                    }else{
-                        if(el.getName().equals(n)){
+            // verificar se a raiz da Merkle Tree corresponde à hash do bloco
+            if (!merkleTree.getRoot().equals(block.getData())) {
+                throw new RuntimeException("Erro: a Merkle Tree não corresponde ao bloco!");
+            }
+            elements.addAll(merkleTree.getElements());
+            for (Submission el : elements) {
+                if (isShowAll == true) {
+                    eventosCurriculo.append(el.getUser() + " --> " + el.getName() + " - " + el.getEvent() + "\n");
+                } else {
+                    if (el.getName().equals(n)) {
                         eventosCurriculo.append(el.getUser() + " --> " + el.getEvent() + "\n");
-                        }
                     }
                 }
-                elements.clear();
             }
-            return eventosCurriculo.toString();
+            elements.clear();
         }
-        return null;
+        return eventosCurriculo.toString();
 
     }
 

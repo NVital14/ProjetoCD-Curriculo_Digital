@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 public class GUI extends javax.swing.JFrame {
 
     public static String fileCurriculo = "curriculo.obj";
-    Curriculo curriculo;
+    Curriculo curriculo ;
     List<Submission> elements = new ArrayList();
 
     User myUser = null;
@@ -308,7 +308,7 @@ public class GUI extends javax.swing.JFrame {
     private void btnPersonCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonCVActionPerformed
         try {
             String s = curriculo.loadPersonEvents(txtNameCV.getText(), false);
-            if (s != null) {
+            if (s != "") {
                 textAreaCVPerson.setText(s);
             } else {
                 // Mostra uma mensagem de erro no caso de não haver essa pessoa
