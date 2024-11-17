@@ -52,7 +52,7 @@ public class GUI extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.print(e);
         }
-        setSize(800, 600);
+        setSize(800, 500);
         setLocationRelativeTo(null);
 
         this.addWindowListener(new WindowAdapter() {
@@ -164,30 +164,30 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(CurriculumLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ScrollEvent, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-                    .addComponent(ScrollName, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ScrollInstitute, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                    .addComponent(ScrollInstitute, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ScrollName)
+                    .addComponent(ScrollEvent))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addGap(38, 38, 38))
         );
         CurriculumLayout.setVerticalGroup(
             CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CurriculumLayout.createSequentialGroup()
                 .addComponent(lbCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(CurriculumLayout.createSequentialGroup()
-                        .addComponent(ScrollInstitute, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(ScrollName, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addComponent(ScrollInstitute, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ScrollName, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ScrollEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(99, 99, 99))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(225, 225, 225))
         );
 
         App.addTab("Curriculum", Curriculum);
@@ -199,12 +199,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        txtNameCV.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome da Pessoa"));
-        txtNameCV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameCVActionPerformed(evt);
-            }
-        });
+        txtNameCV.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome da Pessoa", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         textAreaCVPerson.setEditable(false);
         textAreaCVPerson.setColumns(20);
@@ -226,27 +221,24 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtNameCV, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addComponent(btnPersonCV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72))
-            .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         ListaPessoasLayout.setVerticalGroup(
             ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ListaPessoasLayout.createSequentialGroup()
-                        .addComponent(txtNameCV, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnPersonCV, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(207, Short.MAX_VALUE))
+                        .addGap(112, 112, 112)
+                        .addComponent(txtNameCV, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPersonCV, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Pessoas", ListaPessoas);
@@ -269,20 +261,16 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
                 .addGap(91, 91, 91)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ListaCurriculumLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbAllCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(99, Short.MAX_VALUE))
+            .addComponent(lbAllCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         ListaCurriculumLayout.setVerticalGroup(
             ListaCurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaCurriculumLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(lbAllCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(270, Short.MAX_VALUE))
         );
 
         App.addTab("Lista Curriculum", ListaCurriculum);
@@ -301,15 +289,14 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNameCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameCVActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameCVActionPerformed
-
     private void btnPersonCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonCVActionPerformed
         try {
+            textAreaCVPerson.setText("");
             String s = curriculo.loadPersonEvents(txtNameCV.getText(), false);
-            if (s != "") {
+            if (!"".equals(s)) {
                 textAreaCVPerson.setText(s);
+            } else if("".equals(txtNameCV.getText())) {
+                JOptionPane.showMessageDialog(this, "Coloca o nome da pessoa que queres procurar.", "Coloca o nome!", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Mostra uma mensagem de erro no caso de não haver essa pessoa
                 JOptionPane.showMessageDialog(this, "Não existem currículos dessa pessoa.", "Não existe!", JOptionPane.ERROR_MESSAGE);
