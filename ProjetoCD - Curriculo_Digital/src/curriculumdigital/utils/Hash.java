@@ -13,69 +13,39 @@
 //::                                                               (c)2022   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package blockchain.utils;
+package curriculumdigital.utils;
 
-import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Created on 22/08/2022, 09:23:49
- * 
- * Block with consensus of Proof of Work
+ * Created on 28/09/2022, 11:02:33
  *
  * @author IPT - computer
  * @version 1.0
  */
-public class Block implements Serializable {
+public class Hash {
 
-    String previousHash; // link to previous block
-    String data;         // data in the block
-    int nonce;           // proof of work 
-    String currentHash;  // Hash of block
+       public static final String alg = "SHA3-256";
 
-    public Block(String previousHash, String data, int nonce) {
-        this.previousHash = previousHash;
-        this.data = data;
-        this.nonce = nonce;
-        this.currentHash = calculateHash();
+    public static String toHexString(int n) {
+        return Integer.toHexString(n).toUpperCase();
     }
 
-    public String getData() {
-        return data;
+    public static String getHash(String data) {
+        try {
+            byte[] hash = SecurityUtils.calculateHash(data.getBytes(), alg);
+            return new BigInteger(hash).abs().toString(16);
+        } catch (Exception ex) {
+            Logger.getLogger(Hash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "ERROR in HASH";
+        
+       
     }
-
-    public String getPreviousHash() {
-        return previousHash;
-    }
-
-    public int getNonce() {
-        return nonce;
-    }
-    
-    
-
-    public String calculateHash() {
-        return Hash.getHash(nonce + previousHash + data);
-    }
-    
-    public String getCurrentHash(){
-        return currentHash;
-    }
-
-    public String toString() {
-        return // (isValid() ? "OK\t" : "ERROR\t")+
-                 String.format("[ %8s", previousHash) + " <- " + 
-                   String.format("%-10s", data) +  String.format(" %7d ] = ", nonce) + 
-                String.format("%8s",currentHash);
-
-    }
-
-    public boolean isValid() {
-        return currentHash.equals(calculateHash());
-    }
-
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    private static final long serialVersionUID = 202208220923L;
+    private static final long serialVersionUID = 202209281102L;
     //:::::::::::::::::::::::::::  Copyright(c) M@nso  2022  :::::::::::::::::::
     ///////////////////////////////////////////////////////////////////////////
-
 }
