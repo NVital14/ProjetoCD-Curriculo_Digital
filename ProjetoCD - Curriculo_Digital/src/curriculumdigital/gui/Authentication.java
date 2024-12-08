@@ -4,8 +4,10 @@
  */
 package curriculumdigital.gui;
 
+import auth.IRemote;
 import curriculumdigital.core.User;
 import java.io.IOException;
+import java.rmi.Naming;
 import java.util.Base64;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -17,6 +19,10 @@ import javax.swing.JOptionPane;
  */
 public class Authentication extends javax.swing.JFrame {
 
+    public static final String host = "localhost";
+    public static final String remoteName = "RemoteObj";
+    public static final int remotePort = 10011;
+    String remoteObject = String.format("//%s:%d/%s", host, remotePort, remoteName);
     /**
      * Creates new form Authentication
      */
@@ -26,7 +32,8 @@ public class Authentication extends javax.swing.JFrame {
         setSize(650, 380);
         setLocationRelativeTo(null);
         txtLoginPass.setText("123qwe");
-        
+       
+
         try {
             List<String> users = User.getExistingUsers();
             DefaultListModel lusers = new DefaultListModel();
@@ -37,7 +44,7 @@ public class Authentication extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         // Adicionar um listener à JList para capturar seleções
         lstUsers.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -259,13 +266,15 @@ public class Authentication extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
+        
         try {
-            User u = new User(txtLoginUser.getText());
-            u.load(new String(txtLoginPass.getPassword()));
-            String pub =Base64.getEncoder().encodeToString(u.getPub().getEncoded());
+            IRemote remote= (IRemote) Naming.lookup(remoteObject);
+            remote.setName(txtLoginUser.getText());
+            remote.logIn(new String(txtLoginPass.getPassword()));
+
+            String pub = Base64.getEncoder().encodeToString(remote.getPub().getEncoded());
             txtPublicKey.setText(pub);
-            new GUI(u).setVisible(true);
+            new GUI(remote.getUser()).setVisible(true);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -275,19 +284,21 @@ public class Authentication extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         try {
-            User u = new User(txtRegisterUser.getText());
-            u.generateKeys();
-            u.setInstitute(cboxInstitute.isSelected());
-            u.save(new String(txtRegisterPass.getPassword()));
+            IRemote remote= (IRemote) Naming.lookup(remoteObject);
+            remote.setName(txtRegisterUser.getText());
+            remote.generateKeys();
+            remote.setInstitute(cboxInstitute.isSelected());
+            remote.register(new String(txtRegisterPass.getPassword()));         
+
             JOptionPane.showMessageDialog(this, "Utilizador Criado");
-            
+
             List<String> users = User.getExistingUsers();
             DefaultListModel lusers = new DefaultListModel();
             for (String user : users) {
                 lusers.addElement(user);
             }
             lstUsers.setModel(lusers);
-            
+
             txtRegisterUser.setText("");
             txtRegisterPass.setText("");
         } catch (Exception ex) {

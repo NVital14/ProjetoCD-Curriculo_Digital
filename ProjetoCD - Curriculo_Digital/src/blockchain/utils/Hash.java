@@ -13,7 +13,7 @@
 //::                                                               (c)2022   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package curriculumdigital.utils;
+package blockchain.utils;
 
 import java.math.BigInteger;
 import java.util.logging.Level;

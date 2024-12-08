@@ -4,8 +4,9 @@
  */
 package curriculumdigital.core;
 
-import curriculumdigital.utils.SecurityUtils;
+import blockchain.utils.SecurityUtils;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +22,7 @@ import java.util.List;
  *
  * @author Bea⚝
  */
-public class User {
+public class User implements Serializable{
     private String name;
 
     private PublicKey pub;

@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import curriculumdigital.utils.GuiUtils;
-import curriculumdigital.utils.RMI;
+import blockchain.utils.GuiUtils;
+import blockchain.utils.RMI;
 
 /**
  *

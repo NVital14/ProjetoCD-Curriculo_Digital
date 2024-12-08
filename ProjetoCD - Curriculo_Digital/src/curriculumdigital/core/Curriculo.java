@@ -4,10 +4,10 @@
  */
 package curriculumdigital.core;
 
-import curriculumdigital.utils.Block;
-import curriculumdigital.utils.BlockChain;
-import curriculumdigital.utils.MerkleTree;
-import curriculumdigital.utils.ObjectUtils;
+import blockchain.utils.Block;
+import blockchain.utils.BlockChain;
+import blockchain.utils.MerkleTree;
+import blockchain.utils.ObjectUtils;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,7 +25,7 @@ import java.util.Locale;
  */
 public class Curriculo implements Serializable {
 
-    curriculumdigital.utils.BlockChain bc;
+    blockchain.utils.BlockChain bc;
     private MerkleTree merkleTree;
     public List<Submission> submissions;
     public static int DIFICULTY = 4;
@@ -84,7 +84,7 @@ public class Curriculo implements Serializable {
         // vai buscar a blockchain ao ficheiro
         try (ObjectInputStream in = new ObjectInputStream(
                 new FileInputStream(fileName))) {
-            c.bc = (curriculumdigital.utils.BlockChain) in.readObject();
+            c.bc = (blockchain.utils.BlockChain) in.readObject();
             List<Block> chain = c.bc.getChain();
 
             // verifica se a blockchaain tem mais de um bloco

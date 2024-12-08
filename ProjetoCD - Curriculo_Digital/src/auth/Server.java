@@ -13,31 +13,33 @@
 //::                                                               (c)2024   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
+package auth;
 
-package p2p;
-
-import blockchain.utils.RMI;
+import java.net.InetAddress;
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
 
 /**
- * Created on 27/11/2024, 18:04:02 
+ * Created on 20/11/2024, 11:41:29
+ *
  * @author manso - computer
  */
-public class ClientTransaction {
-    static int port = 10_012;
-    static String name = "P2P";
+public class Server {
 
-            
+    public static final String remoteName = "RemoteObj";
+    public static final int remotePort = 10011;
+
     public static void main(String[] args) throws Exception {
-       //create object  to listen in the remote port
-            //node 10
-        IremoteP2P node = (IremoteP2P) RMI.getRemote("//10.10.208.35:10010/P2P");
-        
-        node.addTransaction("mestrado do xxxx pelo IPT");
-        
-////        
-       
-        
-        
+        //create object  to listen in the remote port
+        ORemote rmtObj = new ORemote(remotePort);
+        //local adress of server
+        String host = InetAddress.getLocalHost().getHostAddress();
+        //create registry to object
+        LocateRegistry.createRegistry(remotePort);
+        //create adress of remote object
+        String address = String.format("//%s:%d/%s", host, remotePort, remoteName);
+        //link adress to object 
+        Naming.rebind(address, rmtObj);
+        System.out.printf("Remote object ready at %s", address);
     }
-
 }

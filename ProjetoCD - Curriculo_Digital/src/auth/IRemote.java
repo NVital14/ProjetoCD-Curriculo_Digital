@@ -13,31 +13,30 @@
 //::                                                               (c)2024   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
+package auth;
 
-package p2p;
-
-import blockchain.utils.RMI;
+import curriculumdigital.core.User;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.security.PublicKey;
 
 /**
- * Created on 27/11/2024, 18:04:02 
- * @author manso - computer
+ *
+ * @author M@nso
  */
-public class ClientTransaction {
-    static int port = 10_012;
-    static String name = "P2P";
+public interface IRemote extends Remote {
+    //remote method 
+    
+    public void setName(String name) throws RemoteException;
+    public PublicKey getPub() throws RemoteException;
+    public User getUser() throws RemoteException;
 
-            
-    public static void main(String[] args) throws Exception {
-       //create object  to listen in the remote port
-            //node 10
-        IremoteP2P node = (IremoteP2P) RMI.getRemote("//10.10.208.35:10010/P2P");
-        
-        node.addTransaction("mestrado do xxxx pelo IPT");
-        
-////        
-       
-        
-        
-    }
+    public void logIn(String pass) throws RemoteException;
+
+    public void register( String pass) throws RemoteException;
+
+    public void generateKeys() throws RemoteException;
+
+    public void setInstitute( boolean i) throws RemoteException;
 
 }

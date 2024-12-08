@@ -13,7 +13,7 @@
 //::                                                               (c)2024   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package curriculumdigital.utils;
+package blockchain.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

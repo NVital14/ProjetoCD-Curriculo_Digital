@@ -4,7 +4,7 @@
  */
 package curriculumdigital.core;
 
-import curriculumdigital.utils.SecurityUtils;
+import blockchain.utils.SecurityUtils;
 import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.PublicKey;

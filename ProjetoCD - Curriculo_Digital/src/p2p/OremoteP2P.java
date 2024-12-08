@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
-import curriculumdigital.utils.RMI;
+import blockchain.utils.RMI;
 
 /**
  * Created on 27/11/2024, 17:48:32
@@ -168,5 +168,6 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         listener.onTransaction(address);
 
     }
-
+    
+   
 }

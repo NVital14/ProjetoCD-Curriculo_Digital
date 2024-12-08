@@ -12,7 +12,7 @@
 //::                                                               (c)2018   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package curriculumdigital.utils;
+package blockchain.utils;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;

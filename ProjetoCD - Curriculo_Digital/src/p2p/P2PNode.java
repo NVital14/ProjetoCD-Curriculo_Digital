@@ -19,7 +19,7 @@ package p2p;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
-import curriculumdigital.utils.RMI;
+import blockchain.utils.RMI;
 
 /**
  * Created on 27/11/2024, 18:04:02 

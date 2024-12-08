@@ -18,7 +18,7 @@
 //::                                                               (c)2016   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package curriculumdigital.utils;
+package blockchain.utils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
