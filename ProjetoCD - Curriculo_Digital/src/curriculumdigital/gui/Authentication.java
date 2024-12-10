@@ -4,7 +4,6 @@
  */
 package curriculumdigital.gui;
 
-import auth.IRemote;
 import curriculumdigital.core.User;
 import java.io.IOException;
 import java.rmi.Naming;
@@ -12,6 +11,12 @@ import java.util.Base64;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import auth.IRemote;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,14 +28,18 @@ public class Authentication extends javax.swing.JFrame {
     public static final String remoteName = "RemoteObj";
     public static final int remotePort = 10011;
     String remoteObject = String.format("//%s:%d/%s", host, remotePort, remoteName);
+    
     /**
      * Creates new form Authentication
      */
-    public Authentication() {
+    public Authentication() throws  RemoteException, NotBoundException, MalformedURLException {
         initComponents();
         setTitle("Autenticação");
         setSize(650, 380);
         setLocationRelativeTo(null);
+        IRemote remote= (IRemote) Naming.lookup(remoteObject);
+        remote.annonceObjectName("Mensagem");
+        remote.listenObjectName();
         txtLoginPass.setText("123qwe");
        
 
@@ -337,7 +346,15 @@ public class Authentication extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Authentication().setVisible(true);
+                try {
+                    new Authentication().setVisible(true);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NotBoundException ex) {
+                    Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

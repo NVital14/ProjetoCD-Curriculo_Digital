@@ -19,6 +19,8 @@ import curriculumdigital.core.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.security.PublicKey;
+import java.util.List;
+import p2p.IremoteP2P;
 
 /**
  *
@@ -30,13 +32,19 @@ public interface IRemote extends Remote {
     public void setName(String name) throws RemoteException;
     public PublicKey getPub() throws RemoteException;
     public User getUser() throws RemoteException;
-
     public void logIn(String pass) throws RemoteException;
-
     public void register( String pass) throws RemoteException;
-
     public void generateKeys() throws RemoteException;
-
     public void setInstitute( boolean i) throws RemoteException;
-
+    //:::: N E T WO R K  :::::::::::
+    public String getAdress() throws RemoteException;
+    public void addNode(IRemote node) throws RemoteException;
+    public List<IRemote> getNetwork() throws  RemoteException;
+    //::::::::::: T R A NS A C T IO N S  :::::::::::
+    public void addTransaction(String data) throws RemoteException;
+    public List<String> getTransactions() throws RemoteException;
+    public void removeTransaction(String data )throws RemoteException;
+    public void sinchronizeTransactions(IRemote node) throws RemoteException;
+    public void annonceObjectName(String message) throws RemoteException;
+    public void listenObjectName() throws RemoteException;
 }

@@ -31,15 +31,28 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         //create object  to listen in the remote port
-        ORemote rmtObj = new ORemote(remotePort);
+        ORemote rmtObjAuth = new ORemote(remotePort);
         //local adress of server
         String host = InetAddress.getLocalHost().getHostAddress();
         //create registry to object
         LocateRegistry.createRegistry(remotePort);
         //create adress of remote object
-        String address = String.format("//%s:%d/%s", host, remotePort, remoteName);
+        String address1 = String.format("//%s:%d/%s", host, remotePort, remoteName);
         //link adress to object 
-        Naming.rebind(address, rmtObj);
-        System.out.printf("Remote object ready at %s", address);
+        Naming.rebind(address1, rmtObjAuth);
+        System.out.printf("Remote object ready at %s", address1);
+        
+        
+//         //create object  to listen in the remote port
+//        ORemoteP2P rmtObjP2P = new ORemoteP2P(remotePort, this);
+//        //local adress of server
+//        String host = InetAddress.getLocalHost().getHostAddress();
+//        //create registry to object
+//        LocateRegistry.createRegistry(remotePort);
+//        //create adress of remote object
+//        String address2 = String.format("//%s:%d/%s", host, remotePort, remoteName);
+//        //link adress to object 
+//        Naming.rebind(address2, rmtObjP2P);
+//        System.out.printf("Remote object ready at %s", address2);
     }
 }
