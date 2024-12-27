@@ -14,31 +14,84 @@
 //::                                                               (c)2024   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-
-
 package p2p;
 
+import blockchain.utils.Block;
+import blockchain.utils.BlockChain;
+import blockchain.utils.MerkleTree;
+import curriculumdigital.core.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.security.PublicKey;
 import java.util.List;
 
 /**
- * Created on 27/11/2024, 17:42:15 
+ * Created on 27/11/2024, 17:42:15
+ *
  * @author manso - computer
  */
 public interface IremoteP2P extends Remote {
+
     //:::: N E T WO R K  :::::::::::
     public String getAdress() throws RemoteException;
-    public void addNode(IremoteP2P node) throws RemoteException;
-    public List<IremoteP2P> getNetwork() throws  RemoteException;
-    //::::::::::: T R A NS A C T IO N S  :::::::::::
-    public void addTransaction(String data) throws RemoteException;
-    public List<String> getTransactions() throws RemoteException;
-    public void removeTransaction(String data )throws RemoteException;
-    public void sinchronizeTransactions(IremoteP2P node) throws RemoteException;
-    
-    
-    
-    
 
+    public void addNode(IremoteP2P node) throws RemoteException;
+
+    public List<IremoteP2P> getNetwork() throws RemoteException;
+
+    //::::::::::: T R A N S A C T IO N S  :::::::::::
+    public int getTransactionsSize() throws RemoteException;
+
+    public void addTransaction(String data) throws RemoteException;
+
+    public List<String> getTransactions() throws RemoteException;
+
+    public void removeTransactions(List<String> transactions) throws RemoteException;
+
+    public void synchronizeTransactions(IremoteP2P node) throws RemoteException;
+
+    //::::::::::::::::: M I N E R :::::::::::::::::::::::::::::::::::::::::::
+    public void startMining(String msg, int zeros) throws RemoteException;
+
+    public void stopMining(int nonce) throws RemoteException;
+
+    public boolean isMining() throws RemoteException;
+
+    public int mine(String msg, int zeros) throws RemoteException;
+
+    //::::::::::::::::: B L O C K C H A I N :::::::::::::::::::::::::::::::::::::::::::
+    public void addBlock(Block b) throws RemoteException;
+
+    public int getBlockchainSize() throws RemoteException;
+
+    public String getBlockchainLastHash() throws RemoteException;
+
+    public BlockChain getBlockchain() throws RemoteException;
+
+    public void synchnonizeBlockchain() throws RemoteException;
+
+    public List<String> getBlockchainTransactions() throws RemoteException;
+
+    public void saveMerkleTree(MerkleTree mkt, String hash) throws RemoteException;
+
+    public String[] getFiles() throws RemoteException;
+
+    public void synchnonizeFiles() throws RemoteException;
+
+    public void saveFiles(String f) throws RemoteException;
+
+    //::::::::::::::::: A U T H :::::::::::::::::::::::::::::::::::::::::::
+    public void setName(String name) throws RemoteException;
+
+    public PublicKey getPub() throws RemoteException;
+
+    public User getUser() throws RemoteException;
+
+    public void logIn(String pass) throws RemoteException;
+
+    public void register(String pass) throws RemoteException;
+
+    public void generateKeys() throws RemoteException;
+
+    public void setInstitute(boolean i) throws RemoteException;
 }

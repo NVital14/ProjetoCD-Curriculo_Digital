@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
@@ -38,7 +39,8 @@ public class GUI extends javax.swing.JFrame {
         setTitle("Curriculum Digital");
         try {
 
-            File file = new File(fileCurriculo);
+            File file = new File("blockchainfiles", fileCurriculo);
+
             if (file.exists()) {
                 curriculo = Curriculo.load(fileCurriculo);
                 elements.addAll(curriculo.submissions);

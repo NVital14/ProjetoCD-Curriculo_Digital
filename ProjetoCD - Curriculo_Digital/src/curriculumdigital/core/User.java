@@ -22,13 +22,14 @@ import java.util.List;
  *
  * @author Bea⚝
  */
-public class User implements Serializable{
+public class User implements Serializable {
+
     private String name;
 
     private PublicKey pub;
     private PrivateKey priv;
     private Key sim;
-    
+
     private boolean isInstitute;
 
     public User(String name) {
@@ -45,7 +46,7 @@ public class User implements Serializable{
         this.priv = null;
         this.sim = null;
     }
-    
+
     public void generateKeys() throws Exception {
         this.sim = SecurityUtils.generateAESKey(256);
         KeyPair kp = SecurityUtils.generateECKeyPair(256);
@@ -54,56 +55,108 @@ public class User implements Serializable{
     }
 
     public void save(String password) throws Exception {
-        //encriptar a chave privada
+        Path folderPath = Paths.get("blockchainfiles");
+        //garante que a pasta existe
+        if (!Files.exists(folderPath)) {
+            Files.createDirectories(folderPath);
+        }
+        // Caminhos dos arquivos baseados na pasta
+        Path privateKeyPath = folderPath.resolve(this.name + ".priv");
+        Path symmetricKeyPath = folderPath.resolve(this.name + ".sim");
+        Path publicKeyPath = folderPath.resolve(this.name + ".pub");
+        Path instituteFlagPath = folderPath.resolve(this.name + ".institute");
+
+        // Encripta e salva a chave privada
         byte[] secret = SecurityUtils.encrypt(priv.getEncoded(), password);
-        Files.write(Path.of(this.name + ".priv"), secret);
-        //encrptar a chave simetrica
+        Files.write(privateKeyPath, secret);
+
+        // Encripta e salva a chave simétrica
         byte[] simData = SecurityUtils.encrypt(sim.getEncoded(), password);
-        Files.write(Path.of(this.name + ".sim"), simData);
-        //guardar a public
-        Files.write(Path.of(this.name + ".pub"), pub.getEncoded());
-       // Criptografar e guardar o estado do atributo isInstitute
+        Files.write(symmetricKeyPath, simData);
+
+        // Salva a chave pública
+        Files.write(publicKeyPath, pub.getEncoded());
+
+        // Encripta e salva o estado do atributo isInstitute
         byte[] instituteData = SecurityUtils.encrypt(String.valueOf(isInstitute).getBytes(), password);
-        Files.write(Path.of(this.name + ".institute"), instituteData);
-     }
+        Files.write(instituteFlagPath, instituteData);
+
+    }
 
     public void load(String password) throws Exception {
-        //desencriptar a privada
-        byte[] privData = Files.readAllBytes(Path.of(this.name + ".priv"));
+        Path folderPath = Paths.get("blockchainfiles");
+
+        //  caminhos dos ficheiros
+        Path privateKeyPath = folderPath.resolve(this.name + ".priv");
+        Path symmetricKeyPath = folderPath.resolve(this.name + ".sim");
+        Path publicKeyPath = folderPath.resolve(this.name + ".pub");
+        Path instituteFlagPath = folderPath.resolve(this.name + ".institute");
+
+        // desencripta a chave privada
+        byte[] privData = Files.readAllBytes(privateKeyPath);
         privData = SecurityUtils.decrypt(privData, password);
-        //desencriptar a privada
-        byte[] simData = Files.readAllBytes(Path.of(this.name + ".sim"));
+
+        // desencripta a chave simétrica
+        byte[] simData = Files.readAllBytes(symmetricKeyPath);
         simData = SecurityUtils.decrypt(simData, password);
-        //ler a publica
-        byte[] pubData = Files.readAllBytes(Path.of(this.name + ".pub"));
+
+        // lê a chave pública
+        byte[] pubData = Files.readAllBytes(publicKeyPath);
+
         this.priv = SecurityUtils.getPrivateKey(privData);
         this.pub = SecurityUtils.getPublicKey(pubData);
         this.sim = SecurityUtils.getAESKey(simData);
-        // Descriptografar e carregar o estado do atributo isInstitute
-        byte[] encryptedInstituteData = Files.readAllBytes(Path.of(this.name + ".institute"));
+
+        // desencripta e carrega o estado do isInstitute
+        byte[] encryptedInstituteData = Files.readAllBytes(instituteFlagPath);
         byte[] decryptedInstituteData = SecurityUtils.decrypt(encryptedInstituteData, password);
         this.isInstitute = Boolean.parseBoolean(new String(decryptedInstituteData));
-   }
-    
-    public void loadPublic() throws Exception{
+
+    }
+
+    public void loadPublic() throws Exception {
         //ler a publica
-        byte[] pubData = Files.readAllBytes(Path.of(this.name + ".pub"));
+        byte[] pubData = Files.readAllBytes(Path.of("/blockchainfiles/" + this.name + ".pub"));
         this.pub = SecurityUtils.getPublicKey(pubData);
     }
-    
+
     // Método para obter uma lista dos utilizadores já criados
     public static List<String> getExistingUsers() throws IOException {
+//        List<String> users = new ArrayList<>();
+//        // Caminho onde os ficheiros de utilizador estão guardados (podes alterar conforme necessário)
+//        Path dir = Paths.get("\"/blockchainfiles/\"");
+//        // Obter todos os ficheiros com a extensão .pub (indica que o utilizador foi criado)
+//        DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.pub");
+//        for (Path entry : stream) {
+//            // Remover a extensão para obter o nome do utilizador
+//            String fileName = entry.getFileName().toString();
+//            String userName = fileName.substring(0, fileName.lastIndexOf('.'));
+//            users.add(userName);
+//        }
+//        return users;
+
         List<String> users = new ArrayList<>();
-        // Caminho onde os ficheiros de utilizador estão guardados (podes alterar conforme necessário)
-        Path dir = Paths.get(".");
-        // Obter todos os ficheiros com a extensão .pub (indica que o utilizador foi criado)
-        DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.pub");
-        for (Path entry : stream) {
-            // Remover a extensão para obter o nome do utilizador
-            String fileName = entry.getFileName().toString();
-            String userName = fileName.substring(0, fileName.lastIndexOf('.'));
-            users.add(userName);
+        Path dir = Paths.get("blockchainfiles");
+
+        // verifica se a pasta existe
+        if (!Files.exists(dir)) {
+            System.out.println("A pasta não existe: " + dir.toAbsolutePath());
+            return users; // Retorna uma lista vazia
         }
+
+        // obtém todos os ficheiros .pub
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.pub")) {
+            for (Path entry : stream) {
+                // remove a extensão para obter o nome do utilizador
+                String fileName = entry.getFileName().toString();
+                String userName = fileName.substring(0, fileName.lastIndexOf('.'));
+                users.add(userName);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao ir buscar os utilizadores: " + e.getMessage());
+            throw e;
+        }
+
         return users;
     }
 
@@ -138,7 +191,7 @@ public class User implements Serializable{
     public void setSim(Key sim) {
         this.sim = sim;
     }
-    
+
     public boolean isInstitute() {
         return isInstitute;
     }
