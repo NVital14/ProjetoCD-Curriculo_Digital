@@ -79,7 +79,7 @@ public interface IremoteP2P extends Remote {
 
     public void synchnonizeFiles() throws RemoteException;
 
-    public void saveFiles(String f) throws RemoteException;
+    public void saveFiles(byte[] f, String nameFile) throws RemoteException;
 
     //::::::::::::::::: A U T H :::::::::::::::::::::::::::::::::::::::::::
     public void setName(String name) throws RemoteException;

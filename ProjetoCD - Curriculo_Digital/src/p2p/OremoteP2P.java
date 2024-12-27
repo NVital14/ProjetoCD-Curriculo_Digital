@@ -514,7 +514,14 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 //verifica se o nó tem o ficheiro
                 if (!listIremoteFiles.contains(f)) {
                     //guarda o ficheiro
-                    iremote.saveFiles(f);
+                    byte[] fBytes;
+                    try {
+                        fBytes = Files.readAllBytes(Path.of(FOLDER, f));
+                        iremote.saveFiles(fBytes,f);
+                    } catch (IOException ex) {
+                        Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
             }
         }
@@ -527,10 +534,10 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
      * @throws RemoteException
      */
     @Override
-    public void saveFiles(String f) throws RemoteException {
+    public void saveFiles(byte[] f, String nameFile) throws RemoteException {
         try {
-            byte[] fBytes = Files.readAllBytes(Path.of(FOLDER, f));
-            Files.write(Path.of(FOLDER, f), fBytes);
+            
+            Files.write(Path.of(FOLDER, nameFile), f);
         } catch (IOException ex) {
             Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
