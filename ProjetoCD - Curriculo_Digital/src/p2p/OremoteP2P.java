@@ -78,6 +78,15 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     }
 
     @Override
+    public void setFiles(String[] f){
+        this.files = f;
+    }
+    /**
+     * Método para obter o endereço
+     * @return
+     * @throws RemoteException 
+     */
+    @Override
     public String getAdress() throws RemoteException {
         return address;
     }
@@ -495,6 +504,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
      */
     @Override
     public void synchnonizeFiles() throws RemoteException {
+        setFiles(new File(FOLDER).list());
         //percorre todos os nós
         for (IremoteP2P iremote : network) {
             //vai buscar os ficheiros do nó

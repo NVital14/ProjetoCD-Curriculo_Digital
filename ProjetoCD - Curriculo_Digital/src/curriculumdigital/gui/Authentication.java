@@ -494,6 +494,11 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
         txtAddress.setText("localhost");
         txtAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Address"));
         txtAddress.setPreferredSize(new java.awt.Dimension(200, 36));
+        txtAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddressActionPerformed(evt);
+            }
+        });
         jPanel7.add(txtAddress);
 
         txtPort.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -737,6 +742,10 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
             Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAddressActionPerformed
     static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
     @Override 

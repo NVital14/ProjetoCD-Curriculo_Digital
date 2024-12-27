@@ -32,6 +32,7 @@ import java.util.List;
  */
 public interface IremoteP2P extends Remote {
 
+    public void setFiles(String[] f) throws RemoteException;
     //:::: N E T WO R K  :::::::::::
     public String getAdress() throws RemoteException;
 
