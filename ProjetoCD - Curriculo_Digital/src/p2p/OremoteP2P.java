@@ -107,7 +107,6 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         }
         listener.onStartRemote("Object " + address + " listening");
 
-        // synchnonizeFiles();
     }
 
     /**
@@ -199,6 +198,8 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         synchronizeTransactions(node);
         //sincronizar a blockchain
         synchnonizeBlockchain();
+        //sincronizar os ficheiros
+        synchnonizeFiles();
 
     }
 
@@ -563,45 +564,48 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     public void synchnonizeFiles() throws RemoteException {
         String[] myFiles = new File(FOLDER).list();
         List listMyFiles = Arrays.asList(myFiles);
-        //percorre todos os nós
-        for (IremoteP2P iremote : network) {
-            //vai buscar os ficheiros do nó
-            String[] iremoteFiles = iremote.getFiles();
-            List listIremoteFiles = Arrays.asList(iremoteFiles);
-            //guardar nos outros nós os ficheiros que eu tenho e eles não têm
-            for (String f : myFiles) {
-                //verifica se o nó tem o ficheiro
-                if (!"secret.key".equals(f) && !"iremote.pub".equals(f) && !"iremote.priv".equals(f)) {
-                    if (!listIremoteFiles.contains(f)) {
-                        //vai buscar o ficheiro
-                        byte[] fileToSave = getFileBytes(f);
-                        if (fileToSave != null) {
-                            try {
-                                //iremote guarda o ficheiro e envia a chave simétrica usada para encriptar o ficheiro, 
-                                //encriptada com a chave pública do iremote
-                                iremote.saveFile(fileToSave, f, SecurityUtils.encrypt(aes.getEncoded(), iremote.getPublicKey()));
-                            } catch (Exception ex) {
-                                Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        if (network.size() > 1) {
+            //percorre todos os nós
+            for (IremoteP2P iremote : network) {
+                //vai buscar os ficheiros do nó
+                String[] iremoteFiles = iremote.getFiles();
+                List listIremoteFiles = Arrays.asList(iremoteFiles);
+                //guardar nos outros nós os ficheiros que eu tenho e eles não têm
+                for (String f : myFiles) {
+                    //verifica se o nó tem o ficheiro
+                    if (!"secret.key".equals(f) && !"iremote.pub".equals(f) && !"iremote.priv".equals(f)) {
+                        if (!listIremoteFiles.contains(f)) {
+                            //vai buscar o ficheiro
+                            byte[] fileToSave = getFileBytes(f);
+                            if (fileToSave != null) {
+                                try {
+                                    //iremote guarda o ficheiro e envia a chave simétrica usada para encriptar o ficheiro, 
+                                    //encriptada com a chave pública do iremote
+                                    iremote.saveFile(fileToSave, f, SecurityUtils.encrypt(aes.getEncoded(), iremote.getPublicKey()));
+                                } catch (Exception ex) {
+                                    Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
-            }
-            //guardar os ficheiros que os outros têm e eu não
-            for (String f : iremoteFiles) {
-                if (!"secret.key".equals(f) && !"iremote.pub".equals(f) && !"iremote.priv".equals(f)) {
-                    //verifica se eu tenho o ficheiro
-                    if (!listMyFiles.contains(f)) {
-                        //vai buscar o ficheiro
-                        byte[] fileToSave = iremote.getFileBytes(f);
-                        if (fileToSave != null) {
-                            //vai buscar a chave simétrica usada para encriptar o ficheiro
-                            byte[] simKey = iremote.getSimKey(kPub);
-                            //guardo o ficheiro e envio a chave pública usada para encriptar o ficheiro
-                            saveFile(fileToSave, f, simKey);
-                        }
+                //guardar os ficheiros que os outros têm e eu não
+                for (String f : iremoteFiles) {
+                    if (!"secret.key".equals(f) && !"iremote.pub".equals(f) && !"iremote.priv".equals(f)) {
+                        //verifica se eu tenho o ficheiro
+                        if (!listMyFiles.contains(f)) {
+                            //vai buscar o ficheiro
+                            byte[] fileToSave = iremote.getFileBytes(f);
+                            if (fileToSave != null) {
+                                //vai buscar a chave simétrica usada para encriptar o ficheiro
+                                byte[] simKey = iremote.getSimKey(kPub);
+                                //guardo o ficheiro e envio a chave pública usada para encriptar o ficheiro
+                                //encriptada com a minha chave pública
+                                saveFile(fileToSave, f, simKey);
+                            }
 
+                        }
                     }
                 }
             }
@@ -610,7 +614,8 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     }
 
     /**
-     *Método que vai buscar os bytes de um ficheiro
+     * Método que vai buscar os bytes de um ficheiro
+     *
      * @param nameFile nome do ficheiro
      * @return um array de bytes do ficheiro ou null
      * @throws RemoteException
