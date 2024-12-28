@@ -22,6 +22,7 @@ import blockchain.utils.MerkleTree;
 import curriculumdigital.core.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.security.Key;
 import java.security.PublicKey;
 import java.util.List;
 
@@ -31,8 +32,11 @@ import java.util.List;
  * @author manso - computer
  */
 public interface IremoteP2P extends Remote {
+    
+    public PublicKey getPublicKey() throws RemoteException;
 
     public void setFiles(String[] f) throws RemoteException;
+
     //:::: N E T WO R K  :::::::::::
     public String getAdress() throws RemoteException;
 
@@ -79,9 +83,11 @@ public interface IremoteP2P extends Remote {
 
     public void synchnonizeFiles() throws RemoteException;
 
-    public void saveFiles(byte[] f, String nameFile) throws RemoteException;
+    public void saveFiles(byte[] f, String nameFile, byte[] k) throws RemoteException;
 
-    //::::::::::::::::: A U T H :::::::::::::::::::::::::::::::::::::::::::
+    public byte[] getKeySim(PublicKey pub) throws RemoteException;
+//::::::::::::::::: A U T H :::::::::::::::::::::::::::::::::::::::::::
+
     public void setName(String name) throws RemoteException;
 
     public PublicKey getPub() throws RemoteException;
