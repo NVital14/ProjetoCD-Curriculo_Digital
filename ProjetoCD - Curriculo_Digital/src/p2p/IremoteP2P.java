@@ -32,10 +32,10 @@ import java.util.List;
  * @author manso - computer
  */
 public interface IremoteP2P extends Remote {
-    
+
     public PublicKey getPublicKey() throws RemoteException;
 
-    public void setFiles(String[] f) throws RemoteException;
+    public byte[] getSimKey(PublicKey pub) throws RemoteException;
 
     //:::: N E T WO R K  :::::::::::
     public String getAdress() throws RemoteException;
@@ -79,15 +79,16 @@ public interface IremoteP2P extends Remote {
 
     public void saveMerkleTree(MerkleTree mkt, String hash) throws RemoteException;
 
+    //::::::::::::::::::::::SINCRONIZAR FICHEIROS:::::::::::::::::::::::
     public String[] getFiles() throws RemoteException;
 
     public void synchnonizeFiles() throws RemoteException;
 
-    public void saveFiles(byte[] f, String nameFile, byte[] k) throws RemoteException;
+    public byte[] getFileBytes(String nameFile) throws RemoteException;
 
-    public byte[] getKeySim(PublicKey pub) throws RemoteException;
+    public void saveFile(byte[] f, String nameFile, byte[] k) throws RemoteException;
+
 //::::::::::::::::: A U T H :::::::::::::::::::::::::::::::::::::::::::
-
     public void setName(String name) throws RemoteException;
 
     public PublicKey getPub() throws RemoteException;
