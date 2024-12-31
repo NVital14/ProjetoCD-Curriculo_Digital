@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import blockchain.utils.GuiUtils;
 import blockchain.utils.RMI;
 import curriculumdigital.core.Submission;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.time.format.DateTimeFormatter;
@@ -51,6 +53,11 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
     public Authentication() {
         initComponents();
+        try {
+            txtAddress.setText(InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException ex) {
+            txtAddress.setText("Localhost");
+        }
         setTitle("Autenticação");
         setSize(650, 380);
         setLocationRelativeTo(null);

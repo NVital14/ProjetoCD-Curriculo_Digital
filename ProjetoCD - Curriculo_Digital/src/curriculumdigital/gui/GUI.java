@@ -53,7 +53,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             if (file.exists()) {
                 curriculo = Curriculo.load(fileCurriculo);
                 elements.addAll(curriculo.submissions);
-                txtCV.setText(curriculo.toString());
+                txtListSubmissions.setText(curriculo.toString());
 //                txtCV.setText(elements.toString());
                 curriculo.submissions.clear();
                 //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
@@ -136,7 +136,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         txtEvent = new javax.swing.JTextArea();
         btnAdd = new javax.swing.JButton();
         ScrollCV = new javax.swing.JScrollPane();
-        txtCV = new javax.swing.JTextArea();
+        txtListSubmissions = new javax.swing.JTextArea();
         ListaPessoas = new javax.swing.JPanel();
         btnPersonCV = new javax.swing.JButton();
         txtNameCV = new javax.swing.JTextField();
@@ -191,12 +191,12 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
         ScrollCV.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        txtCV.setEditable(false);
-        txtCV.setColumns(20);
-        txtCV.setLineWrap(true);
-        txtCV.setRows(5);
-        txtCV.setWrapStyleWord(true);
-        ScrollCV.setViewportView(txtCV);
+        txtListSubmissions.setEditable(false);
+        txtListSubmissions.setColumns(20);
+        txtListSubmissions.setLineWrap(true);
+        txtListSubmissions.setRows(5);
+        txtListSubmissions.setWrapStyleWord(true);
+        ScrollCV.setViewportView(txtListSubmissions);
 
         javax.swing.GroupLayout CurriculumLayout = new javax.swing.GroupLayout(Curriculum);
         Curriculum.setLayout(CurriculumLayout);
@@ -422,15 +422,15 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            String txt = "";
-            for (Submission s : myRemoteObject.getSubmissions()) {
-                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-            }
-            txtCV.setText(txt);
-        } catch (RemoteException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            String txt = "";
+//            for (Submission s : myRemoteObject.getSubmissions()) {
+//                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+//            }
+//            txtCV.setText(txt);
+//        } catch (RemoteException ex) {
+//            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         System.out.println("Antes da thread");
         try {
             if (myRemoteObject.getSubmissionsSize() == 4) {
@@ -463,7 +463,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
                     SwingUtilities.invokeLater(() -> {
                         try {
-                            txtCV.setText(myRemoteObject.getSubmissions().toString());
+                            txtListSubmissions.setText(myRemoteObject.getSubmissions().toString());
                         } catch (RemoteException ex) {
                             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -544,7 +544,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             for (Submission s : tr) {
                 txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
             }
-//            txtListTransdactions.setText(txt);
+           txtListSubmissions.setText(txt);
 //            tpMain.setSelectedComponent(pnTransaction);
         } catch (RemoteException ex) {
             onException(ex, "on transaction");
@@ -659,9 +659,9 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JLabel lbSearchCurriculum;
     private javax.swing.JTextArea textAreaCVAll;
     private javax.swing.JTextArea textAreaCVPerson;
-    private javax.swing.JTextArea txtCV;
     private javax.swing.JTextArea txtEvent;
     private javax.swing.JTextField txtInstitute;
+    private javax.swing.JTextArea txtListSubmissions;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNameCV;
     // End of variables declaration//GEN-END:variables

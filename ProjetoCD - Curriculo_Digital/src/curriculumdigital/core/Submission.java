@@ -28,7 +28,7 @@ public class Submission implements Serializable {
         this.name = name;
         this.event = event;
     }
-    
+
     public Submission(User user, String name, String event) throws Exception {
         this.name = name;
         this.event = event;
