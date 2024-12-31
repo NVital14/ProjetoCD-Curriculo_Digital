@@ -51,11 +51,16 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             File file = new File("blockchainfiles", fileCurriculo);
 
             if (file.exists()) {
-                curriculo = Curriculo.load(fileCurriculo);
-                elements.addAll(curriculo.submissions);
-                txtListSubmissions.setText(curriculo.toString());
+//                curriculo = Curriculo.load(fileCurriculo);
+//                elements.addAll(curriculo.submissions);
+                String txt = "";
+                List<Submission> tr = myRemoteObject.getSubmissions();
+                for (Submission s : tr) {
+                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+                }
+                txtListSubmissions.setText(txt);
 //                txtCV.setText(elements.toString());
-                curriculo.submissions.clear();
+//                curriculo.submissions.clear();
                 //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
                 textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
             } else {
@@ -544,7 +549,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             for (Submission s : tr) {
                 txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
             }
-           txtListSubmissions.setText(txt);
+            txtListSubmissions.setText(txt);
 //            tpMain.setSelectedComponent(pnTransaction);
         } catch (RemoteException ex) {
             onException(ex, "on transaction");

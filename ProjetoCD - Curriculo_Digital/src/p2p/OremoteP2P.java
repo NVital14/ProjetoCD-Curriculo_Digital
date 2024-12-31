@@ -248,20 +248,16 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             return;
         }
         }
-//        if (submissions.contains(s)) {
-//            p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
-//            //sair
-//            return;
-//        }
-        //Adicionar a submissão ao nó local
+
         submissions.add(s);
+        p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
         //Adicionar a submissão aos nós da rede
         if (getNetwork().size() > 1) {
             for (IremoteP2P iremoteP2P : network) {
                 iremoteP2P.addSubmission(s);
             }
         }
-        p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+        
     }
 
     /**
