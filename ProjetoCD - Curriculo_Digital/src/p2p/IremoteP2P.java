@@ -19,6 +19,7 @@ package p2p;
 import blockchain.utils.Block;
 import blockchain.utils.BlockChain;
 import blockchain.utils.MerkleTree;
+import curriculumdigital.core.Submission;
 import curriculumdigital.core.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -44,16 +45,16 @@ public interface IremoteP2P extends Remote {
 
     public List<IremoteP2P> getNetwork() throws RemoteException;
 
-    //::::::::::: T R A N S A C T IO N S  :::::::::::
-    public int getTransactionsSize() throws RemoteException;
+    //::::::::::: S U B M I S S I O N S  :::::::::::
+    public int getSubmissionsSize() throws RemoteException;
 
-    public void addTransaction(String data) throws RemoteException;
+    public void addSubmission(Submission s) throws RemoteException;
 
-    public List<String> getTransactions() throws RemoteException;
+    public List<Submission> getSubmissions() throws RemoteException;
 
-    public void removeTransactions(List<String> transactions) throws RemoteException;
+    public void removeSubmissions(List<Submission> submissions) throws RemoteException;
 
-    public void synchronizeTransactions(IremoteP2P node) throws RemoteException;
+    public void synchronizeSubmissions(IremoteP2P node) throws RemoteException;
 
     //::::::::::::::::: M I N E R :::::::::::::::::::::::::::::::::::::::::::
     public void startMining(String msg, int zeros) throws RemoteException;
@@ -75,7 +76,7 @@ public interface IremoteP2P extends Remote {
 
     public void synchnonizeBlockchain() throws RemoteException;
 
-    public List<String> getBlockchainTransactions() throws RemoteException;
+    public List<Submission> getBlockchainSubmissions() throws RemoteException;
 
     public void saveMerkleTree(MerkleTree mkt, String hash) throws RemoteException;
 

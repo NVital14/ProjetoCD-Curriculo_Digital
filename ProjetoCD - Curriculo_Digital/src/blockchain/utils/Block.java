@@ -15,6 +15,7 @@
 //////////////////////////////////////////////////////////////////////////////
 package blockchain.utils;
 
+import curriculumdigital.core.Submission;
 import java.io.Serializable;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -32,63 +33,18 @@ import java.util.Objects;
  */
 public class Block implements Serializable {
 
-//    String previousHash; // link to previous block
-//    String data;         // data in the block
-//    int nonce;           // proof of work 
-//    String currentHash;  // Hash of block
-//
-//    public Block(String previousHash, String data, int nonce) {
-//        this.previousHash = previousHash;
-//        this.data = data;
-//        this.nonce = nonce;
-//        this.currentHash = calculateHash();
-//    }
-//
-//    public String getData() {
-//        return data;
-//    }
-//
-//    public String getPreviousHash() {
-//        return previousHash;
-//    }
-//
-//    public int getNonce() {
-//        return nonce;
-//    }
-//    
-//    
-//
-//    public String calculateHash() {
-//        return Hash.getHash(nonce + previousHash + data);
-//    }
-//    
-//    public String getCurrentHash(){
-//        return currentHash;
-//    }
-//
-//    public String toString() {
-//        return // (isValid() ? "OK\t" : "ERROR\t")+
-//                 String.format("[ %8s", previousHash) + " <- " + 
-//                   String.format("%-10s", data) +  String.format(" %7d ] = ", nonce) + 
-//                String.format("%8s",currentHash);
-//
-//    }
-//
-//    public boolean isValid() {
-//        return currentHash.equals(calculateHash());
-//    }
     String previousHash; // link to previous block
     String merkleRoot;   // merkleRoot in the block
     MerkleTree merkleTree; //merkleTree das transações do bloco
-    List<String> transactions; // transações do bloco (devem ser guardadas em separado)
+    List<Submission> submissions; // transações do bloco (devem ser guardadas em separado)
     int nonce;           // proof of work 
     String currentHash;  // Hash of block
     String time;        //data e hora da criação do bloco
 
-    public Block(String previousHash, List<String> transactions) {
+    public Block(String previousHash, List<Submission> submissions) {
         this.previousHash = previousHash;
-        this.transactions = transactions;
-        merkleTree = new MerkleTree(transactions);
+        this.submissions = submissions;
+        merkleTree = new MerkleTree(submissions.toArray());
         this.merkleRoot = merkleTree.getRoot();
 
         // obtém o tempo atual na timezone UTC
@@ -127,8 +83,8 @@ public class Block implements Serializable {
         return merkleTree;
     }
 
-    public List<String> transactions() {
-        return transactions;
+    public List<Submission> getSubmissions() {
+        return submissions;
     }
 
     public String getPreviousHash() {
@@ -163,10 +119,10 @@ public class Block implements Serializable {
                 + "\ncurr Hash: " + currentHash;
     }
 
-    public String getTransactionsString() {
+    public String getSubmissionsString() {
         StringBuilder txt = new StringBuilder();
-        for (String transaction : transactions) {
-            txt.append(transaction + "\n");
+        for (Submission s : submissions) {
+            txt.append(s.getUser()).append(" --> ").append(s.getName()).append(" - ").append(s.getEvent()).append("\n");
         }
         return txt.toString();
     }

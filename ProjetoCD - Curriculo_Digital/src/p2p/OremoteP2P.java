@@ -28,6 +28,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import blockchain.utils.Miner;
 import blockchain.utils.RMI;
 import blockchain.utils.SecurityUtils;
+import curriculumdigital.core.Submission;
 import curriculumdigital.core.User;
 import java.io.File;
 import java.io.IOException;
@@ -52,11 +53,11 @@ import java.util.logging.Logger;
 public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
 
     final static String FOLDER = "blockchainfiles/";
-    final static String BLOCHAIN_FILENAME = "curriculo.obj";
+    final static String BLOCKCHAIN_FILENAME = "curriculo.obj";
     String address;
     CopyOnWriteArrayList<IremoteP2P> network;
     // Set - conjunto de elementos não repetidos para acesso concorrente
-    CopyOnWriteArraySet<String> transactions;
+    CopyOnWriteArraySet<Submission> submissions;
     P2Plistener p2pListener;
     //objeto mineiro concorrente e distribuido
     Miner myMiner;
@@ -75,14 +76,14 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         super(RMI.getAdressPort(address));
         this.address = address;
         this.network = new CopyOnWriteArrayList<>();
-        transactions = new CopyOnWriteArraySet<>();
+        submissions = new CopyOnWriteArraySet<Submission>();
         this.myMiner = new Miner(listener);
-        this.myBlockchain = new BlockChain(FOLDER + BLOCHAIN_FILENAME);
+        this.myBlockchain = new BlockChain(Paths.get("blockchainfiles", BLOCKCHAIN_FILENAME).toString());
         this.p2pListener = listener;
         this.user = new User();
         try {
             //tenta ler a chave simétrica
-            this.aes = SecurityUtils.loadAESKey(FOLDER + "secret.key");
+            this.aes = SecurityUtils.loadAESKey(Paths.get("blockchainfiles", "secret.key").toString());
         } catch (Exception ex) {
 
             //cria a chave simétrica
@@ -92,7 +93,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         }
         try {
             //tenta ler a chave pública e privada
-            this.kPub = SecurityUtils.loadPublicKey(FOLDER + "iremote.pub");
+            this.kPub = SecurityUtils.loadPublicKey(Paths.get("blockchainfiles", "iremote.pub").toString());
             this.kPriv = SecurityUtils.loadPrivateKey(FOLDER + "iremote.priv");
         } catch (Exception ex) {
             //cria um par de chave
@@ -195,7 +196,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         }
 
         //sicronizar as transaçoes
-        synchronizeTransactions(node);
+        synchronizeSubmissions(node);
         //sincronizar a blockchain
         synchnonizeBlockchain();
         //sincronizar os ficheiros
@@ -218,76 +219,80 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     //::::::::            T R A N S A C T I O N S       ::::::::::::::::::
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     /**
-     * Método que devolve o tamanho das transações
+     * Método que devolve o tamanho da lista de submissões
      *
-     * @return o tamanho das transações
-     * @throws RemoteException
-     */
-    public int getTransactionsSize() throws RemoteException {
-        return transactions.size();
-    }
-
-    /**
-     * Método que adiciona transações a adiciona a mesma a todos os nós da rede
-     *
-     * @param data transacao
-     * @throws RemoteException
-     */
-    public void addTransaction(String data) throws RemoteException {
-        //seja tiver a transacao não faz nada
-        if (transactions.contains(data)) {
-            p2pListener.onTransaction("Transaçao repetida " + data);
-            //sair
-            return;
-        }
-        //Adicionar a transaçao ao no local
-        transactions.add(data);
-        //Adicionar a transacao aos nos da rede
-        for (IremoteP2P iremoteP2P : network) {
-            iremoteP2P.addTransaction(data);
-        }
-
-    }
-
-    /**
-     * Método que devolve as transações
-     *
-     * @return transações
+     * @return o tamanho da lista de submissões
      * @throws RemoteException
      */
     @Override
-    public List<String> getTransactions() throws RemoteException {
-        return new ArrayList<>(transactions);
+    public int getSubmissionsSize() throws RemoteException {
+        return submissions.size();
     }
 
     /**
-     * Método que sincroniza as transações entre todos os nós da rede
+     * Método que adiciona submissões e a adiciona a mesma a todos os nós da
+     * rede
+     *
+     * @param s submission
+     * @throws RemoteException
+     */
+    @Override
+    public void addSubmission(Submission s) throws RemoteException {
+        //se já tiver a submissão não faz nada
+        if (submissions.contains(s)) {
+            p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+            //sair
+            return;
+        }
+        //Adicionar a submissão ao nó local
+        submissions.add(s);
+        //Adicionar a submissão aos nós da rede
+        if (getNetwork().size() > 1) {
+            for (IremoteP2P iremoteP2P : network) {
+                iremoteP2P.addSubmission(s);
+            }
+        }
+    }
+
+    /**
+     * Método que devolve as submissões
+     *
+     * @return submissões
+     * @throws RemoteException
+     */
+    @Override
+    public List<Submission> getSubmissions() throws RemoteException {
+        return new ArrayList<>(submissions);
+    }
+
+    /**
+     * Método que sincroniza as submissões entre todos os nós da rede
      *
      * @param node
      * @throws RemoteException
      */
     @Override
-    public void synchronizeTransactions(IremoteP2P node) throws RemoteException {
+    public void synchronizeSubmissions(IremoteP2P node) throws RemoteException {
         //tamanho anterior
-        int oldsize = transactions.size();
+        int oldsize = submissions.size();
         p2pListener.onMessage("sinchronizeTransactions", node.getAdress());
-        // juntar as transacoes todas (SET elimina as repetidas)
-        this.transactions.addAll(node.getTransactions());
-        int newSize = transactions.size();
+        // juntar as submissões todas (SET elimina as repetidas)
+        this.submissions.addAll(node.getSubmissions());
+        int newSize = submissions.size();
         //se o tamanho for incrementado
         if (oldsize < newSize) {
             p2pListener.onMessage("sinchronizeTransactions", "tamanho diferente");
             //pedir ao no para sincronizar com as nossas
-            node.synchronizeTransactions(this);
-            p2pListener.onTransaction(address);
+            node.synchronizeSubmissions(this);
+            p2pListener.onSubmission(address);
             p2pListener.onMessage("sinchronizeTransactions", "node.sinchronizeTransactions(this)");
             //pedir á rede para se sincronizar
             for (IremoteP2P iremoteP2P : network) {
                 //se o tamanho for menor
-                if (iremoteP2P.getTransactionsSize() < newSize) {
+                if (iremoteP2P.getSubmissionsSize() < newSize) {
                     //cincronizar-se com o no actual
                     p2pListener.onMessage("sinchronizeTransactions", " iremoteP2P.sinchronizeTransactions(this)");
-                    iremoteP2P.synchronizeTransactions(this);
+                    iremoteP2P.synchronizeSubmissions(this);
                 }
             }
         }
@@ -297,20 +302,20 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     /**
      * Método que remove todas as transações
      *
-     * @param myTransactions lista de transações
+     * @param mySubmissions lista de transações
      * @throws RemoteException
      */
     @Override
-    public void removeTransactions(List<String> myTransactions) throws RemoteException {
+    public void removeSubmissions(List<Submission> mySubmissions) throws RemoteException {
         //remover as transações da lista atual
-        transactions.removeAll(myTransactions);
-        p2pListener.onTransaction("remove " + myTransactions.size() + "transactions");
+        submissions.removeAll(mySubmissions);
+        p2pListener.onSubmission("remove " + mySubmissions.size() + "transactions");
         //propagar as remoções
         for (IremoteP2P iremoteP2P : network) {
             //se houver algum elemento em comum nas transações remotas
-            if (iremoteP2P.getTransactions().retainAll(transactions)) {
+            if (iremoteP2P.getSubmissions().retainAll(submissions)) {
                 //remover as transaçoies
-                iremoteP2P.removeTransactions(myTransactions);
+                iremoteP2P.removeSubmissions(mySubmissions);
             }
         }
 
@@ -422,19 +427,13 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             if (myBlockchain.getLastBlockHash().equals(b.getPreviousHash())) {
                 myBlockchain.add(b);
                 //guardar a blockchain
-                myBlockchain.save(BLOCHAIN_FILENAME);
-                //////MERKLE TREE////////
-                //guardar a merkle tree
-//               
-//                MerkleTree mkt = b.getMerkleTree();
-//                Path merkleTreeFilePath = Paths.get("blockchainfiles", myBlockchain.getLastBlockHash() + ".mkt");
-//                mkt.saveToFile(merkleTreeFilePath.toString());
-
+                myBlockchain.save(FOLDER + BLOCKCHAIN_FILENAME);
                 p2pListener.onBlockchainUpdate(myBlockchain);
             }
             //propagar o bloco pela rede
             for (IremoteP2P iremoteP2P : network) {
                 //guardar a merkle tree em todos os nós da redes
+//                iremoteP2P.saveMerkleTree(b.getMerkleTree(), b.getCurrentHash());
                 iremoteP2P.saveMerkleTree(b.getMerkleTree(), myBlockchain.getLastBlockHash());
                 //se encaixar na blockcahin dos nodos remotos
                 if (!iremoteP2P.getBlockchainLastHash().equals(b.getPreviousHash())
@@ -512,18 +511,37 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     }
 
     /**
-     * Método para obter as transações da blockchain
+     * Método para obter as submissões da blockchain
      *
-     * @return transações
+     * @return submissões
      * @throws RemoteException
      */
     @Override
-    public List<String> getBlockchainTransactions() throws RemoteException {
-        ArrayList<String> allTransactions = new ArrayList<>();
+    public List<Submission> getBlockchainSubmissions() throws RemoteException {
+        ArrayList<Submission> allSubmissions = new ArrayList<>();
         for (Block b : myBlockchain.getChain()) {
-            allTransactions.addAll(b.transactions());
+            // define o caminho relativo para o arquivo da Merkle Tree
+            Path merkleTreeFilePath = Paths.get("blockchainfiles", b.getCurrentHash() + ".mkt");
+
+            // vai buscar a Merkle Tree do ficheiro .mkt
+            MerkleTree merkleTree = null;
+            try {
+                merkleTree = MerkleTree.loadFromFile(merkleTreeFilePath.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // verificar se a raiz da Merkle Tree corresponde à root guardada no bloco
+            if (merkleTree != null && !merkleTree.getRoot().equals(b.getMerkleRoot())) {
+                throw new RuntimeException("Erro: a Merkle Tree não corresponde ao bloco!");
+            }
+
+            // adicionar os elementos da Merkle Tree à lista
+            allSubmissions.addAll(merkleTree.getElements());
         }
-        return allTransactions;
+        return allSubmissions;
     }
 
     /**
@@ -535,7 +553,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
      */
     @Override
     public void saveMerkleTree(MerkleTree mkt, String hash) throws RemoteException {
-        Path merkleTreeFilePath = Paths.get(FOLDER, hash + ".mkt");
+        Path merkleTreeFilePath = Paths.get("blockchainfiles", hash + ".mkt");
         try {
             mkt.saveToFile(merkleTreeFilePath.toString());
         } catch (IOException ex) {

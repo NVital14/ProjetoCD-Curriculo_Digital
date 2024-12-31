@@ -4,6 +4,9 @@
  */
 package curriculumdigital.gui;
 
+import blockchain.utils.Block;
+import blockchain.utils.BlockChain;
+import blockchain.utils.GuiUtils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -14,22 +17,28 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.rmi.RemoteException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import p2p.IremoteP2P;
+import p2p.OremoteP2P;
+import p2p.P2Plistener;
 
 /**
  *
  * @author noemi
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     public static String fileCurriculo = "curriculo.obj";
-    Curriculo curriculo ;
+    Curriculo curriculo;
     List<Submission> elements = new ArrayList();
-
-    User myUser = null;
+    User myUser;
+    OremoteP2P myRemoteObject;
 
     /**
      * Creates new form Interface
@@ -47,7 +56,8 @@ public class GUI extends javax.swing.JFrame {
                 txtCV.setText(curriculo.toString());
 //                txtCV.setText(elements.toString());
                 curriculo.submissions.clear();
-                textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
+                //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
+                textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
             } else {
                 curriculo = new Curriculo();
             }
@@ -56,25 +66,48 @@ public class GUI extends javax.swing.JFrame {
         }
         setSize(800, 500);
         setLocationRelativeTo(null);
-
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-                if (!curriculo.submissions.isEmpty()) {
-                    try {
-                        curriculo.save(fileCurriculo, true);
-                    } catch (IOException ex) {
-                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    if (myRemoteObject.getSubmissionsSize() > 0 && myRemoteObject.getNetwork().size() == 1) {
+                        new Thread(() -> {
+                            try {
+                                //fazer um bloco
+                                List<Submission> blockSubmissions = myRemoteObject.getSubmissions();
+                                if (blockSubmissions.size() < 0) {
+                                    return;
+                                }
+                                Block b = new Block(myRemoteObject.getBlockchainLastHash(), blockSubmissions);
+                                //remover as transacoes
+                                myRemoteObject.removeSubmissions(blockSubmissions);
+                                //minar o bloco
+                                int zeros = 4;
+                                int nonce = myRemoteObject.mine(b.getMinerData(), zeros);
+                                //atualizar o nonce
+                                b.setNonce(nonce, zeros);
+                                //adiconar o bloco
+                                myRemoteObject.addBlock(b);
+
+                            } catch (Exception ex) {
+                                onException(ex, "Start ming");
+                                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }).start();
                     }
+                } catch (RemoteException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                System.exit(0);
             }
         });
     }
 
-    public GUI(User u) {
+    public GUI(User u, OremoteP2P remote) {
+        this.myRemoteObject = remote;
         this();
         this.myUser = u;
-
         this.txtInstitute.setText(u.getName());
 
         if (!u.isInstitute()) {
@@ -114,6 +147,13 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaCVAll = new javax.swing.JTextArea();
         lbAllCurriculum = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -277,6 +317,52 @@ public class GUI extends javax.swing.JFrame {
 
         App.addTab("Lista Curriculum", ListaCurriculum);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Block Data"));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setBorder(javax.swing.BorderFactory.createTitledBorder("Header"));
+        jScrollPane3.setViewportView(jTextArea1);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jTextArea2.setBorder(javax.swing.BorderFactory.createTitledBorder("Transactions"));
+        jScrollPane4.setViewportView(jTextArea2);
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane5.setViewportView(jList1);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(264, Short.MAX_VALUE))
+        );
+
+        App.addTab("Blockchain", jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -297,7 +383,7 @@ public class GUI extends javax.swing.JFrame {
             String s = curriculo.loadPersonEvents(txtNameCV.getText(), false);
             if (!"".equals(s)) {
                 textAreaCVPerson.setText(s);
-            } else if("".equals(txtNameCV.getText())) {
+            } else if ("".equals(txtNameCV.getText())) {
                 JOptionPane.showMessageDialog(this, "Coloca o nome da pessoa que queres procurar.", "Coloca o nome!", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Mostra uma mensagem de erro no caso de não haver essa pessoa
@@ -310,36 +396,207 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPersonCVActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        btnAdd.setEnabled(false);
-        new Thread(() -> {
-            try {
-                // Verifica se o utilizador é uma instituição
-                if (myUser.isInstitute()) {
-                    // Cria a submissão normalmente se o utilizador for uma instituição
-                    Submission s = new Submission(
+
+//        btnAdd.setEnabled(false);
+        System.out.println("Inicio");
+        try {
+            // Verifica se o utilizador é uma instituição
+            if (myUser.isInstitute()) {
+                // cria uma submissão 
+                Submission s = new Submission(
                         myUser,
                         txtName.getText(),
                         txtEvent.getText()
-                    );
+                );
 
-                    // Adiciona a submissão ao currículo e atualiza o campo de texto
-                    curriculo.add(s);
-                    elements.add(s);
+                // Adiciona a submissão ao currículo e atualiza o campo de texto
+                myRemoteObject.addSubmission(s);
+
+                System.out.println("Registei a submissão: " + s.getName() + " - " + s.getEvent());
+
+            } else {
+                // Mostra uma mensagem de erro caso o utilizador não seja uma instituição
+                JOptionPane.showMessageDialog(this, "Apenas Instituições podem adicionar submissões.", "Acesso Negado", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            String txt = "";
+            for (Submission s : myRemoteObject.getSubmissions()) {
+                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+            }
+            txtCV.setText(txt);
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Antes da thread");
+        try {
+            if (myRemoteObject.getSubmissionsSize() == 4) {
+                new Thread(() -> {
+                    try {
+                        System.out.println("Dentro da thread");
+                        //fazer um bloco
+                        List<Submission> blockSubmissions = myRemoteObject.getSubmissions();
+                        if (blockSubmissions.size() < 0) {
+                            return;
+                        }
+                        Block b = new Block(myRemoteObject.getBlockchainLastHash(), blockSubmissions);
+                        //remover as transacoes
+                        myRemoteObject.removeSubmissions(blockSubmissions);
+                        //minar o bloco
+                        int zeros = 4;
+                        int nonce = myRemoteObject.mine(b.getMinerData(), zeros);
+                        //atualizar o nonce
+                        b.setNonce(nonce, zeros);
+                        //adiconar o bloco
+                        myRemoteObject.addBlock(b);
+                        SwingUtilities.invokeLater(() -> {
+                            btnAdd.setEnabled(true);
+                        });
+
+                    } catch (Exception ex) {
+                        onException(ex, "Start ming");
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     SwingUtilities.invokeLater(() -> {
-                        txtCV.setText(curriculo.submissions.toString());
+                        try {
+                            txtCV.setText(myRemoteObject.getSubmissions().toString());
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         btnAdd.setEnabled(true);
                     });
-                    curriculo.save(fileCurriculo, false);
-                } else {
-                    // Mostra uma mensagem de erro caso o utilizador não seja uma instituição
-                    JOptionPane.showMessageDialog(this, "Apenas Instituições podem adicionar submissões.", "Acesso Negado", JOptionPane.WARNING_MESSAGE);
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Acabou thread");
+                }).start();
             }
-        }).start();
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_btnAddActionPerformed
+    static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+
+    @Override
+    public void onMessage(String title, String message) {
+        //GuiUtils.addText(txtServerLog, title, message);
+//        tpMain.setSelectedComponent(pnServer);
+    }
+
+    @Override
+    public void onException(Exception e, String title) {
+//        txtTimeLog.setText(LocalTime.now().format(hfmt));
+//        txtExceptionLog.setForeground(new java.awt.Color(255, 0, 0));
+//        txtExceptionLog.setText(e.getMessage());
+//        txtTitleLog.setText(title);
+        // JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
+    }
+
+    @Override
+    public void onStartRemote(String message) {
+//        setTitle(message);
+//        imgServerRunning.setEnabled(true);
+//        btStartServer.setEnabled(false);
+//        GuiUtils.addText(txtServerLog, "Start server", message);
+
+    }
+
+    @Override
+    public void onConect(String address) {
+//        try {
+//            List<IremoteP2P> net = myRemoteObject.getNetwork();
+//            String txt = "";
+//            for (IremoteP2P iremoteP2P : net) {
+//                txt += iremoteP2P.getAdress() + "\n";
+//            }
+//            txtNetwork.setText(txt);
+////            tpMain.setSelectedComponent(pnNetwork);
+//        } catch (RemoteException ex) {
+//            onException(ex, "On conect");
+//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+    }
+
+    @Override
+    public void onBlockchainUpdate(BlockChain b) {
+        SwingUtilities.invokeLater(() -> {
+            DefaultListModel model = new DefaultListModel();
+            for (int i = b.getSize() - 1; i >= 0; i--) {
+                model.addElement(b.get(i));
+            }
+//            lstBlcockchain.setModel(model);
+//            lstBlcockchain.setSelectedIndex(0);
+//            tpMain.setSelectedComponent(pnBlockchain);
+//            repaint();
+        });
+    }
+
+    @Override
+    public void onSubmission(String transaction) {
+        try {
+            onMessage("Transaction ", transaction);
+            String txt = "";
+            List<Submission> tr = myRemoteObject.getSubmissions();
+            for (Submission s : tr) {
+                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+            }
+//            txtListTransdactions.setText(txt);
+//            tpMain.setSelectedComponent(pnTransaction);
+        } catch (RemoteException ex) {
+            onException(ex, "on transaction");
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void onStartMining(String message, int zeros) {
+        SwingUtilities.invokeLater(() -> {
+//            tpMain.setSelectedComponent(pnTransaction);
+//            btMining.setEnabled(false);
+//            lblMining.setVisible(true);
+//            lblWinner.setVisible(false);
+//            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
+//            lblMining.setText("mining " + zeros + " zeros");
+//            repaint();
+        });
+    }
+
+    @Override
+    public void onStopMining(String message, int nonce) {
+        SwingUtilities.invokeLater(() -> {
+//            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
+//            lblMining.setVisible(false);
+//            tpMain.setSelectedComponent(pnTransaction);
+//            btMining.setEnabled(true);
+//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
+//            System.out.println(" NONCE " + nonce + "\t" + message);
+//            repaint();
+        });
+    }
+
+    @Override
+    public void onNounceFound(String message, int nonce) {
+        try {
+            myRemoteObject.stopMining(nonce);
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        SwingUtilities.invokeLater(() -> {
+//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
+//            lblMining.setVisible(false);
+//            lblWinner.setText(message);
+//            lblWinner.setVisible(true);
+//            tpMain.setSelectedComponent(pnTransaction);
+//            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
+//            repaint();
+//            System.out.println(" NONCE " + nonce + "\t" + message);
+        });
+
+    }
 
     /**
      * @param args the command line arguments
@@ -388,8 +645,15 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane ScrollName;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnPersonCV;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel lbAllCurriculum;
     private javax.swing.JLabel lbCurriculum;
     private javax.swing.JLabel lbSearchCurriculum;

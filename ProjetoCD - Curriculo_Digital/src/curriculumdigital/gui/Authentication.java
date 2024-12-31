@@ -4,6 +4,7 @@
  */
 package curriculumdigital.gui;
 
+import blockchain.utils.BlockChain;
 import curriculumdigital.core.User;
 import java.io.IOException;
 import java.rmi.Naming;
@@ -11,22 +12,16 @@ import java.util.Base64;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import auth.IRemote;
-import blockchain.utils.BlockChain;
 import blockchain.utils.GuiUtils;
-import blockchain.utils.Miner;
 import blockchain.utils.RMI;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
+import curriculumdigital.core.Submission;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import p2p.IremoteP2P;
-import p2p.NodeP2PGui;
 import p2p.OremoteP2P;
 import p2p.P2Plistener;
 
@@ -34,7 +29,7 @@ import p2p.P2Plistener;
  *
  * @author Bea⚝
  */
-public class Authentication extends javax.swing.JFrame implements P2Plistener{
+public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
     OremoteP2P myRemoteObject;
 
@@ -54,7 +49,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
         btStartServerActionPerformed(null);
     }
 
-    public Authentication(){
+    public Authentication() {
         initComponents();
         setTitle("Autenticação");
         setSize(650, 380);
@@ -680,7 +675,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
 
             String pub = Base64.getEncoder().encodeToString(myRemoteObject.getPub().getEncoded());
             txtPublicKey.setText(pub);
-            new GUI(myRemoteObject.getUser()).setVisible(true);
+            new GUI(myRemoteObject.getUser(), myRemoteObject).setVisible(true);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -710,10 +705,10 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
             //link adress to object
             Naming.rebind(address, myRemoteObject);
 
-            onBlockchainUpdate(myRemoteObject.getBlockchain());
+            //onBlockchainUpdate(myRemoteObject.getBlockchain());
         } catch (Exception ex) {
             onException(ex, "Starting server");
-            Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btStartServerActionPerformed
 
@@ -728,7 +723,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
             myRemoteObject.addNode(node);
         } catch (Exception ex) {
             onException(ex, "connect");
-            Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -739,16 +734,15 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
             myRemoteObject.addNode(node);
         } catch (Exception ex) {
             onException(ex, "connect");
-            Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAddressActionPerformed
-    static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
-    @Override 
+    @Override
     public void onException(Exception e, String title) {
 //        txtTimeLog.setText(LocalTime.now().format(hfmt));
 //        txtExceptionLog.setForeground(new java.awt.Color(255, 0, 0));
@@ -756,21 +750,9 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
 //        txtTitleLog.setText(title);
         // JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
     }
-    
+
+ 
     @Override
-        public void onBlockchainUpdate(BlockChain b) {
-        SwingUtilities.invokeLater(() -> {
-            DefaultListModel model = new DefaultListModel();
-            for (int i = b.getSize() - 1; i >= 0; i--) {
-                model.addElement(b.get(i));
-            }
-//            lstBlcockchain.setModel(model);
-//            lstBlcockchain.setSelectedIndex(0);
-//            tpMain.setSelectedComponent(pnBlockchain);
-//            repaint();
-        });
-    }
-            @Override
     public void onStartRemote(String message) {
         setTitle(message);
         imgServerRunning.setEnabled(true);
@@ -778,6 +760,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
         GuiUtils.addText(txtServerLog, "Start server", message);
 
     }
+
     @Override
     public void onMessage(String title, String message) {
         GuiUtils.addText(txtServerLog, title, message);
@@ -796,25 +779,39 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
 //            tpMain.setSelectedComponent(pnNetwork);
         } catch (RemoteException ex) {
             onException(ex, "On conect");
-            Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+    
+     @Override
+    public void onBlockchainUpdate(BlockChain b) {
+        SwingUtilities.invokeLater(() -> {
+            DefaultListModel model = new DefaultListModel();
+            for (int i = b.getSize() - 1; i >= 0; i--) {
+                model.addElement(b.get(i));
+            }
+//            lstBlcockchain.setModel(model);
+//            lstBlcockchain.setSelectedIndex(0);
+//            tpMain.setSelectedComponent(pnBlockchain);
+//            repaint();
+        });
+    }
 
     @Override
-    public void onTransaction(String transaction) {
+    public void onSubmission(String transaction) {
         try {
             onMessage("Transaction ", transaction);
             String txt = "";
-            List<String> tr = myRemoteObject.getTransactions();
-            for (String string : tr) {
-                txt += string + "\n";
+            List<Submission> tr = myRemoteObject.getSubmissions();
+            for (Submission s : tr) {
+                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
             }
 //            txtListTransdactions.setText(txt);
 //            tpMain.setSelectedComponent(pnTransaction);
         } catch (RemoteException ex) {
             onException(ex, "on transaction");
-            Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -849,7 +846,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
         try {
             myRemoteObject.stopMining(nonce);
         } catch (RemoteException ex) {
-            Logger.getLogger(NodeP2PGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
         SwingUtilities.invokeLater(() -> {
 //            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
@@ -896,7 +893,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener{
             new Authentication().setVisible(true);
         });
     }
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
