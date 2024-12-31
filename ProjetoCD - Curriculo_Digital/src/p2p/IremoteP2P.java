@@ -34,6 +34,7 @@ import java.util.List;
  */
 public interface IremoteP2P extends Remote {
 
+    public void setListener(P2Plistener l) throws RemoteException;
     public PublicKey getPublicKey() throws RemoteException;
 
     public byte[] getSimKey(PublicKey pub) throws RemoteException;

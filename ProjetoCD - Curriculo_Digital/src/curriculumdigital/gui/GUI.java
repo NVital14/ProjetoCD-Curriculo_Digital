@@ -53,16 +53,16 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             if (file.exists()) {
 //                curriculo = Curriculo.load(fileCurriculo);
 //                elements.addAll(curriculo.submissions);
-                String txt = "";
-                List<Submission> tr = myRemoteObject.getSubmissions();
-                for (Submission s : tr) {
-                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-                }
-                txtListSubmissions.setText(txt);
+//                String txt = "";
+//                List<Submission> tr = myRemoteObject.getSubmissions();
+//                for (Submission s : tr) {
+//                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+//                }
+//                txtListSubmissions.setText(txt);
 //                txtCV.setText(elements.toString());
 //                curriculo.submissions.clear();
                 //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
-                textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
+//                textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
             } else {
                 curriculo = new Curriculo();
             }
@@ -114,6 +114,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         this();
         this.myUser = u;
         this.txtInstitute.setText(u.getName());
+        myRemoteObject.setListener(this);
 
         if (!u.isInstitute()) {
             // Remover o Tab "Curriculum" para utilizadores não institucionais

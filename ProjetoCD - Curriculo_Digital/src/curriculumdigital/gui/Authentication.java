@@ -651,6 +651,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+
         try {
             myRemoteObject.setName(txtRegisterUser.getText());
             myRemoteObject.generateKeys();
@@ -675,18 +676,24 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+         btnLogin.setEnabled(false);
+        new Thread(() -> {
+            try {
+                myRemoteObject.setName(txtLoginUser.getText());
+                myRemoteObject.logIn(new String(txtLoginPass.getPassword()));
 
-        try {
-            myRemoteObject.setName(txtLoginUser.getText());
-            myRemoteObject.logIn(new String(txtLoginPass.getPassword()));
-
-            String pub = Base64.getEncoder().encodeToString(myRemoteObject.getPub().getEncoded());
-            txtPublicKey.setText(pub);
-            new GUI(myRemoteObject.getUser(), myRemoteObject).setVisible(true);
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
+                String pub = Base64.getEncoder().encodeToString(myRemoteObject.getPub().getEncoded());
+                txtPublicKey.setText(pub);
+                new GUI(myRemoteObject.getUser(), myRemoteObject).setVisible(true);
+                 SwingUtilities.invokeLater(() -> {
+                       
+                        btnLogin.setEnabled(true);
+                    });
+            } catch (Exception ex) {
+                java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        }).start();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
@@ -758,7 +765,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         // JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
     }
 
- 
     @Override
     public void onStartRemote(String message) {
         setTitle(message);
@@ -790,8 +796,8 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         }
 
     }
-    
-     @Override
+
+    @Override
     public void onBlockchainUpdate(BlockChain b) {
         SwingUtilities.invokeLater(() -> {
             DefaultListModel model = new DefaultListModel();
@@ -814,7 +820,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             for (Submission s : tr) {
                 txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
             }
-//            txtListTransdactions.setText(txt);
+//          txtListTransdactions.setText(txt);
 //            tpMain.setSelectedComponent(pnTransaction);
         } catch (RemoteException ex) {
             onException(ex, "on transaction");

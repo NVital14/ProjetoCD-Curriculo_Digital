@@ -109,6 +109,15 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         listener.onStartRemote("Object " + address + " listening");
 
     }
+    
+    /**
+     *
+     * @param l
+     */
+    @Override
+    public void setListener(P2Plistener l){
+        this.p2pListener = l;
+    }
 
     /**
      * Método para obter a chave pública do nó
@@ -250,13 +259,14 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         }
 
         submissions.add(s);
-        p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+
         //Adicionar a submissão aos nós da rede
         if (getNetwork().size() > 1) {
             for (IremoteP2P iremoteP2P : network) {
                 iremoteP2P.addSubmission(s);
             }
         }
+                p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
         
     }
 
@@ -296,7 +306,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             for (IremoteP2P iremoteP2P : network) {
                 //se o tamanho for menor
                 if (iremoteP2P.getSubmissionsSize() < newSize) {
-                    //cincronizar-se com o no actual
+                    //sincronizar-se com o no actual
                     p2pListener.onMessage("sinchronizeTransactions", " iremoteP2P.sinchronizeTransactions(this)");
                     iremoteP2P.synchronizeSubmissions(this);
                 }
