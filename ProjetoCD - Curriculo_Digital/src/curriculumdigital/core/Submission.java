@@ -9,21 +9,23 @@ import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  *
  * @author Bea⚝
  */
 public class Submission implements Serializable {
+
     private String name;
     private String event;
-    
+
     private String user;
     private String userPub;
-    
+
     private String signature;
 
-    public Submission(String user, String name, String event) {     
+    public Submission(String user, String name, String event) {
         this.user = user;
         this.name = name;
         this.event = event;
@@ -73,7 +75,7 @@ public class Submission implements Serializable {
 
     @Override
     public String toString() {
-        return String.format(user+ "->" + name + " - " + event  + "\n", isValid());
+        return String.format(user + "->" + name + " - " + event + "\n", isValid());
     }
 
     public String getUser() {
@@ -83,7 +85,7 @@ public class Submission implements Serializable {
     public void setUser(String user) {
         this.user = user;
     }
-    
+
     public String getUserPub() {
         return userPub;
     }
@@ -99,4 +101,34 @@ public class Submission implements Serializable {
     public void setSignature(String signature) {
         this.signature = signature;
     }
+
+    /**
+     * Método que verifica se duas submissons são iguais
+     *
+     * @param obj objeto a ser comparado com o this
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true; // Mesma referência
+        }
+        if (!(obj instanceof Submission)) {
+            return false; // Não é uma Submission
+        }
+        Submission sub = (Submission) obj;
+
+        // Comparação dos atributos
+        return Objects.equals(userPub, sub.userPub)
+                && Objects.equals(user, sub.user)
+                && Objects.equals(signature, sub.signature)
+                && Objects.equals(name, sub.name)
+                && Objects.equals(event, sub.event);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userPub, user, signature, name, event);
+    }
+
 }

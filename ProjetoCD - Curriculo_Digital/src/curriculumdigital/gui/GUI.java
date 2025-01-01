@@ -439,8 +439,13 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 //        }
         System.out.println("Antes da thread");
         try {
+            System.out.println(myRemoteObject.getSubmissions().toString());
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
             if (myRemoteObject.getSubmissionsSize() == 4) {
-                new Thread(() -> {
+//                new Thread(() -> {
                     try {
                         System.out.println("Dentro da thread");
                         //fazer um bloco
@@ -458,9 +463,9 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         b.setNonce(nonce, zeros);
                         //adiconar o bloco
                         myRemoteObject.addBlock(b);
-                        SwingUtilities.invokeLater(() -> {
-                            btnAdd.setEnabled(true);
-                        });
+//                        SwingUtilities.invokeLater(() -> {
+//                            btnAdd.setEnabled(true);
+//                        });
 
                     } catch (Exception ex) {
                         onException(ex, "Start ming");
@@ -471,13 +476,13 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         btnAdd.setEnabled(true);
                     });
                     System.out.println("Acabou thread");
-                }).start();
+//                }).start();
             }
         } catch (RemoteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         btnAdd.setEnabled(true);
-
+        System.out.println("Fim thread");
     }//GEN-LAST:event_btnAddActionPerformed
     static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 

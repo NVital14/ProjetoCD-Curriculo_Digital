@@ -250,9 +250,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     public void addSubmission(Submission s) throws RemoteException {
         //se já tiver a submissão não faz nada
         for (Submission sub : getSubmissions()) {
-            if (sub.getUserPub().equals(s.getUserPub()) && sub.getUser().equals(s.getUser())
-                    && sub.getSignature().equals(s.getSignature())
-                    && sub.getName().equals(s.getName()) && sub.getEvent().equals(s.getEvent())) {
+            if(sub.equals(s)) {
                 p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
                 //sair
                 return;
