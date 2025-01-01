@@ -673,7 +673,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-         btnLogin.setEnabled(false);
+        btnLogin.setEnabled(false);
         new Thread(() -> {
             try {
                 myRemoteObject.setName(txtLoginUser.getText());
@@ -682,10 +682,10 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                 String pub = Base64.getEncoder().encodeToString(myRemoteObject.getPub().getEncoded());
                 txtPublicKey.setText(pub);
                 new GUI(myRemoteObject.getUser(), myRemoteObject).setVisible(true);
-                 SwingUtilities.invokeLater(() -> {
-                       
-                        btnLogin.setEnabled(true);
-                    });
+                SwingUtilities.invokeLater(() -> {
+
+                    btnLogin.setEnabled(true);
+                });
             } catch (Exception ex) {
                 java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -868,6 +868,11 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 //            repaint();
 //            System.out.println(" NONCE " + nonce + "\t" + message);
         });
+
+    }
+
+    @Override
+    public void onNewCurriculum() {
 
     }
 

@@ -62,7 +62,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 //                txtCV.setText(elements.toString());
 //                curriculo.submissions.clear();
                 //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
-                textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
+                onNewCurriculum();
             } else {
                 curriculo = new Curriculo();
             }
@@ -445,7 +445,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         }
         try {
             if (myRemoteObject.getSubmissionsSize() == 4) {
-//                new Thread(() -> {
+                new Thread(() -> {
                     try {
                         System.out.println("Dentro da thread");
                         //fazer um bloco
@@ -463,9 +463,9 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         b.setNonce(nonce, zeros);
                         //adiconar o bloco
                         myRemoteObject.addBlock(b);
-//                        SwingUtilities.invokeLater(() -> {
-//                            btnAdd.setEnabled(true);
-//                        });
+                        SwingUtilities.invokeLater(() -> {
+                            btnAdd.setEnabled(true);
+                        });
 
                     } catch (Exception ex) {
                         onException(ex, "Start ming");
@@ -476,7 +476,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         btnAdd.setEnabled(true);
                     });
                     System.out.println("Acabou thread");
-//                }).start();
+                }).start();
             }
         } catch (RemoteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -601,6 +601,22 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 //            repaint();
 //            System.out.println(" NONCE " + nonce + "\t" + message);
         });
+
+    }
+
+    @Override
+    public void onNewCurriculum() {
+        try {
+            String txt = "";
+            List<Submission> tr = myRemoteObject.getSubmissions();
+            for (Submission s : tr) {
+                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+            }
+            textAreaCVAll.setText(txt);
+        } catch (RemoteException ex) {
+            onException(ex, "on new block");
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 

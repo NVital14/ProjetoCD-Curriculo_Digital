@@ -29,4 +29,6 @@ public interface P2Plistener {
     public void onNounceFound(String message, int nonce);
 
     public void onBlockchainUpdate(BlockChain b);
+    
+    public void onNewCurriculum();
 }

@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////////////
 package p2p;
 
-import auth.ORemote;
 import blockchain.utils.Block;
 import blockchain.utils.BlockChain;
 import blockchain.utils.MerkleTree;
@@ -445,11 +444,13 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 myBlockchain.save(FOLDER + BLOCKCHAIN_FILENAME);
                 p2pListener.onBlockchainUpdate(myBlockchain);
             }
+            //guardar a merkle tree 
+                String hashmkt = b.getCurrentHash().replace("/", "");
+                saveMerkleTree(b.getMerkleTree(), hashmkt);
             //propagar o bloco pela rede
             for (IremoteP2P iremoteP2P : network) {
-                //guardar a merkle tree em todos os nós da redes
-                String hashmkt = b.getCurrentHash().replace("/", "");
-                iremoteP2P.saveMerkleTree(b.getMerkleTree(), hashmkt);
+//                String hashmkt = b.getCurrentHash().replace("/", "");
+//                iremoteP2P.saveMerkleTree(b.getMerkleTree(), hashmkt);
                 //se encaixar na blockcahin dos nodos remotos
                 if (!iremoteP2P.getBlockchainLastHash().equals(b.getPreviousHash())
                         || //ou o tamanho da remota for menor
@@ -458,11 +459,16 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                     iremoteP2P.addBlock(b);
                 }
             }
+            
             //se não encaixou)
             if (!myBlockchain.getLastBlockHash().equals(b.getCurrentHash())) {
                 //sincronizar a blockchain
                 synchnonizeBlockchain();
             }
+            //sincronizar ficheiros para todos os nós da redes ficarem com a merkle tree
+            synchnonizeFiles();
+            //adicionar os novos curriculos à lista
+            p2pListener.onNewCurriculum();
 
         } catch (Exception ex) {
             p2pListener.onException(ex, "Add bloco " + b);
@@ -745,7 +751,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         } catch (ServerNotActiveException ex) {
             System.out.println("Serving anonimous host");
         } catch (Exception ex) {
-            Logger.getLogger(ORemote.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -764,7 +770,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         } catch (ServerNotActiveException ex) {
             System.out.println("Serving anonimous host");
         } catch (Exception ex) {
-            Logger.getLogger(ORemote.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -780,7 +786,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         } catch (ServerNotActiveException ex) {
             System.out.println("Serving anonimous host");
         } catch (Exception ex) {
-            Logger.getLogger(ORemote.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -798,7 +804,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         } catch (ServerNotActiveException ex) {
             System.out.println("Serving anonimous host");
         } catch (Exception ex) {
-            Logger.getLogger(ORemote.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
