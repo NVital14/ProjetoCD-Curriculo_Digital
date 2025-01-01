@@ -689,6 +689,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             } catch (Exception ex) {
                 java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, ex.getMessage());
+                btnLogin.setEnabled(true);
             }
         }).start();
     }//GEN-LAST:event_btnLoginActionPerformed

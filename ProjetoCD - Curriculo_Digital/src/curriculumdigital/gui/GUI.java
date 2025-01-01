@@ -608,7 +608,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     public void onNewCurriculum() {
         try {
             String txt = "";
-            List<Submission> tr = myRemoteObject.getSubmissions();
+            List<Submission> tr = myRemoteObject.getBlockchainSubmissions();
             for (Submission s : tr) {
                 txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
             }
