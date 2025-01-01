@@ -117,6 +117,22 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        Server = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        txtAddress = new javax.swing.JTextField();
+        txtPort = new javax.swing.JTextField();
+        txtObjectName = new javax.swing.JTextField();
+        imgServerRunning = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtServerLog = new javax.swing.JTextPane();
+        btStartServer = new javax.swing.JButton();
+        Conectar = new javax.swing.JPanel();
+        txtNodeAddress = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        txtNetwork = new javax.swing.JTextArea();
+        jButton2 = new javax.swing.JButton();
         Login = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstUsers = new javax.swing.JList<>();
@@ -135,22 +151,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        txtAddress = new javax.swing.JTextField();
-        txtPort = new javax.swing.JTextField();
-        txtObjectName = new javax.swing.JTextField();
-        imgServerRunning = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtServerLog = new javax.swing.JTextPane();
-        btStartServer = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        txtNodeAddress = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        txtNetwork = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Users"));
 
@@ -325,6 +325,149 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel5.setLayout(new java.awt.BorderLayout(10, 10));
+
+        jPanel7.setLayout(new java.awt.GridLayout(3, 0));
+
+        txtAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtAddress.setText("localhost");
+        txtAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Address"));
+        txtAddress.setPreferredSize(new java.awt.Dimension(200, 36));
+        txtAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddressActionPerformed(evt);
+            }
+        });
+        jPanel7.add(txtAddress);
+
+        txtPort.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtPort.setText("10010");
+        txtPort.setBorder(javax.swing.BorderFactory.createTitledBorder("Port Number"));
+        txtPort.setPreferredSize(new java.awt.Dimension(200, 36));
+        jPanel7.add(txtPort);
+
+        txtObjectName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtObjectName.setText("remoteP2P");
+        txtObjectName.setBorder(javax.swing.BorderFactory.createTitledBorder("ObjectName"));
+        jPanel7.add(txtObjectName);
+
+        jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
+
+        imgServerRunning.setEnabled(false);
+        jPanel5.add(imgServerRunning, java.awt.BorderLayout.EAST);
+
+        txtServerLog.setBorder(javax.swing.BorderFactory.createTitledBorder("Log Server"));
+        txtServerLog.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+        jScrollPane1.setViewportView(txtServerLog);
+
+        btStartServer.setText("Start");
+        btStartServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btStartServerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ServerLayout = new javax.swing.GroupLayout(Server);
+        Server.setLayout(ServerLayout);
+        ServerLayout.setHorizontalGroup(
+            ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ServerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btStartServer))
+                .addContainerGap(103, Short.MAX_VALUE))
+            .addGroup(ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ServerLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        ServerLayout.setVerticalGroup(
+            ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ServerLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(btStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
+            .addGroup(ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ServerLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 194, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Server", Server);
+
+        txtNodeAddress.setText("//192.168.1.22:10010/remoteP2P");
+        txtNodeAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Remote Object Address"));
+        txtNodeAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNodeAddressActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Connect");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        txtNetwork.setEditable(false);
+        txtNetwork.setColumns(20);
+        txtNetwork.setRows(5);
+        txtNetwork.setBorder(javax.swing.BorderFactory.createTitledBorder("Network Nodes"));
+        jScrollPane6.setViewportView(txtNetwork);
+
+        jButton2.setText("Connect");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ConectarLayout = new javax.swing.GroupLayout(Conectar);
+        Conectar.setLayout(ConectarLayout);
+        ConectarLayout.setHorizontalGroup(
+            ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ConectarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ConectarLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNodeAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(191, Short.MAX_VALUE))
+            .addGroup(ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ConectarLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        ConectarLayout.setVerticalGroup(
+            ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConectarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtNodeAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+            .addGroup(ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ConectarLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("P2PNetwork", Conectar);
+
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Users"));
 
         lstUsers.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
@@ -484,149 +627,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         );
 
         jTabbedPane1.addTab("Acerca de Nós", AcercadeNos);
-
-        jPanel5.setLayout(new java.awt.BorderLayout(10, 10));
-
-        jPanel7.setLayout(new java.awt.GridLayout(3, 0));
-
-        txtAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtAddress.setText("localhost");
-        txtAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Address"));
-        txtAddress.setPreferredSize(new java.awt.Dimension(200, 36));
-        txtAddress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAddressActionPerformed(evt);
-            }
-        });
-        jPanel7.add(txtAddress);
-
-        txtPort.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtPort.setText("10010");
-        txtPort.setBorder(javax.swing.BorderFactory.createTitledBorder("Port Number"));
-        txtPort.setPreferredSize(new java.awt.Dimension(200, 36));
-        jPanel7.add(txtPort);
-
-        txtObjectName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtObjectName.setText("remoteP2P");
-        txtObjectName.setBorder(javax.swing.BorderFactory.createTitledBorder("ObjectName"));
-        jPanel7.add(txtObjectName);
-
-        jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
-
-        imgServerRunning.setEnabled(false);
-        jPanel5.add(imgServerRunning, java.awt.BorderLayout.EAST);
-
-        txtServerLog.setBorder(javax.swing.BorderFactory.createTitledBorder("Log Server"));
-        txtServerLog.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
-        jScrollPane1.setViewportView(txtServerLog);
-
-        btStartServer.setText("Start");
-        btStartServer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btStartServerActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btStartServer))
-                .addContainerGap(103, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(btStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 194, Short.MAX_VALUE)))
-        );
-
-        jTabbedPane1.addTab("Server", jPanel1);
-
-        txtNodeAddress.setText("//192.168.1.22:10010/remoteP2P");
-        txtNodeAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Remote Object Address"));
-        txtNodeAddress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNodeAddressActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Connect");
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        txtNetwork.setEditable(false);
-        txtNetwork.setColumns(20);
-        txtNetwork.setRows(5);
-        txtNetwork.setBorder(javax.swing.BorderFactory.createTitledBorder("Network Nodes"));
-        jScrollPane6.setViewportView(txtNetwork);
-
-        jButton2.setText("Connect");
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNodeAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(191, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel6Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton2)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtNodeAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel6Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        jTabbedPane1.addTab("P2PNetwork", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -876,6 +876,11 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     public void onNewCurriculum() {
 
     }
+    
+    @Override
+    public void onNewCurso(){
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -914,10 +919,12 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AcercadeNos;
     private javax.swing.JPanel AcercadeNos1;
+    private javax.swing.JPanel Conectar;
     private javax.swing.JPanel Login;
     private javax.swing.JPanel Login1;
     private javax.swing.JPanel Registar;
     private javax.swing.JPanel Registar1;
+    private javax.swing.JPanel Server;
     private javax.swing.JButton btStartServer;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnLogin1;
@@ -934,12 +941,10 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

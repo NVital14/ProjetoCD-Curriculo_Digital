@@ -16,12 +16,19 @@
 package blockchain.utils;
 
 import curriculumdigital.core.Submission;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import p2p.OremoteP2P;
 
 /**
  * Created on 22/08/2022, 09:23:49
@@ -36,14 +43,14 @@ public class Block implements Serializable {
     String previousHash; // link to previous block
     String merkleRoot;   // merkleRoot in the block
     MerkleTree merkleTree; //merkleTree das transações do bloco
-    List<Submission> submissions; // transações do bloco (devem ser guardadas em separado)
+    //List<Submission> submissions; // transações do bloco (devem ser guardadas em separado)
     int nonce;           // proof of work 
     String currentHash;  // Hash of block
     String time;        //data e hora da criação do bloco
 
     public Block(String previousHash, List<Submission> submissions) {
         this.previousHash = previousHash;
-        this.submissions = submissions;
+        //this.submissions = submissions;
         merkleTree = new MerkleTree(submissions.toArray());
         this.merkleRoot = merkleTree.getRoot();
 
@@ -83,10 +90,9 @@ public class Block implements Serializable {
         return merkleTree;
     }
 
-    public List<Submission> getSubmissions() {
-        return submissions;
-    }
-
+//    public List<Submission> getSubmissions() {
+//        return submissions;
+//    }
     public String getPreviousHash() {
         return previousHash;
     }
@@ -116,15 +122,17 @@ public class Block implements Serializable {
         return "prev Hash: " + previousHash
                 + "\nMkt Root : " + merkleRoot
                 + "\nnonce    : " + nonce
-                + "\ncurr Hash: " + currentHash;
+                + "\ncurr Hash: " + currentHash
+                +"\nTime/Date: " + time;
     }
 
-    public String getSubmissionsString() {
-        StringBuilder txt = new StringBuilder();
-        for (Submission s : submissions) {
-            txt.append(s.getUser()).append(" --> ").append(s.getName()).append(" - ").append(s.getEvent()).append("\n");
-        }
-        return txt.toString();
+    public List<Submission> getSubmissionsString() {
+
+        ArrayList<Submission> allSubmissions = new ArrayList<>();
+        // adicionar os elementos da Merkle Tree à lista
+        allSubmissions.addAll(this.merkleTree.getElements());
+
+        return allSubmissions;
     }
 
     public boolean isValid() {

@@ -30,7 +30,12 @@ import blockchain.utils.SecurityUtils;
 import curriculumdigital.core.Submission;
 import curriculumdigital.core.User;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,7 +46,6 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -449,7 +453,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             saveMerkleTree(b.getMerkleTree(), hashmkt);
             p2pListener.onNewCurriculum();
             //propagar o bloco pela rede
-            
+
             for (IremoteP2P iremoteP2P : network) {
 //                String hashmkt = b.getCurrentHash().replace("/", "");
 //                iremoteP2P.saveMerkleTree(b.getMerkleTree(), hashmkt);
@@ -459,7 +463,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                         || //ou o tamanho da remota for menor
                         iremoteP2P.getBlockchainSize() < myBlockchain.getSize()) {
                     //adicionar o bloco ao nodo remoto
-                    
+
                     iremoteP2P.addBlock(b);
 
                 }
@@ -470,7 +474,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 //sincronizar a blockchain
                 synchnonizeBlockchain();
             }
-             //sincronizar ficheiros para todos os nós da redes ficarem com a merkle tree
+            //sincronizar ficheiros para todos os nós da redes ficarem com a merkle tree
             //synchnonizeFiles();
 
         } catch (Exception ex) {
@@ -810,5 +814,73 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         } catch (Exception ex) {
             Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    //::::::::::::::::: C U R S O S:::::::::::::::::::::::::::::::::::::::::::
+    /**
+     * Guardar um curso associado a uma instituição num ficheiro
+     *
+     * @param instituicao o nome da instituição, a que pertence o curso
+     * @param curso nome do curso
+     */
+    @Override
+    public void addCurso(String instituicao, String curso) throws RemoteException {
+        File file = new File(FOLDER + instituicao + ".cursos");
+
+        // cria o arquivo ficheiro se ele ainda não existir
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        List<String> cursos = loadCursos(instituicao); // vai buscar os cursos existentes (ou lista vazia)
+        cursos.add(curso);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(cursos); // guarda a lista atualizada
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        p2pListener.onNewCurso();
+        if (getNetwork().size() > 1) {
+            for (IremoteP2P iremote : network) {
+                List<String> l = iremote.loadCursos(instituicao);
+                if (!l.contains(curso)) {
+                    iremote.addCurso(instituicao, curso);
+                }
+            }
+        }
+    }
+
+    /**
+     * Carrega todos os cursos associados a uma instituição a partir de um
+     * ficheiro
+     *
+     * @param instituicao o nome da instituição, usado para procurar o ficheiro
+     * @return uma lista com o nome de todos os cursos Retorna uma lista vazia
+     * se o ficheiro não existir
+     */
+    @Override
+    public List<String> loadCursos(String instituicao) throws RemoteException {
+        File file = new File(FOLDER + instituicao + ".cursos");
+        if (!file.exists()) {
+            return new ArrayList<>(); // nenhum curso registado ainda
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            return (List<String>) ois.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ArrayList<>();
     }
 }

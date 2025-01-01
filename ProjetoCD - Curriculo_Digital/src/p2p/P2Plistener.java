@@ -31,4 +31,5 @@ public interface P2Plistener {
     public void onBlockchainUpdate(BlockChain b);
     
     public void onNewCurriculum();
+    public void onNewCurso();
 }
