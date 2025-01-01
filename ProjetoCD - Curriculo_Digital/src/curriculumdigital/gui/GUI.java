@@ -385,16 +385,25 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     private void btnPersonCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonCVActionPerformed
         try {
+            String txt = "";
             textAreaCVPerson.setText("");
-            String s = curriculo.loadPersonEvents(txtNameCV.getText(), false);
-            if (!"".equals(s)) {
-                textAreaCVPerson.setText(s);
-            } else if ("".equals(txtNameCV.getText())) {
+            if ("".equals(txtNameCV.getText())) {
                 JOptionPane.showMessageDialog(this, "Coloca o nome da pessoa que queres procurar.", "Coloca o nome!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            List<Submission> tr = myRemoteObject.getBlockchainSubmissions();
+            for (Submission s : tr) {
+                if (txtNameCV.getText().equals(s.getName())) {
+                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+                }
+            }
+            if (!"".equals(txt)) {
+                textAreaCVPerson.setText(txt);
             } else {
                 // Mostra uma mensagem de erro no caso de não haver essa pessoa
                 JOptionPane.showMessageDialog(this, "Não existem currículos dessa pessoa.", "Não existe!", JOptionPane.ERROR_MESSAGE);
             }
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -428,15 +437,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        try {
-//            String txt = "";
-//            for (Submission s : myRemoteObject.getSubmissions()) {
-//                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-//            }
-//            txtCV.setText(txt);
-//        } catch (RemoteException ex) {
-//            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
         System.out.println("Antes da thread");
         try {
             System.out.println(myRemoteObject.getSubmissions().toString());
@@ -444,7 +445,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            if (myRemoteObject.getSubmissionsSize() == 1) {
+            if (myRemoteObject.getSubmissionsSize() == 2) {
                 new Thread(() -> {
                     try {
                         System.out.println("Dentro da thread");
