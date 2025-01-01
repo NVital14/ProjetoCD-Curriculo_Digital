@@ -61,9 +61,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         setTitle("Autenticação");
         setSize(650, 380);
         setLocationRelativeTo(null);
-//        IRemote remote= (IRemote) Naming.lookup(remoteObject);
-//        remote.annonceObjectName("Noemi");
-//        remote.listenObjectName();
         txtLoginPass.setText("123qwe");
 
         try {
@@ -562,7 +559,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
         jTabbedPane1.addTab("Server", jPanel1);
 
-        txtNodeAddress.setText("//10.10.208.35:10010/remoteP2P");
+        txtNodeAddress.setText("//192.168.1.22:10010/remoteP2P");
         txtNodeAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Remote Object Address"));
         txtNodeAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -53,16 +53,16 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             if (file.exists()) {
 //                curriculo = Curriculo.load(fileCurriculo);
 //                elements.addAll(curriculo.submissions);
-//                String txt = "";
-//                List<Submission> tr = myRemoteObject.getSubmissions();
-//                for (Submission s : tr) {
-//                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-//                }
+                String txt = "";
+                List<Submission> tr = myRemoteObject.getSubmissions();
+                for (Submission s : tr) {
+                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+                }
 //                txtListSubmissions.setText(txt);
 //                txtCV.setText(elements.toString());
 //                curriculo.submissions.clear();
                 //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
-//                textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
+                textAreaCVAll.setText(myRemoteObject.getBlockchainSubmissions().toString());
             } else {
                 curriculo = new Curriculo();
             }
@@ -403,7 +403,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
-//        btnAdd.setEnabled(false);
+        btnAdd.setEnabled(false);
         System.out.println("Inicio");
         try {
             // Verifica se o utilizador é uma instituição
@@ -468,11 +468,6 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                     }
 
                     SwingUtilities.invokeLater(() -> {
-                        try {
-                            txtListSubmissions.setText(myRemoteObject.getSubmissions().toString());
-                        } catch (RemoteException ex) {
-                            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                        }
                         btnAdd.setEnabled(true);
                     });
                     System.out.println("Acabou thread");
@@ -481,7 +476,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         } catch (RemoteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        btnAdd.setEnabled(true);
 
     }//GEN-LAST:event_btnAddActionPerformed
     static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");

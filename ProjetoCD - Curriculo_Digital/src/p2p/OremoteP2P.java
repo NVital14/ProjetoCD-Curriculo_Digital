@@ -42,6 +42,7 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -109,13 +110,13 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         listener.onStartRemote("Object " + address + " listening");
 
     }
-    
+
     /**
      *
      * @param l
      */
     @Override
-    public void setListener(P2Plistener l){
+    public void setListener(P2Plistener l) {
         this.p2pListener = l;
     }
 
@@ -248,14 +249,14 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     @Override
     public void addSubmission(Submission s) throws RemoteException {
         //se já tiver a submissão não faz nada
-        for(Submission sub : getSubmissions()){
-            if (sub.getUserPub().equals(s.getUserPub()) && sub.getUser().equals(s.getUser()) 
-                    && sub.getSignature().equals(s.getSignature()) 
+        for (Submission sub : getSubmissions()) {
+            if (sub.getUserPub().equals(s.getUserPub()) && sub.getUser().equals(s.getUser())
+                    && sub.getSignature().equals(s.getSignature())
                     && sub.getName().equals(s.getName()) && sub.getEvent().equals(s.getEvent())) {
-            p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
-            //sair
-            return;
-        }
+                p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+                //sair
+                return;
+            }
         }
 
         submissions.add(s);
@@ -266,8 +267,8 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 iremoteP2P.addSubmission(s);
             }
         }
-                p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
-        
+        p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+
     }
 
     /**
@@ -449,8 +450,8 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             //propagar o bloco pela rede
             for (IremoteP2P iremoteP2P : network) {
                 //guardar a merkle tree em todos os nós da redes
-//                iremoteP2P.saveMerkleTree(b.getMerkleTree(), b.getCurrentHash());
-                iremoteP2P.saveMerkleTree(b.getMerkleTree(), myBlockchain.getLastBlockHash());
+                String hashmkt = b.getCurrentHash().replace("/", "");
+                iremoteP2P.saveMerkleTree(b.getMerkleTree(), hashmkt);
                 //se encaixar na blockcahin dos nodos remotos
                 if (!iremoteP2P.getBlockchainLastHash().equals(b.getPreviousHash())
                         || //ou o tamanho da remota for menor
@@ -536,8 +537,9 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     public List<Submission> getBlockchainSubmissions() throws RemoteException {
         ArrayList<Submission> allSubmissions = new ArrayList<>();
         for (Block b : myBlockchain.getChain()) {
+            String hashmkt = b.getCurrentHash().replace("/", "");
             // define o caminho relativo para o arquivo da Merkle Tree
-            Path merkleTreeFilePath = Paths.get("blockchainfiles", b.getCurrentHash() + ".mkt");
+            Path merkleTreeFilePath = Paths.get("blockchainfiles", hashmkt + ".mkt");
 
             // vai buscar a Merkle Tree do ficheiro .mkt
             MerkleTree merkleTree = null;
