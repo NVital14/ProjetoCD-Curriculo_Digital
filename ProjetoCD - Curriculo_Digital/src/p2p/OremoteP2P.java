@@ -249,7 +249,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     public void addSubmission(Submission s) throws RemoteException {
         //se já tiver a submissão não faz nada
         for (Submission sub : getSubmissions()) {
-            if(sub.equals(s)) {
+            if (sub.equals(s)) {
                 p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
                 //sair
                 return;
@@ -445,30 +445,33 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 p2pListener.onBlockchainUpdate(myBlockchain);
             }
             //guardar a merkle tree 
-                String hashmkt = b.getCurrentHash().replace("/", "");
-                saveMerkleTree(b.getMerkleTree(), hashmkt);
+            String hashmkt = b.getCurrentHash().replace("/", "");
+            saveMerkleTree(b.getMerkleTree(), hashmkt);
+            p2pListener.onNewCurriculum();
             //propagar o bloco pela rede
+            
             for (IremoteP2P iremoteP2P : network) {
 //                String hashmkt = b.getCurrentHash().replace("/", "");
 //                iremoteP2P.saveMerkleTree(b.getMerkleTree(), hashmkt);
                 //se encaixar na blockcahin dos nodos remotos
-                if (!iremoteP2P.getBlockchainLastHash().equals(b.getPreviousHash())
+                //titei negação !
+                if (iremoteP2P.getBlockchainLastHash().equals(b.getPreviousHash())
                         || //ou o tamanho da remota for menor
                         iremoteP2P.getBlockchainSize() < myBlockchain.getSize()) {
                     //adicionar o bloco ao nodo remoto
+                    
                     iremoteP2P.addBlock(b);
+
                 }
             }
-            
+
             //se não encaixou)
             if (!myBlockchain.getLastBlockHash().equals(b.getCurrentHash())) {
                 //sincronizar a blockchain
                 synchnonizeBlockchain();
             }
-            //sincronizar ficheiros para todos os nós da redes ficarem com a merkle tree
-            synchnonizeFiles();
-            //adicionar os novos curriculos à lista
-            p2pListener.onNewCurriculum();
+             //sincronizar ficheiros para todos os nós da redes ficarem com a merkle tree
+            //synchnonizeFiles();
 
         } catch (Exception ex) {
             p2pListener.onException(ex, "Add bloco " + b);
@@ -651,6 +654,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             }
 
         }
+
     }
 
     /**

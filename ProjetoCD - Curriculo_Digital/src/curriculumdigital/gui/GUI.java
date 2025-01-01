@@ -444,7 +444,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            if (myRemoteObject.getSubmissionsSize() == 4) {
+            if (myRemoteObject.getSubmissionsSize() == 1) {
                 new Thread(() -> {
                     try {
                         System.out.println("Dentro da thread");
@@ -482,6 +482,8 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         btnAdd.setEnabled(true);
+        txtName.setText("");
+        txtEvent.setText("");
         System.out.println("Fim thread");
     }//GEN-LAST:event_btnAddActionPerformed
     static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
