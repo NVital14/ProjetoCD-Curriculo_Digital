@@ -831,6 +831,9 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+                if (getNetwork().size() > 1) {
+                    synchnonizeFiles();
+                }
             } catch (IOException ex) {
                 Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
             }
