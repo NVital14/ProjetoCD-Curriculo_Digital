@@ -10,7 +10,6 @@ import blockchain.utils.GuiUtils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import curriculumdigital.core.Curriculo;
 import curriculumdigital.core.Submission;
 import curriculumdigital.core.User;
 import java.awt.event.WindowAdapter;
@@ -36,7 +35,6 @@ import p2p.P2Plistener;
 public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     public static String fileCurriculo = "curriculo.obj";
-    Curriculo curriculo;
     List<Submission> elements = new ArrayList();
     User myUser;
     OremoteP2P myRemoteObject;
@@ -66,9 +64,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 onNewCurriculum();
                 onBlockchainUpdate(myRemoteObject.getBlockchain());
 
-            } else {
-                curriculo = new Curriculo();
-            }
+            } 
         } catch (Exception e) {
             System.out.print(e);
         }
@@ -189,7 +185,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         lbCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCurriculum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cv.png"))); // NOI18N
-        lbCurriculum.setText("Curriculum Digital");
+        lbCurriculum.setText(" Curriculum Digital");
 
         ScrollInstitute.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -466,7 +462,8 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
         lbAllCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbAllCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbAllCurriculum.setText("Todos os Curriculums");
+        lbAllCurriculum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/lista_curriculos.png"))); // NOI18N
+        lbAllCurriculum.setText(" Todos os Curriculums");
 
         javax.swing.GroupLayout ListaCurriculumLayout = new javax.swing.GroupLayout(ListaCurriculum);
         ListaCurriculum.setLayout(ListaCurriculumLayout);

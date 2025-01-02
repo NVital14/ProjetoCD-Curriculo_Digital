@@ -364,6 +364,7 @@ setSize(650, 550);
 
         jPanel6.add(jPanel8, java.awt.BorderLayout.CENTER);
 
+        txtServerLog.setEditable(false);
         txtServerLog.setBorder(javax.swing.BorderFactory.createTitledBorder("Log Server"));
         txtServerLog.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(txtServerLog);

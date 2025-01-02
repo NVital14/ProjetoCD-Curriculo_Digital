@@ -109,7 +109,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/curriculumdigital/media/cv.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Curriculum Digital"/>
+                <Property name="text" type="java.lang.String" value=" Curriculum Digital"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="ScrollInstitute">
@@ -626,7 +626,10 @@
                   <Font name="Segoe UI" size="24" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Todos os Curriculums"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/curriculumdigital/media/lista_curriculos.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value=" Todos os Curriculums"/>
               </Properties>
             </Component>
           </SubComponents>
