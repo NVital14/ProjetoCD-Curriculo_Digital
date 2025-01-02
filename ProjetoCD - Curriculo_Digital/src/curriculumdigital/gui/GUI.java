@@ -72,7 +72,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         } catch (Exception e) {
             System.out.print(e);
         }
-        setSize(800, 500);
+        setSize(800, 550);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -123,8 +123,9 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         onNewCurso();
 
         if (!u.isInstitute()) {
-            // Remover o Tab "Curriculum" para utilizadores não institucionais
+            // Remover a Tab "Curriculum" e "Registar Cursos" para utilizadores não institucionais
             App.remove(Curriculum); // Remove a aba do Curriculum
+            App.remove(RegistarCursos); //Remove a aba de registar cursos
         }
     }
 
@@ -156,12 +157,21 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         jScrollPane6 = new javax.swing.JScrollPane();
         textAreaCursos = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        ListaCursos = new javax.swing.JPanel();
+        btnProcurarCursos = new javax.swing.JButton();
+        txtInstituicao = new javax.swing.JTextField();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        textAreaCursosInst = new javax.swing.JTextArea();
+        lbSearchCurriculum1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         ListaPessoas = new javax.swing.JPanel();
         btnPersonCV = new javax.swing.JButton();
         txtNameCV = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         textAreaCVPerson = new javax.swing.JTextArea();
         lbSearchCurriculum = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         ListaCurriculum = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaCVAll = new javax.swing.JTextArea();
@@ -178,6 +188,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
         lbCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbCurriculum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cv.png"))); // NOI18N
         lbCurriculum.setText("Curriculum Digital");
 
         ScrollInstitute.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -225,13 +236,13 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 .addGap(30, 30, 30)
                 .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(spNota)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ScrollInstitute)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(cbCursos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ScrollName)
-                    .addComponent(cbCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ScrollInstitute))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
         );
         CurriculumLayout.setVerticalGroup(
             CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +250,6 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 .addComponent(lbCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(CurriculumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(CurriculumLayout.createSequentialGroup()
                         .addComponent(ScrollInstitute, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -249,11 +259,12 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(spNota, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(259, Short.MAX_VALUE))
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
-        App.addTab("Curriculum", Curriculum);
+        App.addTab(" Curriculum", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cv.png")), Curriculum); // NOI18N
 
         txtInstitute1.setEditable(false);
         txtInstitute1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instituto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -278,41 +289,109 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Registar Cursos");
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cursos.png"))); // NOI18N
+
         javax.swing.GroupLayout RegistarCursosLayout = new javax.swing.GroupLayout(RegistarCursos);
         RegistarCursos.setLayout(RegistarCursosLayout);
         RegistarCursosLayout.setHorizontalGroup(
             RegistarCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RegistarCursosLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(RegistarCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCurso)
-                    .addComponent(txtInstitute1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                    .addComponent(btnRegistarCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegistarCursosLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(RegistarCursosLayout.createSequentialGroup()
+                .addGroup(RegistarCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(RegistarCursosLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(RegistarCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCurso)
+                            .addComponent(btnRegistarCurso, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                            .addComponent(txtInstitute1)))
+                    .addGroup(RegistarCursosLayout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
         );
         RegistarCursosLayout.setVerticalGroup(
             RegistarCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RegistarCursosLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(RegistarCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane6)
                     .addGroup(RegistarCursosLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtInstitute1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
-                        .addComponent(btnRegistarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(296, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRegistarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane6))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
-        App.addTab("Cursos", RegistarCursos);
+        App.addTab("  Cursos", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cursos_p.png")), RegistarCursos); // NOI18N
+
+        btnProcurarCursos.setText("Procurar");
+        btnProcurarCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcurarCursosActionPerformed(evt);
+            }
+        });
+
+        txtInstituicao.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome da Instituição", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        textAreaCursosInst.setEditable(false);
+        textAreaCursosInst.setColumns(20);
+        textAreaCursosInst.setLineWrap(true);
+        textAreaCursosInst.setRows(5);
+        textAreaCursosInst.setWrapStyleWord(true);
+        jScrollPane7.setViewportView(textAreaCursosInst);
+
+        lbSearchCurriculum1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbSearchCurriculum1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbSearchCurriculum1.setText("Procurar Cursos");
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/procurar cursos.png"))); // NOI18N
+
+        javax.swing.GroupLayout ListaCursosLayout = new javax.swing.GroupLayout(ListaCursos);
+        ListaCursos.setLayout(ListaCursosLayout);
+        ListaCursosLayout.setHorizontalGroup(
+            ListaCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ListaCursosLayout.createSequentialGroup()
+                .addGroup(ListaCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ListaCursosLayout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ListaCursosLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(ListaCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtInstituicao)
+                            .addComponent(btnProcurarCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(65, 65, 65)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lbSearchCurriculum1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+        );
+        ListaCursosLayout.setVerticalGroup(
+            ListaCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ListaCursosLayout.createSequentialGroup()
+                .addComponent(lbSearchCurriculum1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ListaCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ListaCursosLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtInstituicao, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnProcurarCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(241, Short.MAX_VALUE))
+        );
+
+        App.addTab("  Procurar Cursos", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/procurar cursos_p.png")), ListaCursos); // NOI18N
 
         btnPersonCV.setText("Procurar");
         btnPersonCV.addActionListener(new java.awt.event.ActionListener() {
@@ -322,6 +401,11 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         });
 
         txtNameCV.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome da Pessoa", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        txtNameCV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameCVActionPerformed(evt);
+            }
+        });
 
         textAreaCVPerson.setEditable(false);
         textAreaCVPerson.setColumns(20);
@@ -334,16 +418,23 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         lbSearchCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbSearchCurriculum.setText("Procurar Curriculum");
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/procurar pessoa.png"))); // NOI18N
+
         javax.swing.GroupLayout ListaPessoasLayout = new javax.swing.GroupLayout(ListaPessoas);
         ListaPessoas.setLayout(ListaPessoasLayout);
         ListaPessoasLayout.setHorizontalGroup(
             ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ListaPessoasLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtNameCV, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                    .addComponent(btnPersonCV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(72, 72, 72)
+                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ListaPessoasLayout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNameCV)
+                            .addComponent(btnPersonCV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(ListaPessoasLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(jLabel2)))
+                .addGap(66, 66, 66)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
@@ -353,17 +444,18 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             .addGroup(ListaPessoasLayout.createSequentialGroup()
                 .addComponent(lbSearchCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ListaPessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(ListaPessoasLayout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(txtNameCV, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
                         .addGap(18, 18, 18)
+                        .addComponent(txtNameCV, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPersonCV, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
-        App.addTab("Lista Pessoas", ListaPessoas);
+        App.addTab("  Procurar Pessoa", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/procurar pessoa_p.png")), ListaPessoas); // NOI18N
 
         textAreaCVAll.setEditable(false);
         textAreaCVAll.setColumns(20);
@@ -392,10 +484,10 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 .addComponent(lbAllCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
-        App.addTab("Lista Curriculum", ListaCurriculum);
+        App.addTab("  Lista Curriculum", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/lista_curriculos.png")), ListaCurriculum); // NOI18N
 
         blockchain.setBorder(javax.swing.BorderFactory.createTitledBorder("Block Data"));
 
@@ -444,10 +536,10 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                     .addComponent(jScrollPane4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
-        App.addTab("Blockchain", blockchain);
+        App.addTab("Blockchain", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/blockchain_32.png")), blockchain); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -506,7 +598,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 if ("".equals(nome)) {
                     // tem que escrever um nome
                     JOptionPane.showMessageDialog(this, "Tem que colocar um nome", "Nome Vazio", JOptionPane.ERROR_MESSAGE);
-                   btnAdd.setEnabled(true);
+                    btnAdd.setEnabled(true);
                     return;
                 }
                 String cursoSelecionado = (String) cbCursos.getSelectedItem();
@@ -514,7 +606,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 if (!cursos.contains(cursoSelecionado)) {
                     // mostra uma mensagem de erro caso o curso seja inválido
                     JOptionPane.showMessageDialog(this, "Tem que selecionar um curso válido", "Curso inválido", JOptionPane.ERROR_MESSAGE);
-                   btnAdd.setEnabled(true);
+                    btnAdd.setEnabled(true);
                     return;
                 }
                 int nota = (Integer) spNota.getValue();
@@ -524,7 +616,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                     btnAdd.setEnabled(true);
                     return;
                 }
-                
+
                 String event = cursoSelecionado + " " + nota;
                 // cria uma submissão 
                 Submission s = new Submission(
@@ -636,6 +728,31 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             JOptionPane.showMessageDialog(this, "Erro ao salvar o curso: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistarCursoActionPerformed
+
+    private void btnProcurarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCursosActionPerformed
+        // TODO add your handling code here:
+        String instituicao = txtInstituicao.getText();
+        List<String> cursos = new ArrayList<>();
+        try {
+            cursos = myRemoteObject.loadCursos(instituicao);
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (!cursos.isEmpty()) {
+            String txt = "";
+            for (String s : cursos) {
+                txt += s + "\n";
+            }
+            textAreaCursosInst.setText(txt);
+        } else {
+            JOptionPane.showMessageDialog(this, "Essa instituição não está registada no nosso sistema ou ainda não adicionou cursos.", "Erro", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_btnProcurarCursosActionPerformed
+
+    private void txtNameCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameCVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameCVActionPerformed
     static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
     @Override
@@ -833,6 +950,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JTabbedPane App;
     private javax.swing.JPanel Curriculum;
     private javax.swing.JPanel ListaCurriculum;
+    private javax.swing.JPanel ListaCursos;
     private javax.swing.JPanel ListaPessoas;
     private javax.swing.JPanel RegistarCursos;
     private javax.swing.JScrollPane ScrollCV;
@@ -841,26 +959,34 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JPanel blockchain;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnPersonCV;
+    private javax.swing.JButton btnProcurarCursos;
     private javax.swing.JButton btnRegistarCurso;
     private javax.swing.JComboBox<String> cbCursos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JLabel lbAllCurriculum;
     private javax.swing.JLabel lbCurriculum;
     private javax.swing.JLabel lbSearchCurriculum;
+    private javax.swing.JLabel lbSearchCurriculum1;
     private javax.swing.JList<String> lstBlockchain;
     private javax.swing.JSpinner spNota;
     private javax.swing.JTextArea textAreaCVAll;
     private javax.swing.JTextArea textAreaCVPerson;
     private javax.swing.JTextArea textAreaCursos;
+    private javax.swing.JTextArea textAreaCursosInst;
     private javax.swing.JTextArea txtBlockHeader;
     private javax.swing.JTextArea txtBlockSubmissions;
     private javax.swing.JTextField txtCurso;
+    private javax.swing.JTextField txtInstituicao;
     private javax.swing.JTextField txtInstitute;
     private javax.swing.JTextField txtInstitute1;
     private javax.swing.JTextArea txtListSubmissions;
