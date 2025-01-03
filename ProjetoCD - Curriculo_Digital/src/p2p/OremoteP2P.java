@@ -63,7 +63,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     // Set - conjunto de elementos não repetidos para acesso concorrente
     CopyOnWriteArraySet<Submission> submissions;
     P2PlistenerServer p2pListenerServer;
-    P2PlistenerProgram p2pListenerProgram;
+//    P2PlistenerProgram p2pListenerProgram;
     //objeto mineiro concorrente e distribuido
     Miner myMiner;
     //objeto da blockchain preparada para acesso concorrente
@@ -82,7 +82,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         this.address = address;
         this.network = new CopyOnWriteArrayList<>();
         submissions = new CopyOnWriteArraySet<Submission>();
-
+        this.myMiner = new Miner(listener);
         this.myBlockchain = new BlockChain(Paths.get("blockchainfiles", BLOCKCHAIN_FILENAME).toString());
         this.p2pListenerServer = listener;
         this.user = new User();
@@ -140,9 +140,8 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
      * @param l
      */
     @Override
-    public void setListenerProgram(P2PlistenerProgram l) {
-        this.p2pListenerProgram = l;
-        this.myMiner = new Miner(p2pListenerProgram);
+    public void setListener(P2PlistenerServer l) {
+        this.p2pListenerServer= l;
     }
 
     /**
@@ -276,7 +275,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         //se já tiver a submissão não faz nada
         for (Submission sub : getSubmissions()) {
             if (sub.equals(s)) {
-                p2pListenerProgram.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+                p2pListenerServer.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
                 //sair
                 return;
             }
@@ -290,7 +289,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 iremoteP2P.addSubmission(s);
             }
         }
-        p2pListenerProgram.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+        p2pListenerServer.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
 
     }
 
@@ -324,7 +323,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             p2pListenerServer.onMessage("sinchronizeTransactions", "tamanho diferente");
             //pedir ao no para sincronizar com as nossas
             node.synchronizeSubmissions(this);
-            p2pListenerProgram.onSubmission(address);
+            p2pListenerServer.onSubmission(address);
             p2pListenerServer.onMessage("sinchronizeTransactions", "node.sinchronizeTransactions(this)");
             //pedir á rede para se sincronizar
             for (IremoteP2P iremoteP2P : network) {
@@ -349,7 +348,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     public void removeSubmissions(List<Submission> mySubmissions) throws RemoteException {
         //remover as transações da lista atual
         submissions.removeAll(mySubmissions);
-        p2pListenerProgram.onSubmission("remove " + mySubmissions.size() + "transactions");
+        p2pListenerServer.onSubmission("remove " + mySubmissions.size() + "transactions");
         //propagar as remoções
         for (IremoteP2P iremoteP2P : network) {
             //se houver algum elemento em comum nas transações remotas
@@ -377,12 +376,12 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         try {
             //colocar a mineiro a minar
             myMiner.startMining(msg, zeros);
-            p2pListenerProgram.onStartMining(msg, zeros);
+            p2pListenerServer.onStartMining(msg, zeros);
             //mandar minar a rede
             for (IremoteP2P iremoteP2P : network) {
                 //se o nodo nao estiver a minar
                 if (!iremoteP2P.isMining()) {
-                    p2pListenerProgram.onStartMining(iremoteP2P.getAdress() + " mining", zeros);
+                    p2pListenerServer.onStartMining(iremoteP2P.getAdress() + " mining", zeros);
                     //iniciar a mineracao no nodo
                     iremoteP2P.startMining(msg, zeros);
                 }
@@ -468,12 +467,12 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 myBlockchain.add(b);
                 //guardar a blockchain
                 myBlockchain.save(FOLDER + BLOCKCHAIN_FILENAME);
-                p2pListenerProgram.onBlockchainUpdate(myBlockchain);
+                p2pListenerServer.onBlockchainUpdate(myBlockchain);
             }
             //guardar a merkle tree 
             String hashmkt = b.getCurrentHash().replace("/", "");
             saveMerkleTree(b.getMerkleTree(), hashmkt);
-            p2pListenerProgram.onNewCurriculum();
+            p2pListenerServer.onNewCurriculum();
             //propagar o bloco pela rede
 
             for (IremoteP2P iremoteP2P : network) {
@@ -554,7 +553,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                     //atualizar toda a blockchain
                     myBlockchain = remote;
                     //deveria sincronizar apenas os blocos que faltam
-                    p2pListenerProgram.onBlockchainUpdate(myBlockchain);
+                    p2pListenerServer.onBlockchainUpdate(myBlockchain);
                 }
             }
         }
@@ -871,7 +870,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         } catch (IOException ex) {
             Logger.getLogger(OremoteP2P.class.getName()).log(Level.SEVERE, null, ex);
         }
-        p2pListenerProgram.onNewCurso();
+        p2pListenerServer.onNewCurso();
         if (getNetwork().size() > 1) {
             for (IremoteP2P iremote : network) {
                 List<String> l = iremote.loadCursos(instituicao);

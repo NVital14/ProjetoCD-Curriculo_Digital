@@ -827,87 +827,87 @@ public class Authentication extends javax.swing.JFrame implements P2PlistenerSer
 
     }
 
-//    @Override
-//    public void onBlockchainUpdate(BlockChain b) {
-//        SwingUtilities.invokeLater(() -> {
-//            DefaultListModel model = new DefaultListModel();
-//            for (int i = b.getSize() - 1; i >= 0; i--) {
-//                model.addElement(b.get(i));
-//            }
-////            lstBlcockchain.setModel(model);
-////            lstBlcockchain.setSelectedIndex(0);
-////            tpMain.setSelectedComponent(pnBlockchain);
-////            repaint();
-//        });
-//    }
-//    @Override
-//    public void onSubmission(String transaction) {
-//        try {
-//            onMessage("Transaction ", transaction);
-//            String txt = "";
-//            List<Submission> tr = myRemoteObject.getSubmissions();
-//            for (Submission s : tr) {
-//                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-//            }
-////          txtListTransdactions.setText(txt);
-////            tpMain.setSelectedComponent(pnTransaction);
-//        } catch (RemoteException ex) {
-//            onException(ex, "on transaction");
-//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    @Override
-//    public void onStartMining(String message, int zeros) {
-//        SwingUtilities.invokeLater(() -> {
-////            tpMain.setSelectedComponent(pnTransaction);
-////            btMining.setEnabled(false);
-////            lblMining.setVisible(true);
-////            lblWinner.setVisible(false);
-////            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
-////            lblMining.setText("mining " + zeros + " zeros");
-////            repaint();
-//        });
-//    }
-//    @Override
-//    public void onStopMining(String message, int nonce) {
-//        SwingUtilities.invokeLater(() -> {
-////            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
-////            lblMining.setVisible(false);
-////            tpMain.setSelectedComponent(pnTransaction);
-////            btMining.setEnabled(true);
-////            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-////            System.out.println(" NONCE " + nonce + "\t" + message);
-////            repaint();
-//        });
-//    }
-//    @Override
-//    public void onNounceFound(String message, int nonce) {
-//        try {
-//            myRemoteObject.stopMining(nonce);
-//        } catch (RemoteException ex) {
-//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        SwingUtilities.invokeLater(() -> {
-////            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-////            lblMining.setVisible(false);
-////            lblWinner.setText(message);
-////            lblWinner.setVisible(true);
-////            tpMain.setSelectedComponent(pnTransaction);
-////            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
-////            repaint();
-////            System.out.println(" NONCE " + nonce + "\t" + message);
-//        });
-//
-//    }
-//    @Override
-//    public void onNewCurriculum() {
-//
-//    }
-//
-//    @Override
-//    public void onNewCurso() {
-//
-//    }
+    @Override
+    public void onBlockchainUpdate(BlockChain b) {
+        SwingUtilities.invokeLater(() -> {
+            DefaultListModel model = new DefaultListModel();
+            for (int i = b.getSize() - 1; i >= 0; i--) {
+                model.addElement(b.get(i));
+            }
+//            lstBlcockchain.setModel(model);
+//            lstBlcockchain.setSelectedIndex(0);
+//            tpMain.setSelectedComponent(pnBlockchain);
+//            repaint();
+        });
+    }
+    @Override
+    public void onSubmission(String transaction) {
+        try {
+            onMessage("Transaction ", transaction);
+            String txt = "";
+            List<Submission> tr = myRemoteObject.getSubmissions();
+            for (Submission s : tr) {
+                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+            }
+//          txtListTransdactions.setText(txt);
+//            tpMain.setSelectedComponent(pnTransaction);
+        } catch (RemoteException ex) {
+            onException(ex, "on transaction");
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @Override
+    public void onStartMining(String message, int zeros) {
+        SwingUtilities.invokeLater(() -> {
+//            tpMain.setSelectedComponent(pnTransaction);
+//            btMining.setEnabled(false);
+//            lblMining.setVisible(true);
+//            lblWinner.setVisible(false);
+//            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
+//            lblMining.setText("mining " + zeros + " zeros");
+//            repaint();
+        });
+    }
+    @Override
+    public void onStopMining(String message, int nonce) {
+        SwingUtilities.invokeLater(() -> {
+//            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
+//            lblMining.setVisible(false);
+//            tpMain.setSelectedComponent(pnTransaction);
+//            btMining.setEnabled(true);
+//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
+//            System.out.println(" NONCE " + nonce + "\t" + message);
+//            repaint();
+        });
+    }
+    @Override
+    public void onNounceFound(String message, int nonce) {
+        try {
+            myRemoteObject.stopMining(nonce);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        SwingUtilities.invokeLater(() -> {
+//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
+//            lblMining.setVisible(false);
+//            lblWinner.setText(message);
+//            lblWinner.setVisible(true);
+//            tpMain.setSelectedComponent(pnTransaction);
+//            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
+//            repaint();
+//            System.out.println(" NONCE " + nonce + "\t" + message);
+        });
+
+    }
+    @Override
+    public void onNewCurriculum() {
+
+    }
+
+    @Override
+    public void onNewCurso() {
+
+    }
     /**
      * @param args the command line arguments
      */

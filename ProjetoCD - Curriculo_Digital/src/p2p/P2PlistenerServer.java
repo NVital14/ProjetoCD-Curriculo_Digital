@@ -20,16 +20,16 @@ public interface P2PlistenerServer {
 
     public void onConect(String address);
 
-//    public void onSubmission(String transaction);
+    public void onSubmission(String transaction);
 
-//    public void onStartMining(String message, int zeros);
+    public void onStartMining(String message, int zeros);
 
-//    public void onStopMining(String message, int nonce);
+    public void onStopMining(String message, int nonce);
 
-  //  public void onNounceFound(String message, int nonce);
+    public void onNounceFound(String message, int nonce);
 
-//    public void onBlockchainUpdate(BlockChain b);
+    public void onBlockchainUpdate(BlockChain b);
     
-//    public void onNewCurriculum();
-//    public void onNewCurso();
+    public void onNewCurriculum();
+    public void onNewCurso();
 }

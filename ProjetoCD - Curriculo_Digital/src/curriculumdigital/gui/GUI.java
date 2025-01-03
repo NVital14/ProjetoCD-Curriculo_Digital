@@ -30,7 +30,7 @@ import p2p.P2PlistenerServer;
  *
  * @author noemi
  */
-public class GUI extends javax.swing.JFrame implements P2PlistenerProgram {
+public class GUI extends javax.swing.JFrame implements P2PlistenerServer {
 
     public static String fileCurriculo = "curriculo.obj";
     List<Submission> elements = new ArrayList();
@@ -61,7 +61,7 @@ public class GUI extends javax.swing.JFrame implements P2PlistenerProgram {
         this.myUser = u;
         this.txtInstitute.setText(u.getName());
         this.txtInstitute1.setText(u.getName());
-        myRemoteObject.setListenerProgram(this);
+        myRemoteObject.setListener(this);
 
         try {
             File file = new File("blockchainfiles", fileCurriculo);
@@ -767,12 +767,12 @@ public class GUI extends javax.swing.JFrame implements P2PlistenerProgram {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
     static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
-//
-//    @Override
-//    public void onMessage(String title, String message) {
-//        //GuiUtils.addText(txtServerLog, title, message);
-////        tpMain.setSelectedComponent(pnServer);
-//    }
+
+    @Override
+    public void onMessage(String title, String message) {
+        //GuiUtils.addText(txtServerLog, title, message);
+//        tpMain.setSelectedComponent(pnServer);
+    }
 
     @Override
     public void onException(Exception e, String title) {
@@ -783,30 +783,30 @@ public class GUI extends javax.swing.JFrame implements P2PlistenerProgram {
 //         JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
     }
 
-//    @Override
-//    public void onStartRemote(String message) {
-////        setTitle(message);
-////        imgServerRunning.setEnabled(true);
-////        btStartServer.setEnabled(false);
-////        GuiUtils.addText(txtServerLog, "Start server", message);
-//
-//    }
-//    @Override
-//    public void onConect(String address) {
-////        try {
-////            List<IremoteP2P> net = myRemoteObject.getNetwork();
-////            String txt = "";
-////            for (IremoteP2P iremoteP2P : net) {
-////                txt += iremoteP2P.getAdress() + "\n";
-////            }
-////            txtNetwork.setText(txt);
-//////            tpMain.setSelectedComponent(pnNetwork);
-////        } catch (RemoteException ex) {
-////            onException(ex, "On conect");
-////            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-////        }
-//
-//    }
+    @Override
+    public void onStartRemote(String message) {
+//        setTitle(message);
+//        imgServerRunning.setEnabled(true);
+//        btStartServer.setEnabled(false);
+//        GuiUtils.addText(txtServerLog, "Start server", message);
+
+    }
+    @Override
+    public void onConect(String address) {
+//        try {
+//            List<IremoteP2P> net = myRemoteObject.getNetwork();
+//            String txt = "";
+//            for (IremoteP2P iremoteP2P : net) {
+//                txt += iremoteP2P.getAdress() + "\n";
+//            }
+//            txtNetwork.setText(txt);
+////            tpMain.setSelectedComponent(pnNetwork);
+//        } catch (RemoteException ex) {
+//            onException(ex, "On conect");
+//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+    }
     @Override
     public void onBlockchainUpdate(BlockChain b) {
         SwingUtilities.invokeLater(() -> {
