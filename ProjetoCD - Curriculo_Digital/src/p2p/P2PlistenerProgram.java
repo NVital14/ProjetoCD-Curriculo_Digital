@@ -10,15 +10,14 @@ import blockchain.utils.BlockChain;
  *
  * @author noemi
  */
-public interface P2Plistener {
+public interface P2PlistenerProgram {
+        public void onException(Exception ex, String message);
 
-    public void onException(Exception ex, String message);
-
-    public void onMessage(String title, String message);
-
-    public void onStartRemote(String message);
-
-    public void onConect(String address);
+//    public void onMessage(String title, String message);
+//
+//    public void onStartRemote(String message);
+//
+//    public void onConect(String address);
 
     public void onSubmission(String transaction);
 

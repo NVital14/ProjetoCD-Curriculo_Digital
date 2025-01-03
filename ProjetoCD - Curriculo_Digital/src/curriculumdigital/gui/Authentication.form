@@ -351,24 +351,25 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" min="-2" pref="800" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="Auth" min="-2" pref="800" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabbedPane1" min="-2" pref="557" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="Auth" min="-2" pref="557" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+    <Container class="javax.swing.JTabbedPane" name="Auth">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -397,7 +398,7 @@
                           </Group>
                           <Component id="jScrollPane1" alignment="0" min="-2" pref="603" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="288" max="32767" attributes="0"/>
+                      <EmptySpace pref="149" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -415,8 +416,8 @@
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="283" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="239" max="-2" attributes="0"/>
+                      <EmptySpace pref="64" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -553,7 +554,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -563,7 +564,7 @@
                           </Group>
                           <Component id="jScrollPane6" alignment="0" min="-2" pref="603" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="321" max="32767" attributes="0"/>
+                      <EmptySpace pref="182" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -576,7 +577,8 @@
                           <Component id="txtNodeAddress" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" pref="424" max="32767" attributes="0"/>
+                      <Component id="jScrollPane6" min="-2" pref="357" max="-2" attributes="0"/>
+                      <EmptySpace pref="67" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -647,21 +649,32 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="314" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="314" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="170" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" pref="230" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="175" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" pref="47" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel3" min="-2" pref="311" max="-2" attributes="0"/>
                           <Component id="jScrollPane2" min="-2" pref="301" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="101" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -791,6 +804,18 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/curriculumdigital/media/login.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value=" LOG IN"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="Registar">
@@ -808,24 +833,34 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="btnRegister" min="-2" pref="263" max="-2" attributes="0"/>
-                          <Component id="txtRegisterUser" min="-2" pref="263" max="-2" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="cboxInstitute" alignment="1" max="32767" attributes="0"/>
-                              <Component id="txtRegisterPass" alignment="1" pref="263" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="186" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="btnRegister" min="-2" pref="263" max="-2" attributes="0"/>
+                                  <Component id="txtRegisterUser" min="-2" pref="263" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="cboxInstitute" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="txtRegisterPass" alignment="1" min="-2" pref="263" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="239" max="-2" attributes="0"/>
+                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="488" max="32767" attributes="0"/>
+                      <EmptySpace pref="351" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="jLabel10" min="-2" pref="39" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="txtRegisterUser" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="txtRegisterPass" min="-2" max="-2" attributes="0"/>
@@ -833,7 +868,7 @@
                       <Component id="cboxInstitute" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnRegister" min="-2" pref="56" max="-2" attributes="0"/>
-                      <EmptySpace pref="260" max="32767" attributes="0"/>
+                      <EmptySpace pref="193" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -873,6 +908,17 @@
                 <Property name="text" type="java.lang.String" value="&#xc9; uma institui&#xe7;&#xe3;o?"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel10">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/curriculumdigital/media/register (1).png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value=" CRIAR CONTA"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="AcercadeNos">
@@ -909,7 +955,7 @@
                               <Component id="jLabel4" min="-2" pref="231" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="377" max="32767" attributes="0"/>
+                      <EmptySpace pref="238" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

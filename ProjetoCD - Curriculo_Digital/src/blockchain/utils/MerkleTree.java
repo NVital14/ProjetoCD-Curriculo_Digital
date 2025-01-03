@@ -15,6 +15,7 @@
 //////////////////////////////////////////////////////////////////////////////
 package blockchain.utils;
 
+import curriculumdigital.core.Submission;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -37,24 +38,24 @@ public final class MerkleTree implements Serializable {
     // merkle tree hashs
     private List<List<String>> hashTree;
     // elements of tree
-    List elements;
+    List <Submission>elements;
 
     /**
      * Builds a merkle tree with an array of data
      *
      * @param arrayOfData list of data
      */
-    public MerkleTree(Object[] arrayOfData) {
-        this(Arrays.asList(arrayOfData));
-
-    }
+//    public MerkleTree( List <Submission> arrayOfData) {
+//        this(arrayOfData);
+//
+//    }
 
     /**
      * Builds a merkle tree with an list of data
      *
      * @param listOfData list of data
      */
-    public MerkleTree(List listOfData) {
+    public MerkleTree( List<Submission> listOfData) {
         this(); //build lists
         //save data in elements
         elements.addAll(listOfData);
@@ -319,7 +320,7 @@ public final class MerkleTree implements Serializable {
      *
      * @return elements
      */
-    public List getElements() {
+    public List<Submission> getElements() {
         return elements;
     }
     

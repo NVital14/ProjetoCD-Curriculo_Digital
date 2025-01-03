@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import blockchain.utils.GuiUtils;
 import blockchain.utils.RMI;
 import curriculumdigital.core.Submission;
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -25,13 +26,13 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import p2p.IremoteP2P;
 import p2p.OremoteP2P;
-import p2p.P2Plistener;
+import p2p.P2PlistenerServer;
 
 /**
  *
  * @author Bea⚝
  */
-public class Authentication extends javax.swing.JFrame implements P2Plistener {
+public class Authentication extends javax.swing.JFrame implements P2PlistenerServer {
 
     OremoteP2P myRemoteObject;
 
@@ -60,7 +61,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         }
         setTitle("Autenticação");
 //        setSize(650, 380);
-setSize(650, 550);
+        setSize(650, 550);
         setLocationRelativeTo(null);
         txtLoginPass.setText("123qwe");
 
@@ -117,7 +118,7 @@ setSize(650, 550);
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        Auth = new javax.swing.JTabbedPane();
         Server = new javax.swing.JPanel();
         imgServerRunning = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -142,11 +143,13 @@ setSize(650, 550);
         jScrollPane3 = new javax.swing.JScrollPane();
         txtPublicKey = new javax.swing.JTextArea();
         btnLogin = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         Registar = new javax.swing.JPanel();
         txtRegisterUser = new javax.swing.JTextField();
         txtRegisterPass = new javax.swing.JPasswordField();
         btnRegister = new javax.swing.JButton();
         cboxInstitute = new javax.swing.JCheckBox();
+        jLabel10 = new javax.swing.JLabel();
         AcercadeNos = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -381,7 +384,7 @@ setSize(650, 550);
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imgServerRunning, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(288, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         ServerLayout.setVerticalGroup(
             ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,11 +397,11 @@ setSize(650, 550);
                         .addGap(32, 32, 32)
                         .addComponent(imgServerRunning)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Server", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/serverTab.png")), Server); // NOI18N
+        Auth.addTab("Server", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/serverTab.png")), Server); // NOI18N
 
         txtNodeAddress.setText("//192.168.1.22:10010/remoteP2P");
         txtNodeAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Remote Object Address"));
@@ -436,7 +439,7 @@ setSize(650, 550);
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNodeAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(321, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         ConectarLayout.setVerticalGroup(
             ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,10 +449,11 @@ setSize(650, 550);
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNodeAddress))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("P2PNetwork", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/p2p_32.png")), Conectar); // NOI18N
+        Auth.addTab("P2PNetwork", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/p2p_32.png")), Conectar); // NOI18N
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Users"));
 
@@ -510,26 +514,39 @@ setSize(650, 550);
                 .addGap(24, 24, 24))
         );
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/login.png"))); // NOI18N
+        jLabel2.setText(" LOG IN");
+
         javax.swing.GroupLayout LoginLayout = new javax.swing.GroupLayout(Login);
         Login.setLayout(LoginLayout);
         LoginLayout.setHorizontalGroup(
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LoginLayout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LoginLayout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         LoginLayout.setVerticalGroup(
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Login", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/login.png")), Login); // NOI18N
+        Auth.addTab("Login", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/login.png")), Login); // NOI18N
 
         txtRegisterUser.setBorder(javax.swing.BorderFactory.createTitledBorder("Username"));
 
@@ -545,24 +562,35 @@ setSize(650, 550);
 
         cboxInstitute.setText("É uma instituição?");
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/register (1).png"))); // NOI18N
+        jLabel10.setText(" CRIAR CONTA");
+
         javax.swing.GroupLayout RegistarLayout = new javax.swing.GroupLayout(Registar);
         Registar.setLayout(RegistarLayout);
         RegistarLayout.setHorizontalGroup(
             RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RegistarLayout.createSequentialGroup()
-                .addGap(188, 188, 188)
-                .addGroup(RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRegisterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cboxInstitute, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtRegisterPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)))
-                .addContainerGap(488, Short.MAX_VALUE))
+                .addGroup(RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(RegistarLayout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addGroup(RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtRegisterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cboxInstitute, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtRegisterPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(RegistarLayout.createSequentialGroup()
+                        .addGap(239, 239, 239)
+                        .addComponent(jLabel10)))
+                .addContainerGap(351, Short.MAX_VALUE))
         );
         RegistarLayout.setVerticalGroup(
             RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RegistarLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(txtRegisterUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtRegisterPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -570,10 +598,10 @@ setSize(650, 550);
                 .addComponent(cboxInstitute)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Registar", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/register (1).png")), Registar); // NOI18N
+        Auth.addTab("Registar", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/register (1).png")), Registar); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -610,7 +638,7 @@ setSize(650, 550);
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(377, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         AcercadeNosLayout.setVerticalGroup(
             AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -627,26 +655,35 @@ setSize(650, 550);
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Acerca de Nós", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/about.png")), AcercadeNos); // NOI18N
+        Auth.addTab("Acerca de Nós", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/about.png")), AcercadeNos); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Auth, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Auth, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogin1ActionPerformed
+
+    private void btnRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegister1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegister1ActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
 
@@ -695,18 +732,6 @@ setSize(650, 550);
         }).start();
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void btnLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogin1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLogin1ActionPerformed
-
-    private void btnRegister1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegister1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegister1ActionPerformed
-
-    private void txtNodeAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNodeAddressActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNodeAddressActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             String address = txtNodeAddress.getText();
@@ -718,8 +743,28 @@ setSize(650, 550);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtNodeAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNodeAddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNodeAddressActionPerformed
+
     private void btStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartServerActionPerformed
         try {
+            // Caminho para a pasta
+            String folderPath = "blockchainfiles";
+
+            // Cria um objeto File para representar a pasta
+            File folder = new File(folderPath);
+
+            // Verifica se a pasta existe, e cria se necessário
+            if (!folder.exists()) {
+                if (folder.mkdir()) {
+                    System.out.println("Pasta criada: " + folderPath);
+                } else {
+                    System.err.println("Falha ao criar a pasta: " + folderPath);
+                }
+            } else {
+                System.out.println("A pasta já existe: " + folderPath);
+            }
             int serverPort = Integer.parseInt(txtPort.getText());
             String name = txtObjectName.getText();
 
@@ -733,7 +778,7 @@ setSize(650, 550);
             //link adress to object
             Naming.rebind(address, myRemoteObject);
 
-            onBlockchainUpdate(myRemoteObject.getBlockchain());
+            //            onBlockchainUpdate(myRemoteObject.getBlockchain());
         } catch (Exception ex) {
             onException(ex, "Starting server");
             Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
@@ -755,13 +800,14 @@ setSize(650, 550);
         imgServerRunning.setEnabled(true);
         btStartServer.setEnabled(false);
         GuiUtils.addText(txtServerLog, "Start server", message);
+        Auth.setSelectedComponent(Conectar);
 
     }
 
     @Override
     public void onMessage(String title, String message) {
         GuiUtils.addText(txtServerLog, title, message);
-//        tpMain.setSelectedComponent(pnServer);
+
     }
 
     @Override
@@ -773,7 +819,7 @@ setSize(650, 550);
                 txt += iremoteP2P.getAdress() + "\n";
             }
             txtNetwork.setText(txt);
-//            tpMain.setSelectedComponent(pnNetwork);
+            Auth.setSelectedComponent(Login);
         } catch (RemoteException ex) {
             onException(ex, "On conect");
             Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
@@ -781,93 +827,87 @@ setSize(650, 550);
 
     }
 
-    @Override
-    public void onBlockchainUpdate(BlockChain b) {
-        SwingUtilities.invokeLater(() -> {
-            DefaultListModel model = new DefaultListModel();
-            for (int i = b.getSize() - 1; i >= 0; i--) {
-                model.addElement(b.get(i));
-            }
-//            lstBlcockchain.setModel(model);
-//            lstBlcockchain.setSelectedIndex(0);
-//            tpMain.setSelectedComponent(pnBlockchain);
-//            repaint();
-        });
-    }
-
-    @Override
-    public void onSubmission(String transaction) {
-        try {
-            onMessage("Transaction ", transaction);
-            String txt = "";
-            List<Submission> tr = myRemoteObject.getSubmissions();
-            for (Submission s : tr) {
-                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-            }
-//          txtListTransdactions.setText(txt);
-//            tpMain.setSelectedComponent(pnTransaction);
-        } catch (RemoteException ex) {
-            onException(ex, "on transaction");
-            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void onStartMining(String message, int zeros) {
-        SwingUtilities.invokeLater(() -> {
-//            tpMain.setSelectedComponent(pnTransaction);
-//            btMining.setEnabled(false);
-//            lblMining.setVisible(true);
-//            lblWinner.setVisible(false);
-//            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
-//            lblMining.setText("mining " + zeros + " zeros");
-//            repaint();
-        });
-    }
-
-    @Override
-    public void onStopMining(String message, int nonce) {
-        SwingUtilities.invokeLater(() -> {
-//            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
-//            lblMining.setVisible(false);
-//            tpMain.setSelectedComponent(pnTransaction);
-//            btMining.setEnabled(true);
-//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-//            System.out.println(" NONCE " + nonce + "\t" + message);
-//            repaint();
-        });
-    }
-
-    @Override
-    public void onNounceFound(String message, int nonce) {
-        try {
-            myRemoteObject.stopMining(nonce);
-        } catch (RemoteException ex) {
-            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        SwingUtilities.invokeLater(() -> {
-//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-//            lblMining.setVisible(false);
-//            lblWinner.setText(message);
-//            lblWinner.setVisible(true);
-//            tpMain.setSelectedComponent(pnTransaction);
-//            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
-//            repaint();
-//            System.out.println(" NONCE " + nonce + "\t" + message);
-        });
-
-    }
-
-    @Override
-    public void onNewCurriculum() {
-
-    }
-    
-    @Override
-    public void onNewCurso(){
-        
-    }
-
+//    @Override
+//    public void onBlockchainUpdate(BlockChain b) {
+//        SwingUtilities.invokeLater(() -> {
+//            DefaultListModel model = new DefaultListModel();
+//            for (int i = b.getSize() - 1; i >= 0; i--) {
+//                model.addElement(b.get(i));
+//            }
+////            lstBlcockchain.setModel(model);
+////            lstBlcockchain.setSelectedIndex(0);
+////            tpMain.setSelectedComponent(pnBlockchain);
+////            repaint();
+//        });
+//    }
+//    @Override
+//    public void onSubmission(String transaction) {
+//        try {
+//            onMessage("Transaction ", transaction);
+//            String txt = "";
+//            List<Submission> tr = myRemoteObject.getSubmissions();
+//            for (Submission s : tr) {
+//                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+//            }
+////          txtListTransdactions.setText(txt);
+////            tpMain.setSelectedComponent(pnTransaction);
+//        } catch (RemoteException ex) {
+//            onException(ex, "on transaction");
+//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//    @Override
+//    public void onStartMining(String message, int zeros) {
+//        SwingUtilities.invokeLater(() -> {
+////            tpMain.setSelectedComponent(pnTransaction);
+////            btMining.setEnabled(false);
+////            lblMining.setVisible(true);
+////            lblWinner.setVisible(false);
+////            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
+////            lblMining.setText("mining " + zeros + " zeros");
+////            repaint();
+//        });
+//    }
+//    @Override
+//    public void onStopMining(String message, int nonce) {
+//        SwingUtilities.invokeLater(() -> {
+////            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
+////            lblMining.setVisible(false);
+////            tpMain.setSelectedComponent(pnTransaction);
+////            btMining.setEnabled(true);
+////            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
+////            System.out.println(" NONCE " + nonce + "\t" + message);
+////            repaint();
+//        });
+//    }
+//    @Override
+//    public void onNounceFound(String message, int nonce) {
+//        try {
+//            myRemoteObject.stopMining(nonce);
+//        } catch (RemoteException ex) {
+//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        SwingUtilities.invokeLater(() -> {
+////            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
+////            lblMining.setVisible(false);
+////            lblWinner.setText(message);
+////            lblWinner.setVisible(true);
+////            tpMain.setSelectedComponent(pnTransaction);
+////            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
+////            repaint();
+////            System.out.println(" NONCE " + nonce + "\t" + message);
+//        });
+//
+//    }
+//    @Override
+//    public void onNewCurriculum() {
+//
+//    }
+//
+//    @Override
+//    public void onNewCurso() {
+//
+//    }
     /**
      * @param args the command line arguments
      */
@@ -905,6 +945,7 @@ setSize(650, 550);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AcercadeNos;
     private javax.swing.JPanel AcercadeNos1;
+    private javax.swing.JTabbedPane Auth;
     private javax.swing.JPanel Conectar;
     private javax.swing.JPanel Login;
     private javax.swing.JPanel Login1;
@@ -921,6 +962,8 @@ setSize(650, 550);
     private javax.swing.JLabel imgServerRunning;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -939,7 +982,6 @@ setSize(650, 550);
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JList<String> lstUsers;
     private javax.swing.JList<String> lstUsers1;

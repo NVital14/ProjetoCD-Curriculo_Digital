@@ -24,6 +24,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -51,7 +52,7 @@ public class Block implements Serializable {
     public Block(String previousHash, List<Submission> submissions) {
         this.previousHash = previousHash;
         //this.submissions = submissions;
-        merkleTree = new MerkleTree(submissions.toArray());
+        merkleTree = new MerkleTree(submissions);
         this.merkleRoot = merkleTree.getRoot();
 
         // obtém o tempo atual na timezone UTC

@@ -275,7 +275,7 @@ public class SecurityUtils {
      * ficheiro indicado
      */
     public static void saveKey(Key key, String file) throws IOException {
-        Files.write(Paths.get("blockchainfiles/", normalizeKeyFileName(key, file)), key.getEncoded());
+        Files.write(Paths.get("blockchainfiles", normalizeKeyFileName(key, file)), key.getEncoded());
     }
 
     public static PrivateKey loadPrivateKey(String file) throws IOException {

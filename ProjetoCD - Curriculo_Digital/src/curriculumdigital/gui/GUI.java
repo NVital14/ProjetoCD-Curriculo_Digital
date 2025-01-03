@@ -6,7 +6,6 @@ package curriculumdigital.gui;
 
 import blockchain.utils.Block;
 import blockchain.utils.BlockChain;
-import blockchain.utils.GuiUtils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -15,7 +14,6 @@ import curriculumdigital.core.User;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.time.format.DateTimeFormatter;
@@ -24,15 +22,15 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import p2p.IremoteP2P;
 import p2p.OremoteP2P;
-import p2p.P2Plistener;
+import p2p.P2PlistenerProgram;
+import p2p.P2PlistenerServer;
 
 /**
  *
  * @author noemi
  */
-public class GUI extends javax.swing.JFrame implements P2Plistener {
+public class GUI extends javax.swing.JFrame implements P2PlistenerProgram {
 
     public static String fileCurriculo = "curriculo.obj";
     List<Submission> elements = new ArrayList();
@@ -45,78 +43,41 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     public GUI() {
         initComponents();
         setTitle("Curriculum Digital");
-        try {
-
-            File file = new File("blockchainfiles", fileCurriculo);
-
-            if (file.exists()) {
-//                curriculo = Curriculo.load(fileCurriculo);
-//                elements.addAll(curriculo.submissions);
-                String txt = "";
-                List<Submission> tr = myRemoteObject.getSubmissions();
-                for (Submission s : tr) {
-                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-                }
-//                txtListSubmissions.setText(txt);
-//                txtCV.setText(elements.toString());
-//                curriculo.submissions.clear();
-                //textAreaCVAll.setText(curriculo.loadPersonEvents(null, true));
-                onNewCurriculum();
-                onBlockchainUpdate(myRemoteObject.getBlockchain());
-
-            } 
-        } catch (Exception e) {
-            System.out.print(e);
-        }
         setSize(800, 550);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-                try {
-                    if (myRemoteObject.getSubmissionsSize() > 0 && myRemoteObject.getNetwork().size() == 1) {
-                        new Thread(() -> {
-                            try {
-                                //fazer um bloco
-                                List<Submission> blockSubmissions = myRemoteObject.getSubmissions();
-                                if (blockSubmissions.size() < 0) {
-                                    return;
-                                }
-                                Block b = new Block(myRemoteObject.getBlockchainLastHash(), blockSubmissions);
-                                //remover as transacoes
-                                myRemoteObject.removeSubmissions(blockSubmissions);
-                                //minar o bloco
-                                int zeros = 4;
-                                int nonce = myRemoteObject.mine(b.getMinerData(), zeros);
-                                //atualizar o nonce
-                                b.setNonce(nonce, zeros);
-                                //adiconar o bloco
-                                myRemoteObject.addBlock(b);
-
-                            } catch (Exception ex) {
-                                onException(ex, "Start ming");
-                                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }).start();
-                    }
-                } catch (RemoteException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.exit(0);
+                formWindowClosing(we);
             }
         });
     }
 
     public GUI(User u, OremoteP2P remote) {
-        this.myRemoteObject = remote;
         this();
+        this.myRemoteObject = remote;
         this.myUser = u;
         this.txtInstitute.setText(u.getName());
         this.txtInstitute1.setText(u.getName());
-        myRemoteObject.setListener(this);
+        myRemoteObject.setListenerProgram(this);
 
-        onNewCurso();
+        try {
+            File file = new File("blockchainfiles", fileCurriculo);
+            if (file.exists()) {
+                String txt = "";
+                List<Submission> tr = myRemoteObject.getSubmissions();
+                for (Submission s : tr) {
+                    txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
+                }
+                onNewCurriculum();
+                onBlockchainUpdate(myRemoteObject.getBlockchain());
+                onNewCurso();
+            }
+        } catch (Exception e) {
+            System.out.print(e);
+        }
 
         if (!u.isInstitute()) {
             // Remover a Tab "Curriculum" e "Registar Cursos" para utilizadores não institucionais
@@ -181,6 +142,14 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         lstBlockchain = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lbCurriculum.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbCurriculum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -561,7 +530,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         try {
             String txt = "";
             textAreaCVPerson.setText("");
-            if ("".equals(txtNameCV.getText())) {
+            if ("".equals(txtNameCV.getText().trim())) {
                 JOptionPane.showMessageDialog(this, "Coloca o nome da pessoa que queres procurar.", "Coloca o nome!", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -618,7 +587,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 // cria uma submissão 
                 Submission s = new Submission(
                         myUser,
-                        txtName.getText(),
+                        txtName.getText().trim(),
                         event
                 );
 
@@ -643,7 +612,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            if (myRemoteObject.getSubmissionsSize() == 2) {
+            if (myRemoteObject.getSubmissionsSize() == 4) {
                 new Thread(() -> {
                     try {
                         System.out.println("Dentro da thread");
@@ -728,7 +697,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     private void btnProcurarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCursosActionPerformed
         // TODO add your handling code here:
-        String instituicao = txtInstituicao.getText();
+        String instituicao = txtInstituicao.getText().trim();
         List<String> cursos = new ArrayList<>();
         try {
             cursos = myRemoteObject.loadCursos(instituicao);
@@ -750,13 +719,60 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     private void txtNameCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameCVActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameCVActionPerformed
-    static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
-    @Override
-    public void onMessage(String title, String message) {
-        //GuiUtils.addText(txtServerLog, title, message);
-//        tpMain.setSelectedComponent(pnServer);
-    }
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        System.out.println("A janela está fechando!");
+        int result = JOptionPane.showConfirmDialog(this,
+                "Você deseja realmente fechar o programa?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                if (myRemoteObject.getSubmissionsSize() > 0 && myRemoteObject.getNetwork().size() == 1) {
+//                    new Thread(() -> {
+                    try {
+                        //fazer um bloco
+                        List<Submission> blockSubmissions = myRemoteObject.getSubmissions();
+                        if (blockSubmissions.size() < 0) {
+                            return;
+                        }
+                        Block b = new Block(myRemoteObject.getBlockchainLastHash(), blockSubmissions);
+                        //remover as transacoes
+                        myRemoteObject.removeSubmissions(blockSubmissions);
+                        //minar o bloco
+                        int zeros = 4;
+                        int nonce = myRemoteObject.mine(b.getMinerData(), zeros);
+                        //atualizar o nonce
+                        b.setNonce(nonce, zeros);
+                        //adiconar o bloco
+                        myRemoteObject.addBlock(b);
+
+                    } catch (Exception ex) {
+//                            onException(ex, "Start ming");
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+//                    }).start();
+
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+    static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+//
+//    @Override
+//    public void onMessage(String title, String message) {
+//        //GuiUtils.addText(txtServerLog, title, message);
+////        tpMain.setSelectedComponent(pnServer);
+//    }
 
     @Override
     public void onException(Exception e, String title) {
@@ -764,35 +780,33 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 //        txtExceptionLog.setForeground(new java.awt.Color(255, 0, 0));
 //        txtExceptionLog.setText(e.getMessage());
 //        txtTitleLog.setText(title);
-        // JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
+//         JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
     }
 
-    @Override
-    public void onStartRemote(String message) {
-//        setTitle(message);
-//        imgServerRunning.setEnabled(true);
-//        btStartServer.setEnabled(false);
-//        GuiUtils.addText(txtServerLog, "Start server", message);
-
-    }
-
-    @Override
-    public void onConect(String address) {
-//        try {
-//            List<IremoteP2P> net = myRemoteObject.getNetwork();
-//            String txt = "";
-//            for (IremoteP2P iremoteP2P : net) {
-//                txt += iremoteP2P.getAdress() + "\n";
-//            }
-//            txtNetwork.setText(txt);
-////            tpMain.setSelectedComponent(pnNetwork);
-//        } catch (RemoteException ex) {
-//            onException(ex, "On conect");
-//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-    }
-
+//    @Override
+//    public void onStartRemote(String message) {
+////        setTitle(message);
+////        imgServerRunning.setEnabled(true);
+////        btStartServer.setEnabled(false);
+////        GuiUtils.addText(txtServerLog, "Start server", message);
+//
+//    }
+//    @Override
+//    public void onConect(String address) {
+////        try {
+////            List<IremoteP2P> net = myRemoteObject.getNetwork();
+////            String txt = "";
+////            for (IremoteP2P iremoteP2P : net) {
+////                txt += iremoteP2P.getAdress() + "\n";
+////            }
+////            txtNetwork.setText(txt);
+//////            tpMain.setSelectedComponent(pnNetwork);
+////        } catch (RemoteException ex) {
+////            onException(ex, "On conect");
+////            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+//
+//    }
     @Override
     public void onBlockchainUpdate(BlockChain b) {
         SwingUtilities.invokeLater(() -> {
@@ -810,7 +824,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     @Override
     public void onSubmission(String transaction) {
         try {
-            onMessage("Transaction ", transaction);
+//            onMessage("Transaction ", transaction);
             String txt = "";
             List<Submission> tr = myRemoteObject.getSubmissions();
             for (Submission s : tr) {
@@ -819,7 +833,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             txtListSubmissions.setText(txt);
 //            tpMain.setSelectedComponent(pnTransaction);
         } catch (RemoteException ex) {
-            onException(ex, "on transaction");
+//            onException(ex, "on transaction");
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -880,7 +894,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             }
             textAreaCVAll.setText(txt);
         } catch (RemoteException ex) {
-            onException(ex, "on new block");
+//            onException(ex, "on new block");
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -938,7 +952,8 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI().setVisible(true);
+                GUI gui = new GUI();
+                gui.setVisible(true);
             }
         });
     }
