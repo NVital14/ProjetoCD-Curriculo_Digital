@@ -86,50 +86,50 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         this.myBlockchain = new BlockChain(Paths.get("blockchainfiles", BLOCKCHAIN_FILENAME).toString());
         this.p2pListenerServer = listener;
         this.user = new User();
-        File fileSecretKey = new File("blockchainfiles", "secret.key");
-        File filePubKey = new File("blockchainfiles", "iremote.pubKey");
-        File filePrivKey = new File("blockchainfiles", "iremote.privKey");
-         if (!filePubKey.exists() && !filePrivKey.exists()) {
-            //cria um par de chave
-            KeyPair kp = SecurityUtils.generateRSAKeyPair(2048);
-            this.kPub = kp.getPublic();
-            this.kPriv = kp.getPrivate();
-            //guarda a chave pública
-            SecurityUtils.saveKey(kPub, "iremote.pubKey");
-            //guarda a chave privada
-            SecurityUtils.saveKey(kPriv, "iremote.privKey");
-        }
-        if (!fileSecretKey.exists()) {
-            //cria a chave simétrica
-            this.aes = SecurityUtils.generateAESKey(256);
-            SecurityUtils.saveKey(aes, "secret.key");
-        }
-       
-//        try {
-//            //tenta ler a chave simétrica
-//            this.aes = SecurityUtils.loadAESKey(Paths.get("blockchainfiles", "secret.key").toString());
-//        } catch (Exception ex) {
-//
-//            //cria a chave simétrica
-//            this.aes = SecurityUtils.generateAESKey(256);
-//            SecurityUtils.saveKey(aes, "secret.key");
-//
-//        }
-//        try {
-//            //tenta ler a chave pública e privada
-//            this.kPub = SecurityUtils.loadPublicKey(Paths.get("blockchainfiles", "iremote.pub").toString());
-//            this.kPriv = SecurityUtils.loadPrivateKey(FOLDER + "iremote.priv");
-//        } catch (Exception ex) {
+//        File fileSecretKey = new File("blockchainfiles", "secret.key");
+//        File filePubKey = new File("blockchainfiles", "iremote.pubKey");
+//        File filePrivKey = new File("blockchainfiles", "iremote.privKey");
+//         if (!filePubKey.exists() && !filePrivKey.exists()) {
 //            //cria um par de chave
 //            KeyPair kp = SecurityUtils.generateRSAKeyPair(2048);
 //            this.kPub = kp.getPublic();
 //            this.kPriv = kp.getPrivate();
 //            //guarda a chave pública
-//            SecurityUtils.saveKey(kPub, "iremote.pub");
+//            SecurityUtils.saveKey(kPub, "iremote.pubKey");
 //            //guarda a chave privada
-//            SecurityUtils.saveKey(kPriv, "iremote.priv");
-//
+//            SecurityUtils.saveKey(kPriv, "iremote.privKey");
 //        }
+//        if (!fileSecretKey.exists()) {
+//            //cria a chave simétrica
+//            this.aes = SecurityUtils.generateAESKey(256);
+//            SecurityUtils.saveKey(aes, "secret.key");
+//        }
+       
+        try {
+            //tenta ler a chave simétrica
+            this.aes = SecurityUtils.loadAESKey(Paths.get("blockchainfiles", "secret.key").toString());
+        } catch (Exception ex) {
+
+            //cria a chave simétrica
+            this.aes = SecurityUtils.generateAESKey(256);
+            SecurityUtils.saveKey(aes, "secret.key");
+
+        }
+        try {
+            //tenta ler a chave pública e privada
+            this.kPub = SecurityUtils.loadPublicKey(Paths.get("blockchainfiles", "iremote.pub").toString());
+            this.kPriv = SecurityUtils.loadPrivateKey(FOLDER + "iremote.priv");
+        } catch (Exception ex) {
+            //cria um par de chave
+            KeyPair kp = SecurityUtils.generateRSAKeyPair(2048);
+            this.kPub = kp.getPublic();
+            this.kPriv = kp.getPrivate();
+            //guarda a chave pública
+            SecurityUtils.saveKey(kPub, "iremote.pub");
+            //guarda a chave privada
+            SecurityUtils.saveKey(kPriv, "iremote.priv");
+
+        }
         listener.onStartRemote("Object " + address + " listening");
 
     }
@@ -231,10 +231,11 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
 
         //sicronizar as transaçoes
         synchronizeSubmissions(node);
-        //sincronizar a blockchain
-        synchnonizeBlockchain();
         //sincronizar os ficheiros
         synchnonizeFiles();
+        //sincronizar a blockchain
+        synchnonizeBlockchain();
+        
 
     }
 
