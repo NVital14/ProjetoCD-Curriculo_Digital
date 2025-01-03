@@ -4,8 +4,8 @@
  */
 package curriculumdigital.gui;
 
-import blockchain.utils.Block;
-import blockchain.utils.BlockChain;
+import curriculumdigital.core.Block;
+import curriculumdigital.core.BlockChain;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,13 +24,13 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import p2p.OremoteP2P;
 import p2p.P2PlistenerProgram;
-import p2p.P2PlistenerServer;
+import p2p.P2Plistener;
 
 /**
  *
  * @author noemi
  */
-public class GUI extends javax.swing.JFrame implements P2PlistenerServer {
+public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     public static String fileCurriculo = "curriculo.obj";
     List<Submission> elements = new ArrayList();

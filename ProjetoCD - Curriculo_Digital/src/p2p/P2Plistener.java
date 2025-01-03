@@ -4,13 +4,13 @@
  */
 package p2p;
 
-import blockchain.utils.BlockChain;
+import curriculumdigital.core.BlockChain;
 
 /**
  *
  * @author noemi
  */
-public interface P2PlistenerServer {
+public interface P2Plistener {
 
     public void onException(Exception ex, String message);
 

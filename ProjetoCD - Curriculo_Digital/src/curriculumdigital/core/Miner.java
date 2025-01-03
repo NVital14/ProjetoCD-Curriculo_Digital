@@ -13,7 +13,7 @@
 //::                                                               (c)2022   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package blockchain.utils;
+package curriculumdigital.core;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import p2p.P2PlistenerProgram;
-import p2p.P2PlistenerServer;
+import p2p.P2Plistener;
 
 /**
  * Created on 28/09/2022, 11:13:39
@@ -56,12 +56,12 @@ public class Miner {
 //    }
 
     //atributos 
-    P2PlistenerServer listener;            // Listener dos mineiros
+    P2Plistener listener;            // Listener dos mineiros
     private MinerThread[] threads;      // Threads de calculo de hashs
     private String message;             //  Mensagem a ser minada 
     private AtomicInteger globalNonce;  // Nonce que valida a mensagem
 
-    public Miner(P2PlistenerServer listener) {
+    public Miner(P2Plistener listener) {
         this.listener = listener;
     }
 

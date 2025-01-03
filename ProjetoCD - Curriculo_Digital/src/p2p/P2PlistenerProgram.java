@@ -4,7 +4,7 @@
  */
 package p2p;
 
-import blockchain.utils.BlockChain;
+import curriculumdigital.core.BlockChain;
 
 /**
  *

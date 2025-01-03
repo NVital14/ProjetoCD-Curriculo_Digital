@@ -13,7 +13,7 @@
 //::                                                               (c)2022   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package blockchain.utils;
+package curriculumdigital.core;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

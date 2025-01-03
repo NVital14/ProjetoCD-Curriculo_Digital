@@ -4,7 +4,7 @@
  */
 package curriculumdigital.gui;
 
-import blockchain.utils.BlockChain;
+import curriculumdigital.core.BlockChain;
 import curriculumdigital.core.User;
 import java.io.IOException;
 import java.rmi.Naming;
@@ -26,13 +26,13 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import p2p.IremoteP2P;
 import p2p.OremoteP2P;
-import p2p.P2PlistenerServer;
+import p2p.P2Plistener;
 
 /**
  *
  * @author Bea⚝
  */
-public class Authentication extends javax.swing.JFrame implements P2PlistenerServer {
+public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
     OremoteP2P myRemoteObject;
 

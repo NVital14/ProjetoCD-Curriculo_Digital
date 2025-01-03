@@ -15,16 +15,16 @@
 //////////////////////////////////////////////////////////////////////////////
 package p2p;
 
-import blockchain.utils.Block;
-import blockchain.utils.BlockChain;
-import blockchain.utils.MerkleTree;
+import curriculumdigital.core.Block;
+import curriculumdigital.core.BlockChain;
+import curriculumdigital.core.MerkleTree;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
-import blockchain.utils.Miner;
+import curriculumdigital.core.Miner;
 import blockchain.utils.RMI;
 import blockchain.utils.SecurityUtils;
 import curriculumdigital.core.Submission;
@@ -62,7 +62,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     CopyOnWriteArrayList<IremoteP2P> network;
     // Set - conjunto de elementos não repetidos para acesso concorrente
     CopyOnWriteArraySet<Submission> submissions;
-    P2PlistenerServer p2pListenerServer;
+    P2Plistener p2pListenerServer;
 //    P2PlistenerProgram p2pListenerProgram;
     //objeto mineiro concorrente e distribuido
     Miner myMiner;
@@ -77,7 +77,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     //chave privada
     PrivateKey kPriv;
 
-    public OremoteP2P(String address, P2PlistenerServer listener) throws RemoteException, Exception {
+    public OremoteP2P(String address, P2Plistener listener) throws RemoteException, Exception {
         super(RMI.getAdressPort(address));
         this.address = address;
         this.network = new CopyOnWriteArrayList<>();
@@ -140,7 +140,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
      * @param l
      */
     @Override
-    public void setListener(P2PlistenerServer l) {
+    public void setListener(P2Plistener l) {
         this.p2pListenerServer= l;
     }
 

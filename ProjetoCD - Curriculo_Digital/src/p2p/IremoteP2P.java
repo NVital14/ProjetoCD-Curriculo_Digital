@@ -16,9 +16,9 @@
 //////////////////////////////////////////////////////////////////////////////
 package p2p;
 
-import blockchain.utils.Block;
-import blockchain.utils.BlockChain;
-import blockchain.utils.MerkleTree;
+import curriculumdigital.core.Block;
+import curriculumdigital.core.BlockChain;
+import curriculumdigital.core.MerkleTree;
 import curriculumdigital.core.Submission;
 import curriculumdigital.core.User;
 import java.rmi.Remote;
@@ -34,7 +34,7 @@ import java.util.List;
  */
 public interface IremoteP2P extends Remote {
 
-    public void setListener(P2PlistenerServer l) throws RemoteException;
+    public void setListener(P2Plistener l) throws RemoteException;
 
     public PublicKey getPublicKey() throws RemoteException;
 

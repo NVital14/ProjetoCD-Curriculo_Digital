@@ -13,23 +13,15 @@
 //::                                                               (c)2022   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package blockchain.utils;
+package curriculumdigital.core;
 
-import curriculumdigital.core.Submission;
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import p2p.OremoteP2P;
 
 /**
  * Created on 22/08/2022, 09:23:49
@@ -44,14 +36,15 @@ public class Block implements Serializable {
     String previousHash; // link to previous block
     String merkleRoot;   // merkleRoot in the block
     MerkleTree merkleTree; //merkleTree das transações do bloco
-    //List<Submission> submissions; // transações do bloco (devem ser guardadas em separado)
     int nonce;           // proof of work 
     String currentHash;  // Hash of block
     String time;        //data e hora da criação do bloco
 
+    /**
+     * Criar um bloco com o hash do bloco anterior e a lista de submissões
+     */
     public Block(String previousHash, List<Submission> submissions) {
         this.previousHash = previousHash;
-        //this.submissions = submissions;
         merkleTree = new MerkleTree(submissions);
         this.merkleRoot = merkleTree.getRoot();
 
@@ -63,6 +56,10 @@ public class Block implements Serializable {
         time = utcNow.format(formatter);
     }
 
+    /**
+     * Definir o valor do nonce
+ *
+     */
     public void setNonce(int nonce, int zeros) throws Exception {
         this.nonce = nonce;
         //calcular o hash
@@ -75,41 +72,68 @@ public class Block implements Serializable {
 
     }
 
+    /**
+     * Obter o valor do nonce
+     *
+     */
     public String getMinerData() {
         return previousHash + merkleRoot;
     }
 
+    /**
+     * Obter o tempo/data da criação do bloco
+     *
+     *
+     */
     public String getTime() {
         return this.time;
     }
 
+    /**
+     * Obter a raiz da Merkle Tree
+     */
     public String getMerkleRoot() {
         return merkleRoot;
     }
 
+    /**
+     * Obter a Merkle Tree
+     */
     public MerkleTree getMerkleTree() {
         return merkleTree;
     }
 
-//    public List<Submission> getSubmissions() {
-//        return submissions;
-//    }
+    /**
+     * Obter o hash do bloco anterior
+     */
     public String getPreviousHash() {
         return previousHash;
     }
 
+    /**
+     * Obter o valor do nonce
+     */
     public int getNonce() {
         return nonce;
     }
 
+    /**
+     * Calcular o hash do bloco
+     */
     public String calculateHash() {
         return Miner.getHash(getMinerData(), nonce);
     }
 
+    /**
+     * Obter o hash do bloco
+     */
     public String getCurrentHash() {
         return currentHash;
     }
 
+    /**
+     * Obter o bloco em formato de texto
+     */
     @Override
     public String toString() {
         return // (isValid() ? "OK\t" : "ERROR\t")+
@@ -119,14 +143,20 @@ public class Block implements Serializable {
 
     }
 
+    /**
+     * Obter o cabeçalho do bloco
+     */
     public String getHeaderString() {
         return "prev Hash: " + previousHash
                 + "\nMkt Root : " + merkleRoot
                 + "\nnonce    : " + nonce
                 + "\ncurr Hash: " + currentHash
-                +"\nTime/Date: " + time;
+                + "\nTime/Date: " + time;
     }
 
+    /**
+     * Obter as submissões do bloco
+     */
     public List<Submission> getSubmissionsString() {
 
         ArrayList<Submission> allSubmissions = new ArrayList<>();
@@ -136,6 +166,9 @@ public class Block implements Serializable {
         return allSubmissions;
     }
 
+    /**
+     * Verificar se o bloco é válido
+     */
     public boolean isValid() {
         return currentHash.equals(calculateHash());
     }
@@ -173,7 +206,6 @@ public class Block implements Serializable {
     public int compareTo(Block o) {
         return this.currentHash.compareTo(o.currentHash);
     }
-
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     private static final long serialVersionUID = 202208220923L;
     //:::::::::::::::::::::::::::  Copyright(c) M@nso  2022  :::::::::::::::::::
