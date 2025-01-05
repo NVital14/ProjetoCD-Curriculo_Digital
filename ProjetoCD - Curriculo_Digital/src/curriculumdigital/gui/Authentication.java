@@ -857,6 +857,20 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     public void onNewCurso() {
 
     }
+    
+    @Override
+    public void onUpdateUsers() {
+         try {
+            List<String> users = User.getExistingUsers();
+            DefaultListModel lusers = new DefaultListModel();
+            for (String user : users) {
+                lusers.addElement(user);
+            }
+            lstUsers.setModel(lusers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * @param args the command line arguments

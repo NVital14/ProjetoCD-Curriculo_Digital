@@ -661,6 +661,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             }
 
         }
+        p2pListener.onUpdateUsers();
 
     }
 

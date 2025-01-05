@@ -866,6 +866,11 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+        @Override
+    public void onUpdateUsers() {
+
+    }
 
     /**
      * @param args the command line arguments
