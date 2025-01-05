@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package p2p;
+package curriculumdigital.p2p;
 
 import curriculumdigital.core.BlockChain;
 
@@ -10,14 +10,15 @@ import curriculumdigital.core.BlockChain;
  *
  * @author noemi
  */
-public interface P2PlistenerProgram {
-        public void onException(Exception ex, String message);
+public interface P2Plistener {
 
-//    public void onMessage(String title, String message);
-//
-//    public void onStartRemote(String message);
-//
-//    public void onConect(String address);
+    public void onException(Exception ex, String message);
+
+    public void onMessage(String title, String message);
+
+    public void onStartRemote(String message);
+
+    public void onConect(String address);
 
     public void onSubmission(String transaction);
 

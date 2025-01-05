@@ -20,11 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import p2p.OremoteP2P;
-import p2p.P2PlistenerProgram;
-import p2p.P2Plistener;
+import curriculumdigital.p2p.OremoteP2P;
+import curriculumdigital.p2p.P2Plistener;
 
 /**
  *
@@ -766,45 +764,24 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
-    static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
     @Override
     public void onMessage(String title, String message) {
-        //GuiUtils.addText(txtServerLog, title, message);
-//        tpMain.setSelectedComponent(pnServer);
+
     }
 
     @Override
     public void onException(Exception e, String title) {
-//        txtTimeLog.setText(LocalTime.now().format(hfmt));
-//        txtExceptionLog.setForeground(new java.awt.Color(255, 0, 0));
-//        txtExceptionLog.setText(e.getMessage());
-//        txtTitleLog.setText(title);
-//         JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
+
     }
 
     @Override
     public void onStartRemote(String message) {
-//        setTitle(message);
-//        imgServerRunning.setEnabled(true);
-//        btStartServer.setEnabled(false);
-//        GuiUtils.addText(txtServerLog, "Start server", message);
 
     }
     @Override
     public void onConect(String address) {
-//        try {
-//            List<IremoteP2P> net = myRemoteObject.getNetwork();
-//            String txt = "";
-//            for (IremoteP2P iremoteP2P : net) {
-//                txt += iremoteP2P.getAdress() + "\n";
-//            }
-//            txtNetwork.setText(txt);
-////            tpMain.setSelectedComponent(pnNetwork);
-//        } catch (RemoteException ex) {
-//            onException(ex, "On conect");
-//            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
 
     }
     @Override
@@ -815,9 +792,6 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 model.addElement(b.get(i));
             }
             lstBlockchain.setModel(model);
-//            lstBlockchain.setSelectedIndex(0);
-//           App.setSelectedComponent(jPanel1);
-//            repaint();
         });
     }
 
@@ -831,37 +805,19 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
             }
             txtListSubmissions.setText(txt);
-//            tpMain.setSelectedComponent(pnTransaction);
         } catch (RemoteException ex) {
-//            onException(ex, "on transaction");
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void onStartMining(String message, int zeros) {
-        SwingUtilities.invokeLater(() -> {
-//            tpMain.setSelectedComponent(pnTransaction);
-//            btMining.setEnabled(false);
-//            lblMining.setVisible(true);
-//            lblWinner.setVisible(false);
-//            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
-//            lblMining.setText("mining " + zeros + " zeros");
-//            repaint();
-        });
+
     }
 
     @Override
     public void onStopMining(String message, int nonce) {
-        SwingUtilities.invokeLater(() -> {
-//            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
-//            lblMining.setVisible(false);
-//            tpMain.setSelectedComponent(pnTransaction);
-//            btMining.setEnabled(true);
-//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-//            System.out.println(" NONCE " + nonce + "\t" + message);
-//            repaint();
-        });
+
     }
 
     @Override
@@ -871,16 +827,6 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         } catch (RemoteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        SwingUtilities.invokeLater(() -> {
-//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-//            lblMining.setVisible(false);
-//            lblWinner.setText(message);
-//            lblWinner.setVisible(true);
-//            tpMain.setSelectedComponent(pnTransaction);
-//            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
-//            repaint();
-//            System.out.println(" NONCE " + nonce + "\t" + message);
-        });
 
     }
 

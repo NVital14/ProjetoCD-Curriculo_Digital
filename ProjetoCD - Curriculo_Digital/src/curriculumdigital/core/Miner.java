@@ -22,8 +22,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
-import p2p.P2PlistenerProgram;
-import p2p.P2Plistener;
+import curriculumdigital.p2p.P2Plistener;
 
 /**
  * Created on 28/09/2022, 11:13:39
@@ -32,29 +31,6 @@ import p2p.P2Plistener;
  * @version 1.0
  */
 public class Miner {
-    //maximum number of Nonce
-//    public static int MAX_NONCE = (int)1E9;
-//
-//    public static int getNonce(String data, int dificulty) {
-//        //String of zeros
-//        String zeros = String.format("%0" + dificulty + "d", 0);
-//       //starting nonce
-//        int nonce = 0;
-//        while (nonce < MAX_NONCE) {
-//            //calculate hash of block
-//            String hash = Hash.getHash(nonce + data);
-//            //DEBUG .... DEBUG .... DEBUG .... DEBUG .... DEBUG .... DEBUG
-//            //System.out.println(nonce + " " + hash);
-//            //Nounce found
-//            if (hash.endsWith(zeros)) {
-//                return nonce;
-//            }
-//            //next nounce
-//            nonce++;
-//        }
-//        return nonce;
-//    }
-
     //atributos 
     P2Plistener listener;            // Listener dos mineiros
     private MinerThread[] threads;      // Threads de calculo de hashs

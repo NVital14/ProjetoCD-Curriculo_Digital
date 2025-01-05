@@ -15,7 +15,7 @@
 ///****                                                                    ****/
 ///****************************************************************************/
 ///****************************************************************************/
-package blockchain.utils;
+package curriculumdigital.utils;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;

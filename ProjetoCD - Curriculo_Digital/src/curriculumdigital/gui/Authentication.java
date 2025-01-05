@@ -12,8 +12,8 @@ import java.util.Base64;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import blockchain.utils.GuiUtils;
-import blockchain.utils.RMI;
+import curriculumdigital.utils.GuiUtils;
+import curriculumdigital.utils.RMI;
 import curriculumdigital.core.Submission;
 import java.io.File;
 import java.net.InetAddress;
@@ -24,9 +24,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
-import p2p.IremoteP2P;
-import p2p.OremoteP2P;
-import p2p.P2Plistener;
+import curriculumdigital.p2p.IremoteP2P;
+import curriculumdigital.p2p.OremoteP2P;
+import curriculumdigital.p2p.P2Plistener;
 
 /**
  *
@@ -39,10 +39,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     String multicastAddress = "224.0.0.1"; // multicast Address
     int port = 5000; // multicast port
 
-//    public static final String host = "localhost";
-//    public static final String remoteName = "RemoteObj";
-//    public static final int remotePort = 10011;
-//    String remoteObject = String.format("//%s:%d/%s", host, remotePort, remoteName);
     /**
      * Creates new form Authentication
      */
@@ -787,13 +783,8 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
     @Override
     public void onException(Exception e, String title) {
-//        txtTimeLog.setText(LocalTime.now().format(hfmt));
-//        txtExceptionLog.setForeground(new java.awt.Color(255, 0, 0));
-//        txtExceptionLog.setText(e.getMessage());
-//        txtTitleLog.setText(title);
-        // JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
-    }
 
+    }
     @Override
     public void onStartRemote(String message) {
         setTitle(message);
@@ -821,7 +812,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             txtNetwork.setText(txt);
             Auth.setSelectedComponent(Login);
         } catch (RemoteException ex) {
-            onException(ex, "On conect");
+//            onException(ex, "On conect");
             Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -834,71 +825,29 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             for (int i = b.getSize() - 1; i >= 0; i--) {
                 model.addElement(b.get(i));
             }
-//            lstBlcockchain.setModel(model);
-//            lstBlcockchain.setSelectedIndex(0);
-//            tpMain.setSelectedComponent(pnBlockchain);
-//            repaint();
         });
     }
+
     @Override
     public void onSubmission(String transaction) {
-        try {
-            onMessage("Transaction ", transaction);
-            String txt = "";
-            List<Submission> tr = myRemoteObject.getSubmissions();
-            for (Submission s : tr) {
-                txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
-            }
-//          txtListTransdactions.setText(txt);
-//            tpMain.setSelectedComponent(pnTransaction);
-        } catch (RemoteException ex) {
-            onException(ex, "on transaction");
-            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    @Override
-    public void onStartMining(String message, int zeros) {
-        SwingUtilities.invokeLater(() -> {
-//            tpMain.setSelectedComponent(pnTransaction);
-//            btMining.setEnabled(false);
-//            lblMining.setVisible(true);
-//            lblWinner.setVisible(false);
-//            txtLogMining.setText("[START]" + message + "[" + zeros + "]\n");
-//            lblMining.setText("mining " + zeros + " zeros");
-//            repaint();
-        });
-    }
-    @Override
-    public void onStopMining(String message, int nonce) {
-        SwingUtilities.invokeLater(() -> {
-//            txtLogMining.setText("[STOP]" + message + "[" + nonce + "]\n" + txtLogMining.getText());
-//            lblMining.setVisible(false);
-//            tpMain.setSelectedComponent(pnTransaction);
-//            btMining.setEnabled(true);
-//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-//            System.out.println(" NONCE " + nonce + "\t" + message);
-//            repaint();
-        });
-    }
-    @Override
-    public void onNounceFound(String message, int nonce) {
-        try {
-            myRemoteObject.stopMining(nonce);
-        } catch (RemoteException ex) {
-            Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        SwingUtilities.invokeLater(() -> {
-//            txtLogMining.setText("Nounce Found [" + nonce + "]\n" + txtLogMining.getText());
-//            lblMining.setVisible(false);
-//            lblWinner.setText(message);
-//            lblWinner.setVisible(true);
-//            tpMain.setSelectedComponent(pnTransaction);
-//            txtTitleLog.setText(Miner.getHash(myremoteObject.myMiner.getMessage(), myremoteObject.myMiner.getNonce()));
-//            repaint();
-//            System.out.println(" NONCE " + nonce + "\t" + message);
-        });
 
     }
+
+    @Override
+    public void onStartMining(String message, int zeros) {
+
+    }
+
+    @Override
+    public void onStopMining(String message, int nonce) {
+
+    }
+
+    @Override
+    public void onNounceFound(String message, int nonce) {
+
+    }
+
     @Override
     public void onNewCurriculum() {
 
@@ -908,6 +857,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     public void onNewCurso() {
 
     }
+
     /**
      * @param args the command line arguments
      */

@@ -14,7 +14,7 @@
 //::                                                               (c)2024   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package p2p;
+package curriculumdigital.p2p;
 
 import curriculumdigital.core.Block;
 import curriculumdigital.core.BlockChain;
