@@ -20,7 +20,7 @@ public interface P2Plistener {
 
     public void onConect(String address);
 
-    public void onSubmission(String transaction);
+    public void onSubmission();
 
     public void onStartMining(String message, int zeros);
 

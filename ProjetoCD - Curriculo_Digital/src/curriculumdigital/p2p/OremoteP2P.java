@@ -256,7 +256,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         //se já tiver a submissão não faz nada
         for (Submission sub : getSubmissions()) {
             if (sub.equals(s)) {
-                p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+                p2pListener.onSubmission();
                 //sair
                 return;
             }
@@ -270,7 +270,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
                 iremoteP2P.addSubmission(s);
             }
         }
-        p2pListener.onSubmission("Submissão repetida " + s.getName() + " - " + s.getEvent());
+        p2pListener.onSubmission();
 
     }
 
@@ -304,7 +304,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
             p2pListener.onMessage("sinchronizeTransactions", "tamanho diferente");
             //pedir ao no para sincronizar com as nossas
             node.synchronizeSubmissions(this);
-            p2pListener.onSubmission(address);
+            p2pListener.onSubmission();
             p2pListener.onMessage("sinchronizeTransactions", "node.sinchronizeTransactions(this)");
             //pedir á rede para se sincronizar
             for (IremoteP2P iremoteP2P : network) {
@@ -329,7 +329,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     public void removeSubmissions(List<Submission> mySubmissions) throws RemoteException {
         //remover as transações da lista atual
         submissions.removeAll(mySubmissions);
-        p2pListener.onSubmission("remove " + mySubmissions.size() + "transactions");
+        p2pListener.onSubmission();
         //propagar as remoções
         for (IremoteP2P iremoteP2P : network) {
             //se houver algum elemento em comum nas transações remotas

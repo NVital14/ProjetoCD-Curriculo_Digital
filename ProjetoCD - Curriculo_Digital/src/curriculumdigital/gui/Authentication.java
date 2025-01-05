@@ -829,7 +829,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     }
 
     @Override
-    public void onSubmission(String transaction) {
+    public void onSubmission() {
 
     }
 
