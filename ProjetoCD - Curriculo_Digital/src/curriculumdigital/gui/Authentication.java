@@ -57,8 +57,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             txtAddress.setText("Localhost");
         }
         setTitle("Autenticação");
-//        setSize(650, 380);
-        setSize(650, 550);
+        setSize(650, 650);
         setLocationRelativeTo(null);
         txtLoginPass.setText("123qwe");
 
@@ -155,7 +154,8 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         jLabel1 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         txtTimeLog = new javax.swing.JLabel();
-        txtExceptionLog = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        txtExceptionLog = new javax.swing.JTextArea();
         txtTitleLog = new javax.swing.JLabel();
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Users"));
@@ -332,6 +332,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(650, 550));
         setSize(new java.awt.Dimension(0, 0));
+        getContentPane().setLayout(null);
 
         imgServerRunning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/loading_green.gif"))); // NOI18N
         imgServerRunning.setEnabled(false);
@@ -399,7 +400,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                         .addComponent(imgServerRunning)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         Auth.addTab("Server", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/serverTab.png")), Server); // NOI18N
@@ -451,7 +452,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                     .addComponent(txtNodeAddress))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         Auth.addTab("P2PNetwork", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/p2p_32.png")), Conectar); // NOI18N
@@ -544,7 +545,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                 .addGroup(LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         Auth.addTab("Login", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/login.png")), Login); // NOI18N
@@ -599,7 +600,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                 .addComponent(cboxInstitute)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         Auth.addTab("Registar", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/register (1).png")), Registar); // NOI18N
@@ -627,59 +628,76 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             .addGroup(AcercadeNosLayout.createSequentialGroup()
                 .addGroup(AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(AcercadeNosLayout.createSequentialGroup()
-                        .addGap(191, 191, 191)
+                        .addGap(235, 235, 235)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(AcercadeNosLayout.createSequentialGroup()
-                        .addGap(63, 63, 63)
+                        .addGap(66, 66, 66)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
-                        .addComponent(jLabel1))
+                        .addGap(129, 129, 129)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(AcercadeNosLayout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(41, 41, 41)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
+                        .addGap(79, 79, 79)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         AcercadeNosLayout.setVerticalGroup(
             AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AcercadeNosLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel4))
-                .addGap(7, 7, 7)
+                .addGap(26, 26, 26)
                 .addGroup(AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         Auth.addTab("Acerca de Nós", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/about.png")), AcercadeNos); // NOI18N
 
-        getContentPane().add(Auth, java.awt.BorderLayout.CENTER);
+        getContentPane().add(Auth);
+        Auth.setBounds(0, 0, 812, 500);
 
+        jPanel15.setMinimumSize(new java.awt.Dimension(200, 60));
+        jPanel15.setPreferredSize(new java.awt.Dimension(200, 318));
         jPanel15.setLayout(new java.awt.GridLayout(3, 0));
 
         txtTimeLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtTimeLog.setText("00:00:00.000");
+        txtTimeLog.setAlignmentX(0.5F);
+        txtTimeLog.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        txtTimeLog.setMaximumSize(new java.awt.Dimension(58, 15));
+        txtTimeLog.setMinimumSize(new java.awt.Dimension(58, 15));
+        txtTimeLog.setPreferredSize(new java.awt.Dimension(58, 15));
         jPanel15.add(txtTimeLog);
 
+        txtExceptionLog.setEditable(false);
+        txtExceptionLog.setColumns(20);
         txtExceptionLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtExceptionLog.setForeground(new java.awt.Color(255, 51, 102));
-        txtExceptionLog.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        txtExceptionLog.setLineWrap(true);
+        txtExceptionLog.setRows(3);
         txtExceptionLog.setText("Network node");
-        txtExceptionLog.setAutoscrolls(true);
-        txtExceptionLog.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel15.add(txtExceptionLog);
+        txtExceptionLog.setWrapStyleWord(true);
+        txtExceptionLog.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        jScrollPane7.setViewportView(txtExceptionLog);
+
+        jPanel15.add(jScrollPane7);
 
         txtTitleLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtTitleLog.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtTitleLog.setText("                                                     ");
+        txtTitleLog.setAlignmentX(0.5F);
+        txtTitleLog.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
         jPanel15.add(txtTitleLog);
 
-        getContentPane().add(jPanel15, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(jPanel15);
+        jPanel15.setBounds(0, 506, 812, 100);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -963,11 +981,12 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JList<String> lstUsers;
     private javax.swing.JList<String> lstUsers1;
     private javax.swing.JTextField txtAddress;
-    private javax.swing.JLabel txtExceptionLog;
+    private javax.swing.JTextArea txtExceptionLog;
     private javax.swing.JPasswordField txtLoginPass;
     private javax.swing.JPasswordField txtLoginPass1;
     private javax.swing.JTextField txtLoginUser;
