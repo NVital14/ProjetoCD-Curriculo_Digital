@@ -73,6 +73,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             }
             onNewCurriculum();
             onNewCurso();
+            onSubmission();
 
         } catch (Exception e) {
             System.out.print(e);
