@@ -22,10 +22,6 @@ public interface P2Plistener {
 
     public void onSubmission();
 
-    public void onStartMining(String message, int zeros);
-
-    public void onStopMining(String message, int nonce);
-
     public void onNounceFound(String message, int nonce);
 
     public void onBlockchainUpdate(BlockChain b);

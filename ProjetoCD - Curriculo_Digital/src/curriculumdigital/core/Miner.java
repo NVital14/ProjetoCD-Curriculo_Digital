@@ -67,7 +67,6 @@ public class Miner {
         }
         //notificar o listener
         if (listener != null) {
-            listener.onStartMining("Start Mining " + numCores + " cores", zeros);
         }
 
     }
@@ -81,7 +80,6 @@ public class Miner {
         //atualizar o nonce
         globalNonce.set(nonce);
         if (listener != null) {
-            listener.onStopMining("Stop Mining" + Thread.currentThread().getName(), nonce);
         }
         //abortar as threads
         if (threads != null) {
@@ -221,7 +219,7 @@ public class Miner {
             try {
                 //notificar o listener
                 if (listener != null) {
-                    listener.onStartMining("RUN " + Thread.currentThread().getName(), zeros);
+                    System.out.println("RUN " + Thread.currentThread().getName());
                 }
                 //Zeros no inicio do hash
                 String prefix = String.format("%0" + zeros + "d", 0);
@@ -248,13 +246,12 @@ public class Miner {
                 if (listener != null) {
                     //nome da thread e o nonce
 
-                    listener.onStopMining(Thread.currentThread().getName(), sharedNonce.get());
-                }
+                    System.out.println(Thread.currentThread().getName()+ sharedNonce.get());                }
             } catch (Exception ex) {
                 //alguma coisa deu errado  
                 //notificar os listeners a cada 9973 numeros
                 if (listener != null) {
-                    listener.onStopMining("ERROR " + ex.getMessage(), -1);
+                    System.out.println("ERROR " + ex.getMessage());
                 }
             }
         }

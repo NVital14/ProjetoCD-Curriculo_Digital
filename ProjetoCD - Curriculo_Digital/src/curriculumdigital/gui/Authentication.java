@@ -803,7 +803,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             //link adress to object
             Naming.rebind(address, myRemoteObject);
 
-            //            onBlockchainUpdate(myRemoteObject.getBlockchain());
+                        onBlockchainUpdate(myRemoteObject.getBlockchain());
         } catch (Exception ex) {
             onException(ex, "Starting server");
             Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
@@ -867,15 +867,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
     }
 
-    @Override
-    public void onStartMining(String message, int zeros) {
 
-    }
-
-    @Override
-    public void onStopMining(String message, int nonce) {
-
-    }
 
     @Override
     public void onNounceFound(String message, int nonce) {

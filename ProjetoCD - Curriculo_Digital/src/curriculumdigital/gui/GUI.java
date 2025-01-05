@@ -818,15 +818,6 @@ public final class GUI extends javax.swing.JFrame implements P2Plistener {
         }
     }
 
-    @Override
-    public void onStartMining(String message, int zeros) {
-
-    }
-
-    @Override
-    public void onStopMining(String message, int nonce) {
-
-    }
 
     @Override
     public void onNounceFound(String message, int nonce) {

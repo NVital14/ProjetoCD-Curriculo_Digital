@@ -254,6 +254,7 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
     @Override
     public void addSubmission(Submission s) throws RemoteException {
         //se já tiver a submissão não faz nada
+        
         for (Submission sub : getSubmissions()) {
             if (sub.equals(s)) {
                 p2pListener.onSubmission();
@@ -357,12 +358,10 @@ public class OremoteP2P extends UnicastRemoteObject implements IremoteP2P {
         try {
             //colocar a mineiro a minar
             myMiner.startMining(msg, zeros);
-            p2pListener.onStartMining(msg, zeros);
             //mandar minar a rede
             for (IremoteP2P iremoteP2P : network) {
                 //se o nodo nao estiver a minar
                 if (!iremoteP2P.isMining()) {
-                    p2pListener.onStartMining(iremoteP2P.getAdress() + " mining", zeros);
                     //iniciar a mineracao no nodo
                     iremoteP2P.startMining(msg, zeros);
                 }
