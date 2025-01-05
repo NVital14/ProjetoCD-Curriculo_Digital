@@ -69,10 +69,11 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 for (Submission s : tr) {
                     txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
                 }
-                onNewCurriculum();
-                onBlockchainUpdate(myRemoteObject.getBlockchain());
-                onNewCurso();
+
             }
+            onNewCurriculum();
+            onNewCurso();
+            onBlockchainUpdate(myRemoteObject.getBlockchain());
         } catch (Exception e) {
             System.out.print(e);
         }
@@ -779,11 +780,12 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     public void onStartRemote(String message) {
 
     }
+
     @Override
     public void onConect(String address) {
 
-
     }
+
     @Override
     public void onBlockchainUpdate(BlockChain b) {
         SwingUtilities.invokeLater(() -> {
@@ -866,8 +868,8 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-        @Override
+
+    @Override
     public void onUpdateUsers() {
 
     }
