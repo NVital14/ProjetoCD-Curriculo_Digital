@@ -27,6 +27,7 @@ import javax.swing.SwingUtilities;
 import curriculumdigital.p2p.IremoteP2P;
 import curriculumdigital.p2p.OremoteP2P;
 import curriculumdigital.p2p.P2Plistener;
+import java.time.LocalTime;
 
 /**
  *
@@ -152,6 +153,10 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        txtTimeLog = new javax.swing.JLabel();
+        txtExceptionLog = new javax.swing.JLabel();
+        txtTitleLog = new javax.swing.JLabel();
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Users"));
 
@@ -380,7 +385,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imgServerRunning, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
         ServerLayout.setVerticalGroup(
             ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,7 +399,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                         .addComponent(imgServerRunning)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         Auth.addTab("Server", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/serverTab.png")), Server); // NOI18N
@@ -435,7 +440,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNodeAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
         ConectarLayout.setVerticalGroup(
             ConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,7 +451,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                     .addComponent(txtNodeAddress))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         Auth.addTab("P2PNetwork", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/p2p_32.png")), Conectar); // NOI18N
@@ -528,7 +533,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                     .addGroup(LoginLayout.createSequentialGroup()
                         .addGap(170, 170, 170)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         LoginLayout.setVerticalGroup(
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,7 +544,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                 .addGroup(LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         Auth.addTab("Login", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/login.png")), Login); // NOI18N
@@ -579,7 +584,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                     .addGroup(RegistarLayout.createSequentialGroup()
                         .addGap(239, 239, 239)
                         .addComponent(jLabel10)))
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
         RegistarLayout.setVerticalGroup(
             RegistarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -594,7 +599,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                 .addComponent(cboxInstitute)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         Auth.addTab("Registar", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/register (1).png")), Registar); // NOI18N
@@ -634,7 +639,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
         AcercadeNosLayout.setVerticalGroup(
             AcercadeNosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -653,22 +658,28 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
 
         Auth.addTab("Acerca de Nós", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/about.png")), AcercadeNos); // NOI18N
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Auth, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Auth, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        getContentPane().add(Auth, java.awt.BorderLayout.CENTER);
+
+        jPanel15.setLayout(new java.awt.GridLayout(3, 0));
+
+        txtTimeLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtTimeLog.setText("00:00:00.000");
+        jPanel15.add(txtTimeLog);
+
+        txtExceptionLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtExceptionLog.setForeground(new java.awt.Color(255, 51, 102));
+        txtExceptionLog.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        txtExceptionLog.setText("Network node");
+        txtExceptionLog.setAutoscrolls(true);
+        txtExceptionLog.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel15.add(txtExceptionLog);
+
+        txtTitleLog.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtTitleLog.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        txtTitleLog.setText("                                                     ");
+        jPanel15.add(txtTitleLog);
+
+        getContentPane().add(jPanel15, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -782,19 +793,24 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     }//GEN-LAST:event_btStartServerActionPerformed
 
     @Override
-    public void onException(Exception e, String title) {
-
-    }
-    @Override
     public void onStartRemote(String message) {
         setTitle(message);
         imgServerRunning.setEnabled(true);
         btStartServer.setEnabled(false);
         GuiUtils.addText(txtServerLog, "Start server", message);
         Auth.setSelectedComponent(Conectar);
-
     }
+    
+    static DateTimeFormatter hfmt = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
+    public void onException(Exception e, String title) {
+        txtTimeLog.setText(LocalTime.now().format(hfmt));
+        txtExceptionLog.setForeground(new java.awt.Color(255, 0, 0));
+        txtExceptionLog.setText(e.getMessage());
+        txtTitleLog.setText(title);
+        // JOptionPane.showMessageDialog(this, e.getMessage(), title, JOptionPane.WARNING_MESSAGE);
+    }
+    
     @Override
     public void onMessage(String title, String message) {
         GuiUtils.addText(txtServerLog, title, message);
@@ -812,7 +828,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
             txtNetwork.setText(txt);
             Auth.setSelectedComponent(Login);
         } catch (RemoteException ex) {
-//            onException(ex, "On conect");
+            onException(ex, "On connect");
             Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -935,6 +951,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -950,6 +967,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JList<String> lstUsers;
     private javax.swing.JList<String> lstUsers1;
     private javax.swing.JTextField txtAddress;
+    private javax.swing.JLabel txtExceptionLog;
     private javax.swing.JPasswordField txtLoginPass;
     private javax.swing.JPasswordField txtLoginPass1;
     private javax.swing.JTextField txtLoginUser;
@@ -965,5 +983,7 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
     private javax.swing.JTextField txtRegisterUser;
     private javax.swing.JTextField txtRegisterUser1;
     private javax.swing.JTextPane txtServerLog;
+    private javax.swing.JLabel txtTimeLog;
+    private javax.swing.JLabel txtTitleLog;
     // End of variables declaration//GEN-END:variables
 }

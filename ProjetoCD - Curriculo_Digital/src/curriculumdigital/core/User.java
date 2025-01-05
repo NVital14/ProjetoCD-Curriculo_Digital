@@ -93,7 +93,6 @@ public class User implements Serializable {
         // Encripta e salva o estado do atributo isInstitute
         byte[] instituteData = SecurityUtils.encrypt(String.valueOf(isInstitute).getBytes(), password);
         Files.write(instituteFlagPath, instituteData);
-
     }
 
     /**
@@ -130,7 +129,6 @@ public class User implements Serializable {
         byte[] encryptedInstituteData = Files.readAllBytes(instituteFlagPath);
         byte[] decryptedInstituteData = SecurityUtils.decrypt(encryptedInstituteData, password);
         this.isInstitute = Boolean.parseBoolean(new String(decryptedInstituteData));
-
     }
 
     /**
@@ -165,7 +163,6 @@ public class User implements Serializable {
             System.err.println("Erro ao ir buscar os utilizadores: " + e.getMessage());
             throw e;
         }
-
         return users;
     }
 

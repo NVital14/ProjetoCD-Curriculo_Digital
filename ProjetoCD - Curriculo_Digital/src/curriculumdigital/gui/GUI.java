@@ -16,19 +16,20 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 import curriculumdigital.p2p.OremoteP2P;
 import curriculumdigital.p2p.P2Plistener;
+import curriculumdigital.utils.GuiUtils;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
  * @author noemi
  */
-public class GUI extends javax.swing.JFrame implements P2Plistener {
+public final class GUI extends javax.swing.JFrame implements P2Plistener {
 
     public static String fileCurriculo = "curriculo.obj";
     List<Submission> elements = new ArrayList();
@@ -43,7 +44,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
         setTitle("Curriculum Digital");
         setSize(800, 550);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(GUI.DO_NOTHING_ON_CLOSE);
 
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -226,7 +227,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(ScrollCV, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         App.addTab(" Curriculum", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cv.png")), Curriculum); // NOI18N
@@ -294,7 +295,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         .addGap(18, 18, 18)
                         .addComponent(btnRegistarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane6))
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
 
         App.addTab("  Cursos", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/cursos_p.png")), RegistarCursos); // NOI18N
@@ -353,7 +354,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         .addGap(18, 18, 18)
                         .addComponent(btnProcurarCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         App.addTab("  Procurar Cursos", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/procurar cursos_p.png")), ListaCursos); // NOI18N
@@ -417,7 +418,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPersonCV, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         App.addTab("  Procurar Pessoa", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/procurar pessoa_p.png")), ListaPessoas); // NOI18N
@@ -450,18 +451,20 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 .addComponent(lbAllCurriculum, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(241, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         App.addTab("  Lista Curriculum", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/lista_curriculos.png")), ListaCurriculum); // NOI18N
 
         blockchain.setBorder(javax.swing.BorderFactory.createTitledBorder("Block Data"));
 
+        txtBlockHeader.setEditable(false);
         txtBlockHeader.setColumns(20);
         txtBlockHeader.setRows(5);
         txtBlockHeader.setBorder(javax.swing.BorderFactory.createTitledBorder("Header"));
         jScrollPane3.setViewportView(txtBlockHeader);
 
+        txtBlockSubmissions.setEditable(false);
         txtBlockSubmissions.setColumns(20);
         txtBlockSubmissions.setRows(5);
         txtBlockSubmissions.setBorder(javax.swing.BorderFactory.createTitledBorder("Submissions"));
@@ -502,7 +505,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                     .addComponent(jScrollPane4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         App.addTab("Blockchain", new javax.swing.ImageIcon(getClass().getResource("/curriculumdigital/media/blockchain_32.png")), blockchain); // NOI18N
@@ -770,17 +773,17 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
     }//GEN-LAST:event_formWindowClosed
 
     @Override
+    public void onStartRemote(String message) {
+        
+    }
+
+    @Override
     public void onMessage(String title, String message) {
 
     }
 
     @Override
     public void onException(Exception e, String title) {
-
-    }
-
-    @Override
-    public void onStartRemote(String message) {
 
     }
 

@@ -217,5 +217,6 @@ public class Submission implements Serializable {
     public int hashCode() {
         return Objects.hash(userPub, user, signature, name, event);
     }
+    
     private static final long serialVersionUID = -5423656298433479698L;
 }
