@@ -32,4 +32,5 @@ public interface P2Plistener {
     
     public void onNewCurriculum();
     public void onNewCurso();
+    public void onUpdateUsers();
 }
