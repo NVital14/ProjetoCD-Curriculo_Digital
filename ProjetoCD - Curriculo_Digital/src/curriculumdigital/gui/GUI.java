@@ -69,11 +69,11 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
                 for (Submission s : tr) {
                     txt += s.getUser() + " --> " + s.getName() + " - " + s.getEvent() + "\n";
                 }
-
+                onBlockchainUpdate(myRemoteObject.getBlockchain());
             }
             onNewCurriculum();
             onNewCurso();
-            onBlockchainUpdate(myRemoteObject.getBlockchain());
+
         } catch (Exception e) {
             System.out.print(e);
         }
@@ -721,7 +721,7 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        System.out.println("A janela está fechando!");
+        System.out.println("A janela está a fechar!");
         int result = JOptionPane.showConfirmDialog(this,
                 "Você deseja realmente fechar o programa?",
                 "Confirmação",
@@ -729,7 +729,9 @@ public class GUI extends javax.swing.JFrame implements P2Plistener {
 
         if (result == JOptionPane.YES_OPTION) {
             try {
-                if (myRemoteObject.getSubmissionsSize() > 0 && myRemoteObject.getNetwork().size() == 1) {
+                if (myRemoteObject.getSubmissionsSize() > 0 
+                        //&& myRemoteObject.getNetwork().size() == 1
+                        ) {
 //                    new Thread(() -> {
                     try {
                         //fazer um bloco
