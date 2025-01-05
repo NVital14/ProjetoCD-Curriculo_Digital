@@ -745,10 +745,6 @@ public class Authentication extends javax.swing.JFrame implements P2Plistener {
                 String pub = Base64.getEncoder().encodeToString(myRemoteObject.getPub().getEncoded());
                 txtPublicKey.setText(pub);
                 new GUI(myRemoteObject.getUser(), myRemoteObject).setVisible(true);
-                SwingUtilities.invokeLater(() -> {
-
-                    btnLogin.setEnabled(false);
-                });
             } catch (Exception ex) {
                 java.util.logging.Logger.getLogger(Authentication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, ex.getMessage());
